@@ -1,0 +1,119 @@
+--- 
+title: "Introduction to Statistics and Data Science"
+author: "Dr. Kevin Hannay"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "Introductory textbook for statistics and data science"
+---
+
+```{r importEverything, echo=FALSE, warning=FALSE, message=FALSE}
+library(MASS)
+library(knitr)
+library(tidyverse)
+library(HannayIntroStats)
+library(dplyr)
+library(ggrepel)
+
+opts_chunk$set(echo=TRUE, cache=TRUE, autodep=TRUE, cache.comments=FALSE,message=FALSE, warning=FALSE,tidy.opts=list(width.cutoff=80),tidy=TRUE)
+```
+
+# Preface
+
+Welcome to the exciting world of statistics and data analysis. During this semester we will learn tools for *reasoning under uncertainty*. 
+
+Our brains are not programmed to do well in reasoning with any level of uncertainty. For example, one of the two lines shown below are random numbers and the other is not. Can you tell which is pure random?
+
+```{r, echo=FALSE, cache=TRUE}
+set.seed(191)
+y1<-sample(seq(0,9), replace = TRUE, size = 50)
+y2<-rep(5,50);
+for (i in 2:50) {
+  t<-sample(seq(0,9), size=1)
+  while (t==y2[i-1]) {
+    t<-sample(seq(0,9), size=1)
+  }#while
+  y2[i]<-t;
+}
+print(y1)
+print(y2)
+```
+
+## Librarian or Farmer?
+
+Steve is very shy and withdrawn, invariably helpful but with little interest in people or in the world of reality. A meek and tidy soul, he has a need for order and structure, and a passion for detail.” Is Steve more likely to be a librarian or a farmer?
+
+## Profits
+
+Suppose you are a sales manager and are presented with the below plot of profits for the last five years. What conclusions can you draw from the below graph?
+```{r, echo=FALSE, cache=FALSE}
+set.seed(1012)
+p<-rnorm(5, mean=100, sd=10)
+dataProfits<-data.frame(Year=seq(2014,2018, by=1), Profits=p)
+ggplot(dataProfits, aes(x=Year, y=Profits))+geom_point()+geom_line()+labs(title='Yearly Profits')+ylab('Sales Profits in thousands of dollars')
+```
+
+## Accidental Deaths
+
+Now, suppose that you are investigating the occurance of accidental deaths within the united states where the cause of death is a fire. We may download the data from the center for disease control (CDC) for the year 2017 to look for which states have the highest rates and the lowest rates. By *rate* here we mean the number of deaths per hundred thousand residents in the state. Overall in the United States the rate of accidental deaths of this type is quite low at `r sum(fire_deaths_2017_states$crudeNumber)*1e5/(sum(fire_deaths_2017_states$population))` per hundred thousand americans in 2017. 
+
+The five states with the highest rates are shown in the below table:
+
+```{r fireDeathsWorst, echo=FALSE}
+data("fire_deaths_2017_states")
+myfiredisplayTop10 =fire_deaths_2017_states %>% mutate(population.percentage.us=(population/sum(population))*100) %>% select(stateName, RatePerHundredThousand, population.percentage.us) %>% arrange(desc(RatePerHundredThousand), desc(population.percentage.us)) %>% head(5)
+kable(myfiredisplayTop10)
+```
+
+Notice these states have much higher rates then the nation wide average of `r sum(fire_deaths_2017_states$crudeNumber)*1e5/(sum(fire_deaths_2017_states$population))`. This might make us want to avoid these states! On the other hand the five states with the lowest rates are shown in the below table. 
+
+```{r fireDeathsBest, echo=FALSE}
+data("fire_deaths_2017_states")
+myfiredisplayTop10 =fire_deaths_2017_states %>% mutate(population.percentage.us=(population/sum(population))*100) %>% select(stateName, RatePerHundredThousand, population.percentage.us) %>% arrange(desc(RatePerHundredThousand), desc(population.percentage.us)) %>% tail(5)
+kable(myfiredisplayTop10)
+```
+
+These states all had zero accidental fire deaths in 2017. However, do you notice anything strange about our top/bottom ten lists here in terms of the populations? Perhaps the below graph will help you see what is really going on here. 
+
+```{r echo=FALSE}
+myfiredisplay =fire_deaths_2017_states %>% mutate(population.percentage.us=(population/sum(population))*100) %>% select(stateName, RatePerHundredThousand, population.percentage.us) %>% arrange(desc(RatePerHundredThousand), desc(population.percentage.us))
+fire.plot1<-ggplot(myfiredisplay, aes(x=population.percentage.us, y=RatePerHundredThousand))+
+  geom_point(color=dplyr::case_when(myfiredisplay$RatePerHundredThousand>=1.7~"red", myfiredisplay$RatePerHundredThousand==0.0~"blue", TRUE~"darkgreen"))+
+  labs(title='Accidental Deaths (Fire) 2017')+
+  ylab('Rate of Deaths Per 100k')+
+  xlab("Population Percentage of United States")
+
+fire.plot1 + geom_label_repel(data=subset(myfiredisplay, myfiredisplay$population.percentage.us>5), aes(label = stateName),
+                  box.padding   = 0.35, 
+                  point.padding = 0.5,
+                  segment.color = 'grey50')+
+  geom_hline(yintercept=0.80, color="coral")+
+  geom_label_repel(data=subset(myfiredisplay, myfiredisplay$RatePerHundredThousand>1.75), aes(label = stateName),
+                  box.padding   = 0.35, 
+                  point.padding = 0.5,
+                  segment.color = 'grey50')
+  
+```
+
+
+
+
+
+
+
+
+These notes are written in bookdown [@R-bookdown]. 
+
+
+
+```{r bibBuilder, include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

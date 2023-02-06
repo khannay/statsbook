@@ -1,0 +1,103 @@
+# Confidence Intervals and Hypothesis Testing
+
+## Relation to Confidence Intervals
+I have been hinting throughout our discussion of hypothesis testing that in many cases confidence intervals are a better approach. In fact for the single sample tests we have looked at so far we have little need for complications of hypothesis testing. `R` has been hinting that confidence intervals can also be used in the output from the `t.test` and `prop.test` commands. 
+
+### Two sided tests
+
+Lets start with two sided hypothesis tests. Recall we use two sided hypothesis tests when our alternative hypothesis is of the form $H_a: \mu \neq a$ or $H_a: p \neq b$ for the case of testing population proportions. 
+
+For example, lets look at the biased coin example from the last section again:
+```{r}
+prop.test(15,20, p=0.50, alternative="two.sided")
+```
+You will notice that `R` gives us a 95 percent confidence interval for $p$ given the data. This is the very same confidence interval we would get if we used the prop.test command to just get the confidence interval for the population proportion $p$:
+```{r}
+prop.test(15,20)
+```
+Notice that 0.5 is just outside the 95% confidence interval for $p$. This means we would reject the null hypothesis at a significance level of $\alpha=0.05$ for any null hypothesis outside this 95% confidence interval (0.505.0.904). Therefore, conducting a two-sided hypothesis test with significance level $\alpha$ just amounts to forming a confidence interval at 1.0-$\alpha$ level and seeing if the confidence interval contains the null value. 
+
+If the 95% confidence interval formed based on our sample does not include the null hypothesis value $H_0: \mu=a$ or $H_0: p=b$ we would reject the null hypothesis at a $\alpha=0.05$ significance level. 
+
+This is important for a few reasons:
+
+1. **Generality: ** We saw how to form the confidence interval for any point estimator we want (median, variance, IQR, etc) using **bootstrapping**. You will notice we only learned how to do hypothesis tests for the population mean $\mu$ and proportion $p$. Therefore, interpreting confidence intervals as hypothesis tests allows us to perform hypothesis tests on any point estimator $\hat{\theta}$ we want using bootstrapping. 
+
+2. **Ease of Interpretations:** By reporting the confidence interval rather than just the results of the hypothesis test we give the reader our our results much more information. This enables us to spot and correct many of the common mistakes we have discussed for hypothesis testing. 
+
+
+```{example}
+Lets say that we flip a coin 20000 times and find 9850 heads. If we perform a hypothesis test with $H_a: p\neq 0.5$ and $H_0:p=0.5$, we find:
+```
+
+```{r}
+prop.test(9850, 20000, p=0.5, alternative = 'two.sided')
+```
+We find sufficient evidence to reject the null hypothesis here at a $\alpha=0.05$ significance level. This could be reported as finding a biased coin. However, if we were to report the confidence interval as $(0.485,0.49945)$ we can see that the only reason we find a "significant" difference here is because the sample size is very large. The reader can then make up their own mind as to what constitutes a significant difference.  
+
+
+```{example}
+We say that hypothesis testing can also be manipulated in the opposite direction by nefarious statisticians. If we want to set-up a hypothesis test to **not** find a difference between groups we could take very small sample sizes, and then say we failed to reject the null hypothesis. For example, suppose we had a biased coin (only gives heads 40% of the time) we want to pass off as fair. We might only flip it ten times. Say this yields 4 heads. If we run a hypothesis test on this data with the $H_a: p \neq 0.5$ and $H_0: p=0.5$ we find:
+```
+
+```{r}
+prop.test(4,10, p=0.5, alternative='two.sided')
+```
+
+We could then (falsely) claim that since we didn't reject the null hypothesis this shows our coin isn't biased. However, we say earlier that we might fail to reject the null hypothesis for two reasons. First because the null is actually true, but also because we haven't collected enough data yet. Looking at the confidence interval here can give us an idea of which case we are in. The 95% confidence interval here is ```r prop.test(4,10, p=0.5, alternative='two.sided')$conf.int```. This huge range on the confidence interval tells us we are in the not enough data regime. 
+
+A wide confidence interval indicates that we may have retained the null because we have insufficient evidence to perform any inference at all. 
+
+
+```{exercise}
+Test the hypothesis take $p\neq0.6$ for data with 56 successes out of 100 using a confidence interval approach. 
+```
+
+
+### One-sided confidence intervals
+When we learned about confidence intervals we saw that a typical 95% confidence interval $(s_1, s_2)$ is chosen so that 
+
+   * $s_1$ is the 2.5% quantile of the sampling distribution
+   
+   * $s_2$ is the 97.5% quantile of the sampling distribution
+   
+Thus we decide to take off the 5% from each side evenly. However, their is no particular reason that we have to do it this way. For example, we could leave off 5% by considering the intervals $(-\infty, h_1)$ or $(h_2, \infty)$. Where $h_1$ is the 95% quantile of the sampling distribution and $h_2$ is the 5% quantile of the sampling distribution. This are called **one-sided confidence** intervals and are the confidence interval equivalent for hypothesis testing when are alternatives is sided (less, greater). 
+
+When we test a "less" alternative hypothesis like $H_a: \mu < 0.1$ or for proportions $H_a: p < 0.5$, then the confidence interval to use is the left one sided interval $(-\infty, h_1)$. If we use the t.test or prop.test commands in `R`, then `R` will automatically choose this for us. The confidence interval equivalent to a hypothesis test is to form your confidence interval (usually 95% or 99%) and see if it contains the null value. If it does then retain the null hypothesis at level (100-95, or 100-99). 
+
+The "greater" test is equilvalent to forming a right one sided interval $(h_2, \infty)$. With the same interpretations as above. 
+
+
+```{example}
+Lets say we want to show that a coin is biased in that it comes up heads less than 45% of the time. If we flip the coin 15 times and it comes up heads 5 times, do we have sufficient evidence to reach this conclusion?
+```
+
+Lets use the prop.test command to form a left sided confidence interval:
+```{r}
+prop.test(5, 15, alternative='less')
+```
+
+This confidence interval contains the null hypothesis so we cannot conclude that the true $p$ is less than 45% given this data. 
+
+```{example}
+For the toad girth data set we may want to know whether we have sufficient evidence that the mean toad girths of Kerr Country are greater than 94mm?
+```
+
+
+Lets use a t.test command and interpret the confidence interval.
+
+```{r}
+t.test(toad_girth$Girths, alternative = 'greater', conf.level = 0.95)
+```
+
+At the 95% level we see the confidence interval does not contain the null value (94) so we would reject the null hypothesis. However, we can see that if we raise the significance level to 1%, we get:
+
+```{r}
+t.test(toad_girth$Girths, alternative = 'greater', conf.level = 0.99)
+```
+Now the null hypothesis value is contained in the confidence interval. 
+
+
+```{exercise}
+Can we conclude from the toad girth data set that the **median** toad girth is not equal to 100mm at a significance level of $\alpha=0.05$?
+```

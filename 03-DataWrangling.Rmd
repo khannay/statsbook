@@ -1,0 +1,431 @@
+# Data Wrangling
+
+
+
+## What is Data Wrangling?
+Usually data sets require some work to extract the answers we are looking for. This is especially true for modern data sets which can be extremely large. These techniques are called **data wrangling**. 
+
+In these notes we will learn how to use the R library `dplyr` to extract information from data sets. You can load this library in R using the command:
+```{r warning=FALSE}
+library(dplyr)
+```
+
+It may print some warnings, but you don't need to worry about these. 
+
+
+## NA's and the Curse of Real World Data
+In real data sets we will often run into an issue where some of the data is missing. This can occur for a variety of reasons. For example, for scientific data the recorder may have messed up and not recorded that particular piece of data for some reason. If we were measuring lizard tail lengths and a lizard had lost its tail we would not have anything to record for that piece of data. In survey data the person filling out the survey may have skipped that question for some reason, etc. Yet another reason might be that a column only makes sense to answer if your answer to a previous entry takes on a particular value. If you are recording information about your employees in a spreadsheet the column child.ages only makes sense if the column has.children is true. 
+
+Whatever the reasons behind it, when you are working with real-life data you will encounter this issue. `R` knows about these issues and uses a special term for missing data, "NA". Whenever a piece of data is missing from a data set it will appear as an NA in the data set. 
+
+Many ways exist for dealing with the issue of missing data. The simplest method however is to just remove the data where we are missing some component. For this we can use the `na.omit` function in `R`. This function just removes all rows in the data set where one or more of the columns is missing a value. 
+
+As an example lets consider the `animal_sleep` data set. 
+
+```{r}
+data("animal_sleep")
+head(animal_sleep)
+```
+Notice the missing values appear as NA's. We can see the dimensions of the data frame using the dim command:
+
+```{r}
+dim(animal_sleep)
+```
+
+So we have data for 83 species and 11 columns of information. To remove the NA's from this data set we can use the `na.omit` command:
+
+```{r}
+trim_animal=na.omit(animal_sleep)
+head(trim_animal)
+```
+
+Notice the NA's have disappeared. However, we have gotten rid of most of the rows:
+
+```{r}
+dim(trim_animal)
+```
+
+Next we will see how we can use the select command to avoid dropping rows that we could have kept. 
+
+## Select: Pick only a few columns
+
+Our primary data set in these notes will be the `nflplays` data set. 
+```{r}
+data("nflplays")
+```
+
+This data set has data for over 275 thousands plays during NFL (football) games from 2009-2017. For each play we have recorded 43 pieces of information:
+```{r}
+colnames(nflplays)
+```
+
+You will want to use the help page to look up what a column actually stores `?nflplays`
+
+For large data sets we may not be interested in all of the columns present in the data. We get only the ones we are interested in we can use the `select` command from `dplyr`. For example, if we are only interested in the Team and the Yards.Gained columns we can `select` those from our huge data frame:
+
+```{r selectDemo1}
+team.offense=dplyr::select(nflplays,posteam,Yards.Gained) ##Grab just the columns posteam and Yards.Gained
+head(team.offense) ##Look at the first few rows in our new data 
+```
+
+You can also grab a range of columns using the select command. For example, if we want only the columns from Date to Yard.Gained in the nflplays data set we could use:
+
+```{r selectEx2, eval=FALSE}
+test12=select(nflplays, Date:Yards.Gained) ##get columns from Date to Yards.Gained
+colnames(test12)
+```
+
+You can put multiple selectors into your command without issue. For example, if we want the Date through Yards.Gained and the Season column you can use:
+
+```{r selectEx3}
+test=dplyr::select(nflplays, Date:Yards.Gained, Season) ##get columns from Date to Yards.Gained
+colnames(test)
+```
+
+A very common use of the select command is to use it in combination with the `na.omit` command. For example, we saw that applying the `na.omit` command to the whole animal_sleep data set left us with only 20 species (rows) where all 11 columns had been measured. 
+
+However, if we are only interested in a few of the columns (for example species and brainwt) it doesn't make sense to get rid of a row just because we don't have its diet listed as we aren't planning to use that anyways. 
+
+The below command limits the data to what we are interested in first using the select command, and then removes any missing data. 
+```{r}
+trim_animal2=na.omit(dplyr::select(animal_sleep, name, brainwt))
+head(trim_animal2)
+```
+
+Notice that we now have a much larger data set:
+
+```{r}
+dim(trim_animal2)
+```
+
+We will see that the select command will also be useful when chained together with our other commands. 
+
+```{exercise}
+Create a new dataframe from the nflplays dataframe which has only the PlayType, Yards.Gained, posteam columns using the select command. 
+```
+
+```{exercise}
+From the nflplays data frame use the select command to grab all columns from posteam to Fumble. How many columns are left in your reduced data frame?
+```
+
+```{exercise}
+Run the na.omit on animal_sleep and THEN select the name and brainwt columns. How many rows are left in this data set? Does the order of the commands matter? 
+```
+
+## Filter (select rows)
+One of the most common things we want to do with a data set is pull out some of the rows. For example, in our `nflplays` set we might want to pull out only the rows where the play was a running play. We have seen how to do this already using the `subset` command. However, the more powerful library `dplyr` also has a function for doing this. 
+
+First, notice that the type of play is stored in the `PlayType` column of the data set. The below command will produce a new data frame which contains the same information as the full data set except it will now only contain rows where the PlayType is "Run".
+
+```{r}
+running=filter(nflplays, PlayType=='Run')
+dim(running)
+```
+
+Notice that we use the double equal sign `==` here. We could grab all non running plays using:
+
+```{r}
+tmp=filter(nflplays, PlayType!='Run') ##all plays besides running plays
+dim(tmp) ##find the dimensions
+```
+
+For numeric columns we can also filter using the greater than >, less than <, greater than or equal to >=, or less than or equal to <= operators. 
+
+For example, if we want to look only for plays which gained more than 30 yards we could use:
+```{r}
+bigplays=filter(nflplays, Yards.Gained>30.0)
+dim(bigplays)
+```
+
+For we could then look at the distribution of these long plays based on the teams:
+```{r}
+barplot(table(bigplays$posteam), las=2, main='Number of 30 Yard of More Plays Since 2009', ylab='Num of Plays', col='skyblue')
+```
+
+Finally, say we wanted to grab only plays run by either the Dallas Cowboys or Green Bay Packers. For this purpose `R` has the special word `%in%`. The below tests whether the `posteam` is in the vector we created. 
+
+```{r}
+dallas.gb=filter(nflplays, posteam %in% c('GB', 'DAL'))
+table(dallas.gb$posteam)
+```
+
+
+### Compound Criteria
+
+##### AND
+
+What if we want to grab rows with a more complicated criteria? For example, suppose we want to find all the running plays which were over 30 yards?
+
+From the data set we want the `PlayType` column to be equal to 'Run', **AND** we want the Yards.Gained column to be greater than 30. This is easy using the filter command as we just add that condition as we did for the first one. 
+
+```{r}
+big.running.plays=filter(nflplays,PlayType=='Run',Yards.Gained>30.0)
+dim(big.running.plays)
+```
+
+This makes a new data frame where we only have runs over 30 yards. 
+
+
+We can use the same column if we want to in our filter command. For example, the below gives plays which gained between 5 and 10 yards.
+
+```{r}
+five.ten.plays=filter(nflplays,Yards.Gained>=5.0, Yards.Gained<=10.0)
+##Now count up the number of pass and run plays which produced 5-10 yards
+table(five.ten.plays$PlayType)
+```
+
+Whenever we have a series of conditions where we want only those rows where **all of them hold** we can use the filter command with each condition listed out with commas in between. 
+
+
+##### OR
+
+Now imagine we want to limit our data to just plays which happened on first or second down. The down is stored in the column `down`. 
+
+If we use the comma notation we are looking for plays which occurred on first and second down. This would be true for exactly zero plays.
+
+```{r}
+##Wrong way!
+filter(nflplays,down==1, down==2)
+```
+
+Clearly, we need a different approach. Instead of a comma we should use a vertical bar `|`. 
+```{r}
+tmp=filter(nflplays, down==1| down==2)
+prop.table(table(tmp$PlayType))
+```
+
+We could compare this with the percentage of the play types on third down:
+
+```{r}
+tmp=filter(nflplays, down==3)
+prop.table(table(tmp$PlayType))
+```
+
+Clearly, a pass is much more likely on a third down. 
+
+
+```{exercise}
+How many pass plays resulted in a fumble in the data set? How does this compare to the number of Run plays that resulted in a fumble? Use the filter command and the fumble column and the PlayType column.
+```
+
+```{exercise}
+How many pass plays resulted in a fumble OR an interception? 
+```
+
+```{exercise}
+How many pass plays did the New York Giants (NYG) run on third down?
+```
+
+
+## Chains/Pipes %>%
+
+How about if we are interested in finding the yards gained on third down pass plays?
+
+Here is a quick way to get to this information:
+
+```{r}
+nflplays %>% filter(down==3, PlayType=='Pass') %>% select(Yards.Gained) %>% head(10)
+```
+
+This is our first example of the powerful chaining capability in dplyr. This is the weird notation `%>%` which means take the output of the last entry as the input to the next. Of course, that is a complicated way of saying we formed a chain. We start with the full data set, then filter it to just the rows which match our conditions then we select the only column we care about from that filtered data set. All of the dplyr commands can be used in a chain. 
+
+
+```{exercise}
+Use a chain to find the order of animals in the `animal_sleep` data set from the smallest to largest brain weight (brainwt). Do this all in one command. 
+```
+
+
+## Grouping Data Together
+Our nfl plays data set is based around recording data for each individual play. However, we might be more interested in grouping things by the player, team, league, play-type, etc. 
+
+For example, lets try and find the average yards gained per play for each team:
+
+```{r}
+nflplays %>% group_by(posteam) %>% summarize(av.yds.gained=mean(Yards.Gained))
+```
+
+Let's unpack what this command does. It first groups the plays by the `posteam` column meaning grouped by the team with the ball. The group_by command is not terribly useful by itself, you will just about always want to use it in combination with the summarize command. The summarize command is used to create a summary of the data **after it** has been grouped in some way. It will create new summary columns in a new data frame. In this case we compute the mean of the Yards.Gained column. 
+
+Typically, we will want to group our data using a **categorical column(s)** in the data set. 
+
+We can extend this basic command in many different ways. For example, we can group our data using more than one categorical variable. The below command finds the average yards gained for each team and season.
+
+```{r}
+nflplays %>% 
+  group_by(posteam, Season) %>% 
+  summarize(av.yards.gained=mean(Yards.Gained))
+```
+
+Now we can see the average yards gained for each team and season from the results. 
+
+In addition we could also calculate more columns in our summary. For example, in the below we find the mean yards gained, the median yards gained and the standard deviation.
+
+```{r}
+nflplays %>% group_by(posteam, Season) %>% 
+  summarize(av.yards.gained=mean(Yards.Gained), median.yds.gained=median(Yards.Gained), sd.yds.gained=sd(Yards.Gained))
+```
+
+The names you choose in the summarize command are up to you. Just name them something you will be able to remember for later. We can use any of our summary statistics commands learned in the EDA notes to find a summary of our grouped data. 
+
+Sometimes you might want to just find the number of entries as well. For this we can use the `n()` function. This just counts up the number of entries in each group. The below adds a column which gives the number of plays. 
+
+
+```{r}
+nflplays %>% group_by(posteam, Season) %>% 
+  summarize(av.yards.gained=mean(Yards.Gained), number.of.plays=n())
+```
+
+Also, it is sometimes useful to add up a column for each group. We can do this with the `sum()` command in `R`. Let's add a column to our data which has the total yards gained for each season/team.
+
+
+```{r}
+nflplays %>% group_by(posteam, Season) %>% 
+  summarize(av.yards.gained=mean(Yards.Gained), number.of.plays=n(), total.yards=sum(Yards.Gained))
+```
+
+#### Example 1
+Lets find the number of plays which were pass plays for each team in the NFL. 
+
+First we want to filter to keep only rows which correspond to a pass play. Then we will group these by the teams and summarize by counting up the number of pass plays. 
+
+```{r}
+nflplays %>% filter(PlayType=='Pass') %>% 
+  group_by(posteam) %>% 
+  summarize(num.pass.plays=n()) 
+```
+
+#### Example 2
+Lets find the average yards per rush attempt grouped by the player attempting the rush. Now we are grouping by the categorical variable `Rusher` instead of the team.
+
+```{r}
+nflplays %>% filter(PlayType=='Run') %>% 
+  group_by(Rusher) %>% 
+  summarise(av.yards.per.carry=mean(Yards.Gained))
+```
+
+Even this summary data set is rather large so we might want to refine it some more. It has some strange points because some of the players only carried the ball a few times. Let's get rid of the players that carried the ball less than 200 times.
+
+```{r}
+nflplays %>% filter(PlayType=='Run') %>% 
+  group_by(Rusher) %>% 
+  summarise(av.yards.per.carry=mean(Yards.Gained), num.carries=n()) %>% 
+  filter(num.carries>=200)
+```
+
+We might want to **sort this data** to put it in some order based on the average yards per carry. We can do this with the `arrange()` command from `dplyr`. 
+
+```{r}
+nflplays %>% filter(PlayType=='Run') %>% 
+  group_by(Rusher) %>% 
+  summarise(av.yards.per.carry=mean(Yards.Gained), num.carries=n()) %>% 
+  filter(num.carries>=200) %>% arrange(av.yards.per.carry)
+```
+
+To use the arrange command you just give it the column (numerical generally) that you want to use to sort the data. By default it will sort the data into ascending order (small to big). If we want to reverse that (big to small) we can use the `desc()` command.
+
+```{r}
+nflplays %>% filter(PlayType=='Run') %>% group_by(Rusher) %>% 
+  summarise(av.yards.per.carry=mean(Yards.Gained), num.carries=n()) %>%
+  filter(num.carries>=500) %>% arrange(desc(av.yards.per.carry))
+```
+
+
+```{exercise}
+Find the average yards gained for Run plays grouped by the team. You will need to add a filter command to the chain. 
+```
+
+```{exercise}
+Find average yards gained for Pass plays grouped by the Passer. Eliminate those Passers who threw less than 300 passes and find the top ten passers 
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+nflplays %>% filter(PlayType=='Pass') %>% group_by(Passer) %>% 
+  summarise(av.yards.gained=mean(Yards.Gained), num.passes=n()) %>% 
+  filter(num.passes>300) %>% arrange(desc(av.yards.gained)) %>% head(10)
+```
+
+```{block2, type="advanced"}
+For more information about data wrangling in R I recommend that you read [@Wickham2016]. One topic that is missing from these notes and is pretty commonly needed is merging together two data frames of data. Many ways exist for merging two data set together. If you need to do this then please see the discussion in [@Wickham2016] which is freely available online.  
+```
+
+
+## Homework
+
+### Concept Questions
+1. Explain what the `dplyr` commands `select`, `filter`, `group_by`, `summarize`, and `arrange` do. 
+2. (True/False) The na.omit command is used to remove all rows from a data frame which have any columns missing. 
+3. (True/False) The order we apply the select command and na.omit can change the results
+4. (True/False) The `group_by` command is used to create groups of rows based on a categorical variable
+5. (True/False) The arrange command reorders the rows of the data using a given column from small to large (by default)
+6. (True/False) The `group_by` command should always be paired the `summarize` command. The `group_by` command doesn't really change anything by itself. 
+7. (True/False) The `dplyr` package is awesome. This topic is so awesome you just can't stop computing things. 
+8. (True/False) The first step in looking for a relationship between two categorical variables is to make a contingency table using the `table` command. 
+
+
+### Practice Problems
+1. Load the `flightNYCFull` data. This data has data for over 300,000 flights departing from NYC in 2013. 
+
+    + Filter this data to contain only flights which came from the carriers AA or UA (american or united airlines). 
+    + Filter this data to contain only flights from carrier 'US' and origin='JFK'
+    + Find the average departure delays for the carrier 'US' with origin='JFK'
+  
+2. Load the `BirdCaptureData`. This data set contains over 14000 recordings of captured birds at a bird station in California. Besides other information it contains the day of the year each bird was captured (`JulianDay`), the species code of the bird `SpeciesCode` and the `Season` (either Fall or Spring). The species in this study are migratory, so they are passing through when they are captured. Find the median capture day for each species in the two seasons.
+
+3. Load the `BirdCaptureData`. Make the appropriate plot to look for a relationship between the `Season` column and the `SpeciesCode`. Find the percentages of the birds captured for each species in the two seasons. Is this roughly the same for all the bird species?
+
+```{r echo=FALSE, eval=FALSE}
+bird.table=prop.table(table(BirdCaptureData$Season, BirdCaptureData$SpeciesCode), margin=2)
+barplot(bird.table, beside=TRUE, legend=rownames(bird.table), las=2, ylim=c(0,1))
+```
+
+
+
+
+
+#### Advanced Problems
+
+1. Load the Young_People_Survey data, and look familiarize yourself with the data set using `?Young_People_Survey. Find the average weight (the Weight column) of grouped by they participants answer to the "Healthy Eating"" column. Make a barplot of this result. 
+
+Hint: You will need to remove the missing values NA from the data set using the `na.omit` command. This will drop all rows which are missing values in any column in the data set. 
+
+So your answer will start with:
+
+```{r eval=FALSE}
+Young_People_Survey %>% select(`Healthy eating`, Weight) %>% na.omit() 
+```
+
+```{r echo=FALSE, eval=FALSE}
+## Answer
+Young_People_Survey %>% select(`Healthy eating`, Weight) %>% na.omit %>% group_by(`Healthy eating`) %>% summarise(mean.weight=mean(Weight))
+```
+
+2. Load the demographic_data data set. This has demographic information for over 11,000 cities in the US. Find the average of the debt.proportion column for each state in the data set. What state has the smallest average debt proportion?
+
+3. Load the wine_tasting data set. What country has the most number of wines which are priced above 100 dollars? 
+
+```{r echo=FALSE, eval=FALSE}
+wine_tasting %>% select(country, price) %>% filter(price>100) %>% group_by(country) %>% summarize(count.wines=n()) %>% arrange(desc(count.wines))
+```
+
+4. Load the `shot_logs_2014` data set. Notice you can find the percentage of shots are made for the whole data set using the command `mean(shot_logs_2014$FGM)`. This is because the `FGM` column has a 1 if the shot was made and a zero if it was missed. The team playing defense on a given shot is stored in the `Team.Defending` column of the data set. Group this data by the team defending and find the allowed field goal percentage. Sort this data from smallest to largest. What team allowed the smallest of percentage of made baskets (best defense)?
+
+5. Load the `HR_Employee_Attrition` data set. Each row contains information about one individual at a company. Group the employees by the `Department` and find the average and sd of the `DailyRate` for each department. 
+
+6. Load the `flightNYCFull` data set.
+
+    + Find the mean and median departure delay for each of the carriers. 
+    + Now group the data using both the carrier and the origin and find the median departure delays. Arrange the data from the smallest median delay to the largest. 
+
+
+
+
+
+
+
+
+
+
+
+
+

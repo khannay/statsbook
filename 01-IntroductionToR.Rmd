@@ -1,0 +1,475 @@
+# (PART) Exploratory Data Analysis {-} 
+
+# Introduction to R
+
+
+## What is R?
+R is a language and environment for statistical computing and graphics. R provides a wide variety of statistical and graphical techniques, and is highly extensible. Basically, anything you could ever want to do using statistics has already been done in `R`. 
+
+Better yet R is completely free to use and [download](https://cloud.r-project.org/). Unfortunately, R has a bit of a learning curve to get comfortable using it. We will only be using a little bit of the whole power of R in our class, and I will introduce all the commands you will need as we come to them. You are authorized to use R for any homework questions and it will be available to you for any class requirements. R is the principle tool for completing the projects for the class. 
+
+As a little motivation the average salary of those who write computer code in R is over $100,000 a year. So learning a little bit of R may make you rich someday. It will also give you a leg-up over any future job market competitors, as knowledge of R is highly desirable by employers. 
+
+[RStudio](https://www.rstudio.com/products/rstudio/download/##download) provides a nice interface to the power of R, and I will be using RStudio exclusively in this class. It is also free for personnel use. 
+
+## R Packages
+The true power of `R` lies in the harnessing of the work of millions of nerds across the globe who use `R` and write up useful packages which add new features to `R`. There are thousands of `R` packages which can be installed to add features to `R`, we will only be using a few of these in the class.
+
+In particular, your instructor is a nerd who has created his own `R` package specifically for this class. You will be using this package almost every time we use `R` in this class. I will expect that you have loaded R Studio and have run the command `library(HannayIntroStats)` when giving directions in class, on tests, etc. Make sure you have installed my package and load it anytime you are working in this class.
+
+To install the class R package you will need to run the following commands:
+```{r, eval=FALSE}
+install.packages("devtools") #get the package installing package
+devtools::install_bitbucket(repo="khannay/hannayintrostats.git") #install the class R package
+```
+
+You will only need to run these install commands one time. From now on you can start your R session by giving the command:
+
+```{r, eval=FALSE}
+library(HannayIntroStats)
+```
+
+```{block2, type='warning'}
+Remember to load the class R package when you open RStudio using library(HannayIntroStats)
+```
+
+## R as a Fancy Calculator
+
+#### Basic Operations
+The console in R can be used like a very powerful calculator:
+```{r}
+2+3 ##add two numbers
+2-3 ##subtract two numbers
+2*3 ##multiply two numbers
+2/3 ##divide two numbers
+2^3 ## raise 2 to the third power
+```
+
+R also has many functions which we can use just like on a calculator. For example we can use the trigonometric function $\sin(x)$:
+```{r}
+sin(10.0)
+```
+Or we could use the exponential function $y=e^x$ easily using:
+```{r}
+exp(2.0)
+```
+You can always look up what a function does using:
+```{r helpPage, eval=FALSE}
+?exp
+```
+which will bring up the details of what that function does in RStudio. You can also search for a function using the RStudio help menu. 
+
+R has many functions which aren't typically on a calculator. For example, I will use the `print()` function a bunch in these notes. This just prints a variable to the screen. 
+
+#### Variables in R
+You won't use the R command line very long before you want to save the value of a computation. This is easy to do in R:
+```{r}
+x=2
+y=x+2
+print(y)
+```
+The first line says define the value of x as 2, the second line define y as the value of x+2=(2)+2=4. One note is we come back later and change the value of x, the value of y won't change automatically. You need to run the y=x+2 line again to update y if you change x. 
+```{r}
+x=2
+y=x+2
+print(y)
+x=3;
+print(y)
+```
+As a note you can use either the equals sign `x=2` to assign a variable a value, or you can use the "arrow" way `x<-2`. I will generally use the arrow method, as I think arrows are cool. You are welcome to use either notation. 
+```{r}
+x<-2;
+y<-x+2
+print(y)
+```
+
+Within Rstudio you can always see what variables are defined during your current session in the upper right panel under the environment tab.
+
+```{exercise}
+Open RStudio and use `R` as a calculator to find the value of `2^3+exp(3)/10` in the console. 
+```
+
+## More Advanced R
+
+### Data Types in R
+R stores the variables as one of a few different types, 
+
+Data Type  | Example 
+---------------|--------------------------
+logical        | TRUE/FALSE
+numeric        | 1.23, 2.3 decimal numbers
+integer        | 0,1,-1,2,-2, etc
+character      | 'abc', 'Hannay', etc
+factor         | A categorical variable which takes on a small number of values
+
+and a few types we should never need to use. Note that for the character types I use quotes around them, this tells R to consider that as a character and not a variable name. You can use either single or double quotes as long as they match. The data type shouldn't matter much as R typically picks the correct type for our variables automatically. If you are curious you can check what type a variable is using the `class()` command:
+```{r}
+last.name<- "Hannay"
+class(last.name)
+age <- 22
+class(age)
+```
+If you want to change the type of a variable you can use the `as.numeric, as.character, as.integer, etc` functions. For example, if we want to store `age` as a integer instead as a numeric type we could use:
+```{r}
+age.int <- as.integer(age)
+class(age.int)
+```
+
+## Logic in R
+
+The logical types are returned when we ask the computer true/false questions like:
+```{r}
+old<- age.int > 30;
+print(old)
+```
+
+The answer to whether the integer called age.int is greater than 30 is FALSE. 
+
+```{r}
+class(old)
+```
+
+We can see that R stores the answers to our true/false questions using the logical type. The most basic logical operations we can do are comparisons. To put these into `R` we need the following notations.
+
+
+What is we want to ask R more complicated logical questions for example how can we ask whether a number $a$ is between 1 and 2. Mathematically this would look like: $$ 1 < a < 2.$$ The key is to notice this is really just two of our questions from before stacked together. We want to know if $a>1$ **AND** if $a<2$. 
+
+To ask this question in `R` we can use the `&&` operator. 
+
+```{r}
+a=2.8
+(a>1) && (a<2)
+```
+
+```{r}
+a=1.6
+(a>1) && (a<2)
+```
+
+We may also want to ask the logical questions which involve using **OR**. For example, we can ask whether a character equals apples OR oranges. 
+
+We denote an OR question in `R` using the notation `||`. This one doesn't make as much sense as the `&&` for and but this is the standard notation for computer scientists. 
+
+```{r}
+a='apples'
+(a=='apples') || (a=='oranges')
+```
+
+```{r}
+a='grapes'
+(a=='apples') || (a=='oranges')
+```
+
+We may also reverse the answer to a logical question using the **NOT** operator `!`. This just reverses our answer TRUE becomes FALSE and FALSE becomes TRUE.
+
+```{r}
+a='grapes'
+!((a=='apples') || (a=='oranges'))
+```
+
+Logical Comparison Operation  | R notation
+---------------|--------------------------
+Equality       | == 
+Greater than   | >
+Greater than or equal to | >=
+Less than   | <
+Less than or equal to | <=
+AND | &&
+OR | \|\|
+NOT | !
+NOT EQUAL | !=
+
+You might rightly ask can we really do everything we will want to do with these relatively simple logic operations? Pretty much, as long as we learn to ask the questions in the right way. Perhaps I am biased but my field of mathematics is basically just a bunch of these logical operations chained together in new and interesting ways. Also these logical operations underlie the mechanics of computers used for everything from guiding missles to posting pictures of cats on instagram. 
+
+```{block2, type='warning'}
+Notice that testing for equality uses a **double** equal sign (==). This is because the single equals sign is already being used to save a variable to memory. This is a very common error!
+```
+
+## Storing Data in R
+
+### Vectors
+
+Statistics involves analyzing large collections of data, so individually naming each variables would be a huge waste of time. We need a way to store a collection of related data and give them a single name. For this we have `vectors` in R.
+
+```{r}
+x<-c(1,2,3)
+```
+The `c` here is a function which concatenates the collection of numbers 1,2,3  into a single `vector`. If we do operations on vectors they act on each entry individually. 
+```{r}
+x+1 ##add one to each number in x
+x^2 ##square each number in x
+x>2 ## for each number in x, ask the question is x greater than 2? 
+```
+If we want to access the entries of x individually we can use brackets `x[1]` to get that entry individually. For example the first entry of x can be accessed using:
+```{r}
+x[1]
+```
+The third entry:
+```{r}
+x[3]
+```
+If we try to access the an entry in a vector which isn't there we get `NA` back,
+```{r}
+x[4]
+```
+which stands for **Not Available**. To avoid this we can always find the length of a vector (number of entries) using:
+```{r}
+length(x)
+```
+We can also add all the values in a vector using the `sum` command,
+```{r}
+sum(x)
+```
+Besides creating vectors using the `c` function and manually typing them in `R` provides many other ways to create vectors.
+For example the `seq` function, short for sequence, can be used to get a vector with a sequence of values separated by an increment:
+```{r}
+seq(0,10,1) ##created a vector with values going from 0 to 10 by 1
+```
+as another example
+```{r}
+seq(0,1,0.1)
+```
+
+The seq command can be useful if we want to apply a function to a vector of evenly spaced values, e.g.
+```{r}
+x.example<-seq(0,5,0.1) ##values from 0 to 5 every 0.1
+y.example<-exp(x.example) ## the exponential of each value in the x vector
+print(y.example)
+```
+
+Later we will see how to create of plot of the exponential function by plotting x.example versus y.example:
+
+```{r echo=FALSE}
+plot(x.example, y.example, main='Plot of the Exponential Function', xlab='x.example', ylab='y.example')
+```
+
+We can also use our logical operators to **slice** a vector. For example, suppose we want to get only the elements in our `y.example` vector which are less than or equal to 50. 
+
+```{r logicalSlices}
+y.example[y.example<=50.0]
+```
+This R command translates to "give the elements of the vector y.example where the logical statement y.example<=50.0 is true."
+
+
+
+```{exercise}
+Make a vector in R with the numbers 1,2,3,4,5 and save it under the name my_vec. Slice your vector to vector to get only values greater than 3. 
+```
+
+
+### Data Frames
+We will find that vectors are still inconvenient when dealing with many statistical data sets. Imagine are looking to come up with a statistical way of measuring body mass index. We collect the genders, heights, weights, and ages of the study participants. We could try and store this data as four separate vectors (one for each category of our data) but this is unwieldy. Moreover, storing them as four seperate vectors we lose the knowledge that they are all connected as part of our BMI study. 
+
+Instead we can create one `data frame` variable which stores all this information:
+
+```{r}
+## Create the data frame.
+BMI <- 	data.frame(
+   gender = c("Male", "Male","Female", "Male", "Female", "Female"), 
+   height = c(81,93, 78,100,92,75),
+   weight = c(152, 171.5, 165,140,192.1,180.2),
+   Age = c(42,38,26,52,18,23)
+)
+print(BMI)
+```
+This way we can name the columns (gender, height, weight, Age) and store all this related information under one name. If you have my package installed and loaded you can load this data set in by typing `data(BMI_Example)`. To get a look at the data in a spreadsheet type format you can type `View(BMI_Example)`.
+
+If we want to see the names of the columns we can use the command:
+```{r}
+colnames(BMI)
+```
+We can see the size of this data set (rows by columns) using the command `dim` or by looking at the information provided in the enviroment tab in the top right of the RStudio window. 
+
+```{r}
+dim(BMI)
+```
+
+From a data frame it is easy to access a single column. For example if we want to look at just the ages we can use the `$` command:
+```{r}
+BMI$Age ##get the Age vector from the dataframe named BMI
+```
+Of if we want to see the weights we use the command:
+```{r}
+BMI$weight ##get a vector of the weights in the BMI data frame
+```
+Individual entries in the data frame can still be accessed easily as well. However, now we need to give the row and column numbers (instead of just the one index in a vector)
+```{r}
+BMI[2,3] ##Get the entry in the data frame in the second row, third column (weight of the second participant)
+```
+
+We could also have gotten this information by specifying the column using the dollar sign `$` and the row as a single index. 
+```{r}
+BMI$weight[2]
+```
+
+Finally, if we want to look at a row of our data we can use:
+```{r}
+BMI[2,] ##Get all the data for the second participant in the study
+```
+Notice the use of the **comma**. 
+
+If you are worried that it will be a pain to type in the data.frames-- don't worry I will show you how to read data frames in automatically from spreadsheets of data. In addition, most of the data sets used in the class will be loaded using the command `data()` from the R console. You won't spend much time typing in data sets into R. 
+
+
+
+#### Filtering Data Frames
+
+Now comes the real cool part of `R`, and a big reason why it is used so much. Data frames are a powerful tool for keeping large collections of data organized, but often we will want to consider just a subset of the data. For example, in our body mass index `BMI` data frame above we might want to just consider the entries where the gender is female. 
+
+Therefore, we want to consider just a **subset** of the available data. Intuitively, we can do this using the powerful `subset` command in `R`. 
+
+```{r}
+BMI.FEMALE<-subset(BMI, BMI$gender=='Female')
+print(BMI.FEMALE)
+```
+The new data frame `BMI.FEMALE` has only the entries where the gender is Female. Once again notice the use of the double equal sign `==`, it used to ask if the entry is equal to a given value. When using subset the first entry is the whole set we are trying to extract a piece from, and the second entry gives the logical condition for the piece we want to grab. 
+
+For another example imagine we are interested in looking only those participants who are over the age of 30. Then we could filter the data frame using:
+```{r}
+BMI.OLD <- subset(BMI, BMI$Age>30)
+print(BMI.OLD)
+```
+This filters the data frame so that we only see the rows where the age variable is greater than 30. We can also get the entries with ages less than or equal to 30 using:
+```{r}
+BMI.YOUNG <- subset(BMI, BMI$Age<=30)
+print(BMI.YOUNG)
+```
+
+We will see many examples of using filtering to look at subsets of data in the class. You will be expected to be able to perform basic filtering of data frames on all of the assessments in this class. **It is worth your time to learn how to do this now!**
+
+```{exercise}
+Load the animal sleep data frame by typing the command `data("animal_sleep")` into the R console. Look up the help page for this data set using the command `?animal_sleep`. The help pops up the the lower right panel in RStudio. All the data sets I provide in the class will have a help page like this telling you what each column in the data set means. Filter this data frame to keep only rows where the `vore` column is equal to `carni`. How many rows are left in this subset? 
+```
+
+
+
+```{exercise}
+Load the geese flocks data set using the command `data(geese_flocks)` filter this data frame to have only rows (observations) where the flock.size is greater than 50. How many rows are left in this reduced data frame? 
+```
+
+
+
+
+## Basic Plots in R
+`R` has an extremely powerful library of functions for producing pretty plots of data. We will only use a few of these commands in the course of the class. For now lets assume we want to plot the height and weight variables from the BMI data frame. 
+```{r}
+plot(BMI$height, BMI$weight)
+```
+
+This gives a plain plot with the height on the x-axis and the weight on the y-axis. Notice that `R` automatically labels the axes using the names given by the data frame (`BMI$height` and `BMI$weight`). We can easily improve the aesthetics of the plot using a few extra parameters to the `plot` function. 
+
+```{r}
+plot(BMI$height, BMI$weight, main='BMI Height versus Weight', col='red')
+```
+
+The keyword `main` changes the title of the plot, and the keyword 'col` changes the color of the points to being red. If for some reason you wanted to change the x-axis and y-axis labels this can easily be done as well:
+
+```{r}
+plot(BMI$height, BMI$weight, main='BMI Height versus Weight', col='red', xlab='Height', ylab='Weight')
+```
+
+The `xlab` keyword changes the x-axis label and likewise for the `ylab` keyword. Within RStudio you can view the plots and save them as images easily. 
+
+Notice the use of quotes around the inputs for the axis labels and the plot title. This tells `R` that these are character types and not some variable named Height, etc. This is a common mistake in using R. 
+
+As a note for the class, producing pretty plots is not really our goal so you are not required to produce plots which are easy on the eyes. However, it is important to produce plots which are readable and convey the correct information. To this end it will be a good idea to get used to labeling your graphs axes and giving each graph an informative title. 
+
+```{block2, type='note'}
+The graphics commands we learn in R will all have the same keyword arguments (as long as they make sense for that plot). For example, main='Blah' will set the title of the graph to be 'Blah'. 
+```
+
+```{block2, type='advanced'}
+We we be using basic plots in R for this course, but you can make some really pretty plots using another R package called ggplot2. A quick google search will give you an introduction to this more fancy plotting library. 
+```
+
+## Additional Resources
+
+A huge number of people use `R` for statistical analysis creating a large online nerd community. If you are having an issue there is a 99.999% chance that someone else has suffered in the same way and has asked for help on an online forum. Many times a quick google search for the issue you are having will save you much time and frustration. 
+
+Here are a few links for R resources around the web. Note that these tutorials are much more extensive then will be required for this class. We are only going to use R as a tool to make learning and doing statistics easier. 
+
+* [The official intro to R pdf](https://cran.r-project.org/doc/manuals/R-intro.pdf)
+* [DataCamp Free Online Course on R](https://www.datacamp.com/courses/free-introduction-to-r)
+* [R-tutor introductory course](http://www.r-tutor.com/r-introduction)
+* [R short reference card](https://onlinecourses.science.psu.edu/statprogram/sites/onlinecourses.science.psu.edu.statprogram/files/lesson00/Short-refcard.pdf)
+* [Statistics using R Textbook](https://cran.r-project.org/web/packages/IPSUR/vignettes/IPSUR.pdf)
+* [Lynda has several R tutorial videos](https://www.lynda.com/)
+* [Youtube has thousands of videos on R](www.youtube.com)
+* [RBloggers: Resources for learning R](https://www.r-bloggers.com/how-to-learn-r-2/)
+
+
+```{block2, type='advanced'}
+If anyone reading this has a background in computer programming then you are probably wondering if `R` has all the features you are used to in other programming languages. The answer is yes (for the most part). R is a full programming language with the usual conditional statements (if, else, etc) and loops (for, while) that you are used to. We won't focus on the computer programming aspects in this class but their are many resources online for learning the full R programming language. 
+```
+
+
+## Homework
+
+#### Concept Questions
+1. What are the fundamental data types in R?
+2. Explain the difference between using `=` and `==` in `R`.
+3. What does the command `rep` do in `R`? Look at the help page for this function
+4. How can I convert the data type of a variable from an integer to a factor?
+5. For what numbers will the following logical statement evaluate to TRUE? !((a>10)||(a<1))?
+6. Look up the help for the rep command in `R`. Create a vector which has 100 copies on 23 in it. 
+
+
+
+#### Practice Problems
+1. Make a scatter plot of the parabola y=x^2 for x between [-1,1] in R.
+2. Create a vector with the numbers 1,2,3,4,5 and call this vector x:
+
+    + Type x==1, what does the result produced mean? What is R doing?
+    + Type x>2, what does the result tell you?
+
+
+
+#### Advanced Problems
+
+1. Install R and R Studio on your laptop (if you have one) and follow the directions at the start of these notes to install the class R package. 
+
+2. Load the `mtcars` data set by typing `data(mtcars)`. Bring up the help page for this data set by typing `?mtcars`.
+
+
+    * How many cars are there in the data set total? 
+    * How many cars with 6 cylinders?
+    * How many cars weight more than 4000 lbs? Hint the `wt` column gives the weight of the cars in 1000's of pounds.
+    * How many cars weight more than 2000 lbs AND are four cylinders?
+    * Create a new column on the mtcars data set which is given by the weight of the car divided by its horsepower. What is the value of this new column for the Volvo 142E car?
+    * How many cars get better than 20.0 miles per gallon?
+
+3. Load the wine_tasting data set `data(wine_tasting)`. 
+
+    * What is the size of this data set? rows x columns
+    * How many wines in the data set are less than 100 dollars in price? 
+    * How many wines are from the united states? This is stored with the name "US" in the country column
+
+4. You can generate a vector of random numbers of length $N$ using the command `rnorm(N)`. 
+
+    * Generate a random vector of length 1000 using `rnorm` and save it under the name rx
+    * How many of the entries in this vector are positive? Hint use logical vector slices
+
+5. We can also do some simulations in `R` using the `sample` command. Look up the help page for this command using `?sample`. As an example, suppose I want to generate the results of random (fair) coin flips in `R`. We can do this
+using the sample command. The below command generates 100 random coin flip results. To use the sample command we put in a vector of outcomes, then set the number of draws to perform (size=100). The final options says that we should draw from the full list of options each time (otherwise we can have no repeats)
+```{r eval=FALSE}
+coin.options=c('H','T')
+sample(coin.options,size=100, replace=TRUE)
+```
+      
+      
+  * Generate 1000 rolls of a fair six-sided dice using the sample command and save the result. 
+  * How many 6's appear in your simulation? Does this change if you run a new simulation? 
+
+6. Load the candy rankings data set using the commands: 
+```{r eval=FALSE}
+  library(fivethirtyeight)
+  data("candy_rankings")
+```
+Look at the help page for this data set to see what the various columns mean. 
+
+  + How many candies are in this data set?
+  + What `R` data type is being used to store the `chocolate` column?
+  + How many candies contain nougat?
+
+
+
