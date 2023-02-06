@@ -18,7 +18,7 @@ jobs:
       - name: Install devtools
         run: Rscript -e 'install.packages(c("devtools"))'
       - name: Install rmarkdown
-        run: Rscript -e 'install.packages(c("rmarkdown","bookdown","tidyverse"))'
+        run: Rscript -e 'install.packages(c("rmarkdown","bookdown","tidyverse", "ggrepel"))'
       - name: Install HannayIntroStats
         run: Rscript -e 'devtools::install_bitbucket("khannay/HannayIntroStats")'
       - name: Render Book
