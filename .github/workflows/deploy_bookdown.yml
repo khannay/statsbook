@@ -15,8 +15,12 @@ jobs:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
+      - name: Install devtools 
+        run: Rscript -e 'install.packages(c("devtools"))'
       - name: Install rmarkdown
         run: Rscript -e 'install.packages(c("rmarkdown","bookdown","tidyverse"))'
+      - name: Install HannayIntroStats
+        run: Rscript -e 'devtools::install_github("khannay/HannayIntroStats")'
       - name: Render Book
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
       - uses: actions/upload-artifact@v1
