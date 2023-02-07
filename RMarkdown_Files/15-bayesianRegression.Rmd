@@ -1,0 +1,141 @@
+---
+title: "Everything is a Regression"
+author: "Dr. Kevin Hannay"
+date: "November 25, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(HannayIntroStats)
+library(rstan)
+```
+
+
+# Two Sample T-test
+
+```{r}
+generateTtestData <- function(sample_size=30, m1=0.0, m2=1.0, sd1=5.0, sd2=5.0) {
+  x=rnorm(sample_size, mean=m1, sd=sd1)
+  y=rnorm(sample_size, mean=m2, sd=sd2)
+  my.cats<-c(rep(0,sample_size), rep(1, sample_size))
+  dat1<-c(x,y)
+  df<-data.frame('value'=dat1, 'cat'=my.cats)
+  return(df)
+}
+
+d1<-generateTtestData()
+boxplot(d1$value~d1$cat, main='T test data')
+```
+
+This data follows all of the assumptions of using a two sample t test. If the test worked percently we should always reject the null hypothesis that $\mu_1 \neq \mu_2$. However, in practice we can have a hard time detecting this difference (Type II error rate)
+
+```{r}
+results<-rep("a", 1000)
+
+for (i in 1:1000) {
+  d1<-generateTtestData()
+  p<-t.test(d1$value~d1$cat)$p.value
+  if (p < 0.05) {
+    results[i]='Reject'
+  } else {
+    results[i]='Retain'
+  }
+}
+
+prop.table(table(results))
+```
+So we see that almost 90\% of the time we end up retaining the null hypothesis even though it is false. This will decrease if we increase the sample size, increase the chances of a Type I error ($\alpha$) or use a more powerful test. 
+
+
+## Bayesian approach
+
+```{r}
+x=seq(0,1,0.01)
+y=2*x+0.2+rnorm(101, sd=0.10)
+
+lm1<-lm(y~x)
+summary(lm1)
+```
+
+
+```{stan output.var="br1"}
+// Stan model for simple linear regression
+
+data {
+ int < lower = 1 > N; // Sample size
+ vector[N] x; // Predictor
+ vector[N] y; // Outcome
+}
+
+parameters {
+ real alpha; // Intercept
+ real beta; // Slope (regression coefficients)
+ real < lower = 0 > sigma; // Error SD
+}
+
+model {
+ // add some priors for the three parameters
+ alpha ~ normal(0,100)
+ beta ~normal(0,100)
+ sigma~uniform(0,100)
+ y ~ normal(alpha + x * beta , sigma);
+}
+
+generated quantities {
+} // The posterior predictive distribution",
+
+```
+
+```{r, echo=TRUE, results = 'hide'}
+stan_data=list(N=101,x=x,y=y)
+fit <- sampling(br1, data = stan_data, warmup = 500, iter = 1000, chains = 4, cores = 32, thin = 1, show_messages=FALSE)
+```
+
+```{r}
+summary(fit)$summary
+```
+
+```{r}
+post<-extract(fit); #get the posterior parameter estimates
+plot(x,y, pch=20, main='Bayesian Regression Model Fits')
+for (i in 1:500) {
+ abline(post$alpha[i], post$beta[i], col = "gray", lty = 1)
+}
+abline(mean(post$alpha), mean(post$beta), col=6, lw=2)
+```
+
+```{r}
+stan_dens(fit)
+```
+
+
+
+## Bayesian Regression
+
+Bayes theorem allows us to find the posterior density of a given parameter given the observed data $P(\theta_i|D)$ in terms of the liklihood function $l(\theta_i|D)=P(D|\theta_i)$ and the prior density $P(\theta_i)$. 
+
+$$
+\begin{align}
+P(\theta_i|D)=\frac{P(D|\theta_i)P(\theta_i)}{\sum_{j=1}^N P(D|\theta_j)P(\theta_j)}
+\end{align}
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
