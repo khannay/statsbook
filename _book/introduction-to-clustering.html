@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Introduction to Clustering | Introduction to Statistics and Data Science</title>
+  <meta name="description" content="Introductory textbook for statistics and data science" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Introduction to Clustering | Introduction to Statistics and Data Science" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Introductory textbook for statistics and data science" />
+  <meta name="github-repo" content="khannay/statsbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Introduction to Clustering | Introduction to Statistics and Data Science" />
+  
+  <meta name="twitter:description" content="Introductory textbook for statistics and data science" />
+  
+
+<meta name="author" content="Dr. Kevin Hannay" />
+
+
+<meta name="date" content="2023-02-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-wrangling.html"/>
+<link rel="next" href="probability.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"> Stats Notes </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#librarian-or-farmer"><i class="fa fa-check"></i><b>1.1</b> Librarian or Farmer?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#profits"><i class="fa fa-check"></i><b>1.2</b> Profits</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#accidental-deaths"><i class="fa fa-check"></i><b>1.3</b> Accidental Deaths</a></li>
+</ul></li>
+<li class="part"><span><b>I Exploratory Data Analysis</b></span></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R Packages</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-as-a-fancy-calculator"><i class="fa fa-check"></i><b>2.3</b> R as a Fancy Calculator</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#more-advanced-r"><i class="fa fa-check"></i><b>2.4</b> More Advanced R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types-in-r"><i class="fa fa-check"></i><b>2.4.1</b> Data Types in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#logic-in-r"><i class="fa fa-check"></i><b>2.5</b> Logic in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#storing-data-in-r"><i class="fa fa-check"></i><b>2.6</b> Storing Data in R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>2.6.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.6.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>2.6.2</b> Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-plots-in-r"><i class="fa fa-check"></i><b>2.7</b> Basic Plots in R</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#additional-resources"><i class="fa fa-check"></i><b>2.8</b> Additional Resources</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#homework"><i class="fa fa-check"></i><b>2.9</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>3</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#shot-logs-basketball-data"><i class="fa fa-check"></i><b>3.1</b> Shot Logs Basketball Data</a></li>
+<li class="chapter" data-level="3.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#principal-types-of-statistical-data"><i class="fa fa-check"></i><b>3.2</b> Principal Types of Statistical Data</a></li>
+<li class="chapter" data-level="3.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#the-distribution-of-a-data-set"><i class="fa fa-check"></i><b>3.3</b> The Distribution of a Data Set</a></li>
+<li class="chapter" data-level="3.4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency"><i class="fa fa-check"></i><b>3.4</b> Numerical Measures for Central Tendency</a></li>
+<li class="chapter" data-level="3.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-of-variability"><i class="fa fa-check"></i><b>3.5</b> Numerical Measures of Variability</a></li>
+<li class="chapter" data-level="3.6" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing"><i class="fa fa-check"></i><b>3.6</b> Numerical Measures for Relative Standing</a></li>
+<li class="chapter" data-level="3.7" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot"><i class="fa fa-check"></i><b>3.7</b> Relation between Continuous and Categorical Variables: Boxplot</a></li>
+<li class="chapter" data-level="3.8" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots"><i class="fa fa-check"></i><b>3.8</b> Relation between Continuous Variables: Scatter Plots</a></li>
+<li class="chapter" data-level="3.9" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables"><i class="fa fa-check"></i><b>3.9</b> Relationship between Categorical Variables: Contingency Tables</a></li>
+<li class="chapter" data-level="3.10" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#tips-and-tricks"><i class="fa fa-check"></i><b>3.10</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="3.11" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#homework-1"><i class="fa fa-check"></i><b>3.11</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.1</b> What is Data Wrangling?</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#nas-and-the-curse-of-real-world-data"><i class="fa fa-check"></i><b>4.2</b> NA’s and the Curse of Real World Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#select-pick-only-a-few-columns"><i class="fa fa-check"></i><b>4.3</b> Select: Pick only a few columns</a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#filter-select-rows"><i class="fa fa-check"></i><b>4.4</b> Filter (select rows)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#compound-criteria"><i class="fa fa-check"></i><b>4.4.1</b> Compound Criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#chainspipes"><i class="fa fa-check"></i><b>4.5</b> Chains/Pipes %&gt;%</a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#grouping-data-together"><i class="fa fa-check"></i><b>4.6</b> Grouping Data Together</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#homework-2"><i class="fa fa-check"></i><b>4.7</b> Homework</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="data-wrangling.html"><a href="data-wrangling.html#concept-questions-2"><i class="fa fa-check"></i><b>4.7.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="4.7.2" data-path="data-wrangling.html"><a href="data-wrangling.html#practice-problems-2"><i class="fa fa-check"></i><b>4.7.2</b> Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html"><i class="fa fa-check"></i><b>5</b> Introduction to Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#what-is-clustering"><i class="fa fa-check"></i><b>5.1</b> What is Clustering?</a></li>
+<li class="chapter" data-level="5.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#introduction-to-kmeans-clustering"><i class="fa fa-check"></i><b>5.2</b> Introduction to Kmeans clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#how-many-clusters-should-we-choose"><i class="fa fa-check"></i><b>5.3</b> How many clusters should we choose?</a></li>
+<li class="chapter" data-level="5.4" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#clustering-nba-players"><i class="fa fa-check"></i><b>5.4</b> Clustering NBA Players</a></li>
+<li class="chapter" data-level="5.5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis"><i class="fa fa-check"></i><b>5.5</b> Requirements for Performing Cluster Analysis</a></li>
+<li class="chapter" data-level="5.6" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#homework-3"><i class="fa fa-check"></i><b>5.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#concept-questions-3"><i class="fa fa-check"></i><b>5.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="5.6.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#practice-problems-3"><i class="fa fa-check"></i><b>5.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="5.6.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#advanced-problems-3"><i class="fa fa-check"></i><b>5.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Probability Theory</b></span></li>
+<li class="chapter" data-level="6" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>6</b> Probability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="probability.html"><a href="probability.html#sample-spaces-and-events"><i class="fa fa-check"></i><b>6.1</b> Sample Spaces and Events</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="probability.html"><a href="probability.html#introduction"><i class="fa fa-check"></i><b>6.1.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.1.2" data-path="probability.html"><a href="probability.html#sample-spaces"><i class="fa fa-check"></i><b>6.1.2</b> Sample Spaces</a></li>
+<li class="chapter" data-level="6.1.3" data-path="probability.html"><a href="probability.html#law-of-sample-spaces"><i class="fa fa-check"></i><b>6.1.3</b> Law of Sample Spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="probability.html"><a href="probability.html#combinatorics"><i class="fa fa-check"></i><b>6.2</b> Combinatorics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="probability.html"><a href="probability.html#basic-principle-of-counting"><i class="fa fa-check"></i><b>6.2.1</b> Basic Principle of Counting</a></li>
+<li class="chapter" data-level="6.2.2" data-path="probability.html"><a href="probability.html#permutations"><i class="fa fa-check"></i><b>6.2.2</b> Permutations</a></li>
+<li class="chapter" data-level="6.2.3" data-path="probability.html"><a href="probability.html#combinations"><i class="fa fa-check"></i><b>6.2.3</b> Combinations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="probability.html"><a href="probability.html#axioms-of-probability"><i class="fa fa-check"></i><b>6.3</b> Axioms of Probability</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="probability.html"><a href="probability.html#beyond-the-law-of-sample-spaces"><i class="fa fa-check"></i><b>6.3.1</b> Beyond the Law of Sample Spaces</a></li>
+<li class="chapter" data-level="6.3.2" data-path="probability.html"><a href="probability.html#set-theory"><i class="fa fa-check"></i><b>6.3.2</b> Set Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="probability.html"><a href="probability.html#the-axioms-of-probability"><i class="fa fa-check"></i><b>6.3.3</b> The Axioms of Probability</a></li>
+<li class="chapter" data-level="6.3.4" data-path="probability.html"><a href="probability.html#the-or-rule"><i class="fa fa-check"></i><b>6.3.4</b> The OR Rule</a></li>
+<li class="chapter" data-level="6.3.5" data-path="probability.html"><a href="probability.html#the-and-rule"><i class="fa fa-check"></i><b>6.3.5</b> The AND Rule</a></li>
+<li class="chapter" data-level="6.3.6" data-path="probability.html"><a href="probability.html#the-complement-rule"><i class="fa fa-check"></i><b>6.3.6</b> The Complement Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="probability.html"><a href="probability.html#conditional-probability-and-independence"><i class="fa fa-check"></i><b>6.4</b> Conditional Probability and Independence</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="probability.html"><a href="probability.html#introduction-1"><i class="fa fa-check"></i><b>6.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.4.2" data-path="probability.html"><a href="probability.html#mathematical-definition"><i class="fa fa-check"></i><b>6.4.2</b> Mathematical Definition</a></li>
+<li class="chapter" data-level="6.4.3" data-path="probability.html"><a href="probability.html#independence"><i class="fa fa-check"></i><b>6.4.3</b> Independence</a></li>
+<li class="chapter" data-level="6.4.4" data-path="probability.html"><a href="probability.html#multiplicative-rule"><i class="fa fa-check"></i><b>6.4.4</b> Multiplicative Rule</a></li>
+<li class="chapter" data-level="6.4.5" data-path="probability.html"><a href="probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>6.4.5</b> Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="probability.html"><a href="probability.html#bayes-rule"><i class="fa fa-check"></i><b>6.5</b> Bayes Rule</a></li>
+<li class="chapter" data-level="6.6" data-path="probability.html"><a href="probability.html#homework-4"><i class="fa fa-check"></i><b>6.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="probability.html"><a href="probability.html#concept-questions-4"><i class="fa fa-check"></i><b>6.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="6.6.2" data-path="probability.html"><a href="probability.html#practice-problems-4"><i class="fa fa-check"></i><b>6.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="6.6.3" data-path="probability.html"><a href="probability.html#advanced-problems-4"><i class="fa fa-check"></i><b>6.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html"><i class="fa fa-check"></i><b>7</b> Discrete Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-variables"><i class="fa fa-check"></i><b>7.1</b> Random Variables</a></li>
+<li class="chapter" data-level="7.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables"><i class="fa fa-check"></i><b>7.2</b> Probability Distributions for Discrete Random Variables</a></li>
+<li class="chapter" data-level="7.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#properties-of-probability-distributions"><i class="fa fa-check"></i><b>7.3</b> Properties of Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-values-of-discrete-random-variables"><i class="fa fa-check"></i><b>7.3.1</b> Expected Values of Discrete Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.4</b> Expected Value of Sums of Random Variables</a></li>
+<li class="chapter" data-level="7.5" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-random-variables"><i class="fa fa-check"></i><b>7.5</b> Variance of Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.5.1</b> Variance of Sums of Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#bernoulli-random-variables"><i class="fa fa-check"></i><b>7.6</b> Bernoulli Random Variables</a></li>
+<li class="chapter" data-level="7.7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variables"><i class="fa fa-check"></i><b>7.7</b> Binomial Random Variables</a></li>
+<li class="chapter" data-level="7.8" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variable-in-r"><i class="fa fa-check"></i><b>7.8</b> Binomial Random Variable in R</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distribution-in-r"><i class="fa fa-check"></i><b>7.8.1</b> Probability Distribution in R</a></li>
+<li class="chapter" data-level="7.8.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r"><i class="fa fa-check"></i><b>7.8.2</b> Cumulative Distribution Calculations in R</a></li>
+<li class="chapter" data-level="7.8.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-binomial-distribution-in-r"><i class="fa fa-check"></i><b>7.8.3</b> Random Binomial Distribution in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#homework-5"><i class="fa fa-check"></i><b>7.9</b> Homework</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#concept-questions-5"><i class="fa fa-check"></i><b>7.9.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="7.9.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#advanced-problems-5"><i class="fa fa-check"></i><b>7.9.2</b> Advanced Problems:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>8</b> Continuous Random Variables</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#introduction-to-continuous-random-variables"><i class="fa fa-check"></i><b>8.1</b> Introduction to Continuous Random Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#uniform-random-variable"><i class="fa fa-check"></i><b>8.2</b> Uniform Random Variable</a></li>
+<li class="chapter" data-level="8.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>8.3</b> Normal Distribution</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#cumulative-distribution-function-cdf-for-normal-random-variables"><i class="fa fa-check"></i><b>8.3.1</b> Cumulative Distribution Function (CDF) for Normal Random Variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#finding-probabilities-for-the-normal-distribution"><i class="fa fa-check"></i><b>8.3.2</b> Finding Probabilities for the Normal Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#standard-normal-distribution-z"><i class="fa fa-check"></i><b>8.4</b> Standard Normal Distribution (<span class="math inline">\(Z\)</span>)</a></li>
+<li class="chapter" data-level="8.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#assessing-normality"><i class="fa fa-check"></i><b>8.5</b> Assessing Normality</a></li>
+<li class="chapter" data-level="8.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#regression-to-the-mean"><i class="fa fa-check"></i><b>8.6</b> Regression to the Mean</a></li>
+<li class="chapter" data-level="8.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#final-thoughts-on-random-variables"><i class="fa fa-check"></i><b>8.7</b> Final Thoughts on Random Variables</a></li>
+<li class="chapter" data-level="8.8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#homework-6"><i class="fa fa-check"></i><b>8.8</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>III Sampling and Confidence Intervals</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html"><i class="fa fa-check"></i><b>9</b> Introduction to Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#why-sample"><i class="fa fa-check"></i><b>9.1</b> Why Sample?</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#average-height-example"><i class="fa fa-check"></i><b>9.1.1</b> Average Height Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#inferences-and-point-estimators"><i class="fa fa-check"></i><b>9.2</b> Inferences and Point Estimators</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-distribution-of-sample-means"><i class="fa fa-check"></i><b>9.3</b> The Distribution of Sample Means</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#distribution-of-sample-means"><i class="fa fa-check"></i><b>9.4</b> Distribution of Sample Means</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>9.4.1</b> The Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#other-point-estimators"><i class="fa fa-check"></i><b>9.5</b> Other Point Estimators</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#sampling-distribution-for-the-sample-proportion"><i class="fa fa-check"></i><b>9.6</b> Sampling Distribution for the Sample Proportion</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#tales-in-sampling-poincares-baker"><i class="fa fa-check"></i><b>9.7</b> Tales in Sampling: Poincare’s Baker</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#homework-7"><i class="fa fa-check"></i><b>9.8</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>10</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#introduction-nyc-flights-dataset"><i class="fa fa-check"></i><b>10.1</b> Introduction NYC Flights Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#mean-flight-delays"><i class="fa fa-check"></i><b>10.2</b> Mean Flight Delays</a></li>
+<li class="chapter" data-level="10.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#shortcut-using-the-central-limit-theorem"><i class="fa fa-check"></i><b>10.3</b> Shortcut Using the Central Limit Theorem</a></li>
+<li class="chapter" data-level="10.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#additional-practice-comparing-airports"><i class="fa fa-check"></i><b>10.4</b> Additional Practice: Comparing Airports</a></li>
+<li class="chapter" data-level="10.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-proportion-confidence-intervals"><i class="fa fa-check"></i><b>10.5</b> Population Proportion Confidence Intervals</a></li>
+<li class="chapter" data-level="10.6" data-path="confidence-intervals.html"><a href="confidence-intervals.html#extra-practice-problems"><i class="fa fa-check"></i><b>10.6</b> Extra Practice Problems</a></li>
+<li class="chapter" data-level="10.7" data-path="confidence-intervals.html"><a href="confidence-intervals.html#homework-8"><i class="fa fa-check"></i><b>10.7</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>IV Regression</b></span></li>
+<li class="chapter" data-level="11" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Introduction to Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#statistical-models"><i class="fa fa-check"></i><b>11.1</b> Statistical Models</a></li>
+<li class="chapter" data-level="11.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r"><i class="fa fa-check"></i><b>11.2</b> Fitting a Linear Model in R</a></li>
+<li class="chapter" data-level="11.3" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>11.3</b> Assumptions of Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#successful-linear-regression"><i class="fa fa-check"></i><b>11.3.1</b> Successful Linear Regression</a></li>
+<li class="chapter" data-level="11.3.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#what-failure-looks-like"><i class="fa fa-check"></i><b>11.3.2</b> What Failure Looks Like</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>11.4</b> Goodness of Fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#correlation-and-slope"><i class="fa fa-check"></i><b>11.4.1</b> Correlation and Slope</a></li>
+<li class="chapter" data-level="11.4.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits"><i class="fa fa-check"></i><b>11.4.2</b> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions"><i class="fa fa-check"></i><b>11.5</b> Using Regression Models to Make Predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#homework-9"><i class="fa fa-check"></i><b>11.6</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html"><i class="fa fa-check"></i><b>12</b> Regression with Categorical Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#one-hot-encoding"><i class="fa fa-check"></i><b>12.2</b> One Hot Encoding</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#example-exercise-and-weight"><i class="fa fa-check"></i><b>12.2.1</b> Example: Exercise and Weight</a></li>
+<li class="chapter" data-level="12.2.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#housing-prices-by-neighborhood"><i class="fa fa-check"></i><b>12.2.2</b> Housing Prices by Neighborhood</a></li>
+<li class="chapter" data-level="12.2.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-exercise-and-gender-together"><i class="fa fa-check"></i><b>12.2.3</b> Advanced: Exercise and Gender Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#diagnostics"><i class="fa fa-check"></i><b>12.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="12.4" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#homework-10"><i class="fa fa-check"></i><b>12.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#concept-questions-9"><i class="fa fa-check"></i><b>12.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#practice-problems-10"><i class="fa fa-check"></i><b>12.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="12.4.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-problems-10"><i class="fa fa-check"></i><b>12.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html"><i class="fa fa-check"></i><b>13</b> Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#introduction-to-multiple-regression-models"><i class="fa fa-check"></i><b>13.1</b> Introduction to Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#housing-prices-review-of-simple-regression-results"><i class="fa fa-check"></i><b>13.1.1</b> Housing Prices (Review of Simple Regression Results)</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-including-bathrooms"><i class="fa fa-check"></i><b>13.1.2</b> Multiple Regression (Including Bathrooms)</a></li>
+<li class="chapter" data-level="13.1.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#diagnostics-for-multiple-linear-regression"><i class="fa fa-check"></i><b>13.1.3</b> Diagnostics for Multiple Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-with-categorical-variables-including-the-neighborhood"><i class="fa fa-check"></i><b>13.2</b> Multiple Regression with Categorical Variables: Including the Neighborhood</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#predictions"><i class="fa fa-check"></i><b>13.2.1</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#interactions-between-variables"><i class="fa fa-check"></i><b>13.3</b> Interactions between Variables</a></li>
+<li class="chapter" data-level="13.4" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#some-pitfalls-in-multiple-regression"><i class="fa fa-check"></i><b>13.4</b> Some Pitfalls in Multiple Regression</a></li>
+<li class="chapter" data-level="13.5" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#homework-11"><i class="fa fa-check"></i><b>13.5</b> Homework</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#concept-questions-10"><i class="fa fa-check"></i><b>13.5.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="13.5.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#practice-problems-11"><i class="fa fa-check"></i><b>13.5.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="13.5.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#advanced-problems-11"><i class="fa fa-check"></i><b>13.5.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Hypothesis Testing</b></span></li>
+<li class="chapter" data-level="14" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html"><i class="fa fa-check"></i><b>14</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#introduction-and-warning"><i class="fa fa-check"></i><b>14.1</b> Introduction and Warning</a></li>
+<li class="chapter" data-level="14.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#a-starting-example"><i class="fa fa-check"></i><b>14.2</b> A Starting Example</a></li>
+<li class="chapter" data-level="14.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#the-t.test-command-hypothesis-tests-for-the-population-mean-mu"><i class="fa fa-check"></i><b>14.3</b> The t.test command: Hypothesis Tests for the Population Mean <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="14.4" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#theory-of-hypothesis-testing"><i class="fa fa-check"></i><b>14.4</b> Theory of Hypothesis Testing</a></li>
+<li class="chapter" data-level="14.5" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#under-the-hood-t-tests"><i class="fa fa-check"></i><b>14.5</b> Under the Hood (t tests)</a></li>
+<li class="chapter" data-level="14.6" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#errors-in-hypothesis-testing"><i class="fa fa-check"></i><b>14.6</b> Errors in Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#statistical-significance-alpha"><i class="fa fa-check"></i><b>14.6.1</b> Statistical Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+<li class="chapter" data-level="14.6.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#type-ii-error"><i class="fa fa-check"></i><b>14.6.2</b> Type II Error</a></li>
+<li class="chapter" data-level="14.6.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practical-significance-versus-statistical-significance"><i class="fa fa-check"></i><b>14.6.3</b> Practical Significance versus Statistical Significance</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-for-population-fraction"><i class="fa fa-check"></i><b>14.7</b> Hypothesis Testing for Population Fraction</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#example-3"><i class="fa fa-check"></i><b>14.7.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-in-linear-regression"><i class="fa fa-check"></i><b>14.8</b> Hypothesis Testing in Linear Regression</a></li>
+<li class="chapter" data-level="14.9" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>14.9</b> Power of a Statistical Test</a></li>
+<li class="chapter" data-level="14.10" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#homework-12"><i class="fa fa-check"></i><b>14.10</b> Homework</a>
+<ul>
+<li class="chapter" data-level="14.10.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#concept-questions-11"><i class="fa fa-check"></i><b>14.10.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="14.10.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practice-problems-12"><i class="fa fa-check"></i><b>14.10.2</b> Practice Problems:</a></li>
+<li class="chapter" data-level="14.10.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#advanced-problems-12"><i class="fa fa-check"></i><b>14.10.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html"><i class="fa fa-check"></i><b>15</b> Hypothesis Testing: Two Sample Tests</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>15.1</b> Two Sample t test</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#regression-analysis"><i class="fa fa-check"></i><b>15.1.1</b> Regression analysis</a></li>
+<li class="chapter" data-level="15.1.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach"><i class="fa fa-check"></i><b>15.1.2</b> Two Sample t test approach</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests"><i class="fa fa-check"></i><b>15.2</b> Two Sample Proportion Tests</a></li>
+<li class="chapter" data-level="15.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking"><i class="fa fa-check"></i><b>15.3</b> Extra Example: Birth Weights and Smoking</a></li>
+<li class="chapter" data-level="15.4" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#homework-13"><i class="fa fa-check"></i><b>15.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#concept-questions-12"><i class="fa fa-check"></i><b>15.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="15.4.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#practice-problems-13"><i class="fa fa-check"></i><b>15.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="15.4.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13"><i class="fa fa-check"></i><b>15.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html"><i class="fa fa-check"></i><b>16</b> Confidence Intervals and Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#relation-to-confidence-intervals"><i class="fa fa-check"></i><b>16.1</b> Relation to Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#two-sided-tests"><i class="fa fa-check"></i><b>16.1.1</b> Two sided tests</a></li>
+<li class="chapter" data-level="16.1.2" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#one-sided-confidence-intervals"><i class="fa fa-check"></i><b>16.1.2</b> One-sided confidence intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html"><i class="fa fa-check"></i><b>17</b> Introduction to the Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#contingency-tables"><i class="fa fa-check"></i><b>17.1</b> Contingency Tables</a></li>
+<li class="chapter" data-level="17.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#chi-square-test"><i class="fa fa-check"></i><b>17.2</b> Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#conditions-for-using-the-chi2-test"><i class="fa fa-check"></i><b>17.2.1</b> Conditions for Using the <span class="math inline">\(\chi^2\)</span> test</a></li>
+<li class="chapter" data-level="17.2.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#multiple-hypothesis-testing-again"><i class="fa fa-check"></i><b>17.2.2</b> Multiple Hypothesis Testing Again</a></li>
+<li class="chapter" data-level="17.2.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#using-a-different-null-hypothesis"><i class="fa fa-check"></i><b>17.2.3</b> Using a different Null Hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#homework-14"><i class="fa fa-check"></i><b>17.3</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>VI Advanced Regression Topics</b></span></li>
+<li class="chapter" data-level="18" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>18</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression-used-for"><i class="fa fa-check"></i><b>18.1</b> What is logistic regression used for?</a></li>
+<li class="chapter" data-level="18.2" data-path="logistic-regression.html"><a href="logistic-regression.html#glm-generalized-linear-models"><i class="fa fa-check"></i><b>18.2</b> GLM: Generalized Linear Models</a></li>
+<li class="chapter" data-level="18.3" data-path="logistic-regression.html"><a href="logistic-regression.html#a-starting-example-1"><i class="fa fa-check"></i><b>18.3</b> A Starting Example</a>
+<ul>
+<li class="chapter" data-level="18.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#confidence-intervals-for-the-parameters"><i class="fa fa-check"></i><b>18.3.1</b> Confidence Intervals for the Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="logistic-regression.html"><a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests"><i class="fa fa-check"></i><b>18.4</b> Equivalence of Logistic Regression and Proportion Tests</a></li>
+<li class="chapter" data-level="18.5" data-path="logistic-regression.html"><a href="logistic-regression.html#example-building-a-more-accurate-model"><i class="fa fa-check"></i><b>18.5</b> Example: Building a More Accurate Model</a></li>
+<li class="chapter" data-level="18.6" data-path="logistic-regression.html"><a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression"><i class="fa fa-check"></i><b>18.6</b> Example: Measuring Team Defense Using Logistic Regression</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Statistics and Data Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction-to-clustering" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Introduction to Clustering<a href="introduction-to-clustering.html#introduction-to-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="what-is-clustering" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> What is Clustering?<a href="introduction-to-clustering.html#what-is-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Clustering properly belongs in a class on Machine Learning. However, it is so useful we will cover just the basics in this class. The idea behind clustering is to look for groups or <strong>clusters</strong> of related data points in our data set. For example, we might have a data set which gives the purchase history of customers. From this data we might want to extract classes of customers.</p>
+<p>Here is what we need to get started (plus my package as usual):</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="introduction-to-clustering.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb243-2"><a href="introduction-to-clustering.html#cb243-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span></code></pre></div>
+<p>these packages should have been installed at the same time you installed my package, if not then you will have to install them using the install.packages() function.</p>
+</div>
+<div id="introduction-to-kmeans-clustering" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Introduction to Kmeans clustering<a href="introduction-to-clustering.html#introduction-to-kmeans-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will be using the kmeans clustering algorithm. The kmeans algorithm is pretty intuitive in nature. For example, lets suppose we have collected a data set with two variables and wish to create two clusters. We could plot the data points using those two variables:
+<img src="statsbook_files/figure-html/unnamed-chunk-179-1.png" width="672" /></p>
+<p>We can intuitively see two clusters in this data set. One is centered around (0,0) and the other is centered around (1,1). We can then draw a circles with a radius large enough to contain those points which are close to those centers. This is the main idea behind the k means clustering algorithm. However instead of us trying to eyeball where the center of the circles are we let the algorithm do the work for us. The k means algorithm has to be told how many clusters we are looking for, it then proceeds to minimize the sum of distances of points in a cluster to those centers.</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="introduction-to-clustering.html#cb244-1" aria-hidden="true" tabindex="-1"></a>cluster_obj<span class="ot">&lt;-</span><span class="fu">kmeans</span>(practice_cluster, <span class="at">centers=</span><span class="dv">2</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb244-2"><a href="introduction-to-clustering.html#cb244-2" aria-hidden="true" tabindex="-1"></a><span class="fu">clusplot</span>(practice_cluster, cluster_obj<span class="sc">$</span>cluster)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-180-1.png" width="672" /></p>
+<p>This makes a two-dimensional plot of our data and which cluster each data point is assigned to. We can see that is this case the kmeans algorithm does a pretty good job of finding the two clusters in the data.</p>
+<div id="crime-clusters-by-state" class="section level4 hasAnchor" number="5.2.0.1">
+<h4><span class="header-section-number">5.2.0.1</span> Crime Clusters by State<a href="introduction-to-clustering.html#crime-clusters-by-state" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We are now going to look for clusters in a real data set. Lets load in a crime data set, which gives murder, assault and rape statistics for all 50 states in 1973. We are going to see if we can cluster these into groups of high and low crime states.</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="introduction-to-clustering.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;crime_cluster&quot;</span>)</span></code></pre></div>
+<p>Looking at the help page for this data we can see that we are given the number of arrests in each category per 100,000 residents.</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="introduction-to-clustering.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(crime_cluster)</span></code></pre></div>
+<pre><code>##            Murder Assault Rape
+## Alabama      13.2     236 21.2
+## Alaska       10.0     263 44.5
+## Arizona       8.1     294 31.0
+## Arkansas      8.8     190 19.5
+## California    9.0     276 40.6
+## Colorado      7.9     204 38.7</code></pre>
+<p>You can see that there are many more assault arrests per 100,000 residents than the other two categories. This can cause some issues with our clustering. Therefore, it is generally a good idea to <strong>standardize</strong> your variables. Recall, this means we just transform them so that each column has a mean of zero and a standard deviation of one. The <code>scale</code> command in <code>R</code> does this for us easily. For example,</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="introduction-to-clustering.html#cb248-1" aria-hidden="true" tabindex="-1"></a>ccs<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">sapply</span>(crime_cluster, scale)) <span class="do">##this scales each column of the data and makes a new data frame ccs</span></span>
+<span id="cb248-2"><a href="introduction-to-clustering.html#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ccs)<span class="ot">=</span><span class="fu">rownames</span>(crime_cluster) <span class="do">##this makes sure the state names are in our standardized data set</span></span></code></pre></div>
+<p>Now when we look at the data:</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="introduction-to-clustering.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ccs)</span></code></pre></div>
+<pre><code>##                Murder   Assault         Rape
+## Alabama    1.24256408 0.7828393 -0.003416473
+## Alaska     0.50786248 1.1068225  2.484202941
+## Arizona    0.07163341 1.4788032  1.042878388
+## Arkansas   0.23234938 0.2308680 -0.184916602
+## California 0.27826823 1.2628144  2.067820292
+## Colorado   0.02571456 0.3988593  1.864967207</code></pre>
+<p>we can see that Alabama is about one standard deviation above the national average in the murder and assault rate and about average in the rape category.</p>
+
+<div class="warning">
+When performing a cluster abalysis on a data set you should consider standardizing your variables. This will allow for easier interpretations of the cluster centers and will prevent one variable (column) from dominating the cluster algorithm.
+</div>
+<p>We can make a map of our crime clusters of states in <code>R</code>, using a function I wrote called StatePlot.</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="introduction-to-clustering.html#cb251-1" aria-hidden="true" tabindex="-1"></a>cl2 <span class="ot">&lt;-</span> <span class="fu">StatePlot</span>(<span class="dv">2</span>, ccs)  <span class="do">##2 is the number of clusters to look for, ccs is the data</span></span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-186-1.png" width="672" /></p>
+<pre><code>##      Murder    Assault       Rape    colors
+## 1  1.004934  1.0138274  0.8469650 darkgreen
+## 2 -0.669956 -0.6758849 -0.5646433    yellow</code></pre>
+<p>Notice this prints out the cluster centers. It looks like it has found two main groups: high crime and low crime. The high crime cluster are all about one standard deviation above the mean in each of the three categories. The low crime cluster is centered around being 0.6 standard deviations below the national average in all categories.</p>
+<p>We can explore the differences between the clusters further by making some box plots, splitting the states into their clusters. For example, the below box plot compares the normalized murder rates between the two clusters.</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="introduction-to-clustering.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ccs<span class="sc">$</span>Murder <span class="sc">~</span> cl2<span class="sc">$</span>cluster, <span class="at">main =</span> <span class="st">&quot;Murder Rate for the Two Clusters&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Murder Rate&quot;</span>,</span>
+<span id="cb253-2"><a href="introduction-to-clustering.html#cb253-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Cluster&quot;</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-187-1.png" width="672" /></p>
+<p>We can also make a two-dimensional plot of our clusters using the <code>clusplot</code> command (in the cluster package). Since we have three variables this two-dimensional plot is a projection (shadow). <code>R</code> automatically chooses the best way to project the data onto two dimensions.</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="introduction-to-clustering.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clusplot</span>(ccs, cl2<span class="sc">$</span>cluster, <span class="at">labels =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-188-1.png" width="672" /></p>
+<p>Looking at this plot lets us see which states are barely in the high or low crime clusters (and which are NOT!). For example, it looks like Missouri just barely makes the list of high crime states according to our analysis.</p>
+</div>
+</div>
+<div id="how-many-clusters-should-we-choose" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> How many clusters should we choose?<a href="introduction-to-clustering.html#how-many-clusters-should-we-choose" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A difficult question to answer when we are conducting a cluster analysis on data is: How many clusters should I pick to get the best representation of my data? Sometimes, we know that we are looking for some number of groups. For example, cancer genes and not cancer genes, or terrorist versus non-terrorist, etc. However, in many other cases it is not obvious how many clusters should be in our data. For example, how many customer types are shopping on your website, how many types of learners are in the classroom, etc. Part of the beauty of cluster analysis is that we let the data guide us to how many clusters to pick.</p>
+<p>To begin lets look at the crime data, and see what happens if we divide states into three groups. Here is a map if we cluster the states into three groups:</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="introduction-to-clustering.html#cb255-1" aria-hidden="true" tabindex="-1"></a>cl3 <span class="ot">&lt;-</span> <span class="fu">StatePlot</span>(<span class="dv">3</span>, ccs)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-189-1.png" width="672" /></p>
+<pre><code>##       Murder   Assault       Rape    colors
+## 1 -0.2754591 -0.299928 -0.1233698 darkgreen
+## 2 -1.0812577 -1.077921 -1.0070054    yellow
+## 3  1.0431796  1.062614  0.8523875       red</code></pre>
+<p>We can see that the new cluster mostly split the low crime states into very low and sort of low. Here is a look at the clusters if we split the data into four clusters.</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="introduction-to-clustering.html#cb257-1" aria-hidden="true" tabindex="-1"></a>cl4 <span class="ot">&lt;-</span> <span class="fu">StatePlot</span>(<span class="dv">4</span>, ccs)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-190-1.png" width="672" /></p>
+<pre><code>##       Murder   Assault       Rape    colors
+## 1  1.3420549  1.048826  0.2875176 darkgreen
+## 2  0.5308219  1.086252  1.8207361    yellow
+## 3 -0.2754591 -0.299928 -0.1233698       red
+## 4 -1.0812577 -1.077921 -1.0070054      blue</code></pre>
+<p>In general, if we split the data into more clusters we can expect the data points to lie closer to the centers of the clusters. We can measure this by looking at the sum of all distances between the data points and the center of their clusters. The <code>kmeans</code> function reports this value to use:</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="introduction-to-clustering.html#cb259-1" aria-hidden="true" tabindex="-1"></a>cl2<span class="sc">$</span>tot.withinss</span></code></pre></div>
+<pre><code>## [1] 55.16373</code></pre>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="introduction-to-clustering.html#cb261-1" aria-hidden="true" tabindex="-1"></a>cl3<span class="sc">$</span>tot.withinss</span></code></pre></div>
+<pre><code>## [1] 41.15597</code></pre>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="introduction-to-clustering.html#cb263-1" aria-hidden="true" tabindex="-1"></a>cl4<span class="sc">$</span>tot.withinss</span></code></pre></div>
+<pre><code>## [1] 27.84746</code></pre>
+<p>This will decrease as we increase the number of clusters. If we allowed for 50 clusters we would just get one cluster for each state in our data set (giving a withinss value of zero)– although this wouldn’t really tell us any useful information. Lets make a plot of the <code>tot.withinss</code> or distortion measurements against the total number of clusters.</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="introduction-to-clustering.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ElbowClusterPlot</span>(ccs)  <span class="do">##This is a special function written by me in the package HannayAppliedStats</span></span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-192-1.png" width="672" /></p>
+<p>One common criteria for choosing the number of clusters to use is to look for the “elbow” for this plot. The elbow gives the smallest number of clusters which yields a big decrease in the total distance from the centers of the clusters. For the crime clusters the elbow occurs for <span class="math inline">\(2\)</span> clusters, as adding in a third cluster doesn’t really reduce the total error (distortion) by much.</p>
+
+<div class="note">
+Use an <strong>elbow</strong> plot to look for the number of clusters you can form from a data set. This should be balanced against the number of clusters you expect to find in your data set.
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-194" class="exercise"><strong>Exercise 5.1  </strong></span>Conduct a cluster analysis for the bad drivers data set. Load this data by typing <code>data(bad_drivers_cluster)</code>.
++ Make a State plot of the bad drivers data set for two clusters. Does Texas belong to the better or worse driver cluster?
++ Cluster the States into two clusters and make a boxplot comparing the perc_speeding values between the clusters
++ Make an Elbow plot to determine the optimal number of clusters in the data. Does this plot have an obvious elbow?</p>
+</div>
+</div>
+<div id="clustering-nba-players" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Clustering NBA Players<a href="introduction-to-clustering.html#clustering-nba-players" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As another interesting application of clustering lets consider clustering the top 100 NBA players by per game statistics. The below code forms two clusters among the top 100 players, using a built in data set:</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="introduction-to-clustering.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;nba_pg_2016&quot;</span>)  <span class="do">##load the nba data</span></span>
+<span id="cb266-2"><a href="introduction-to-clustering.html#cb266-2" aria-hidden="true" tabindex="-1"></a>nba_clusters <span class="ot">=</span> <span class="fu">kmeans</span>(nba_pg_2016, <span class="at">centers =</span> <span class="dv">2</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb266-3"><a href="introduction-to-clustering.html#cb266-3" aria-hidden="true" tabindex="-1"></a>nba_clusters<span class="sc">$</span>centers</span></code></pre></div>
+<pre><code>##         FG      FGA       FG.      X3P     X3PA      X3P.      X2P      X2PA
+## 1 5.509524 12.03968 0.4607302 1.479365 4.025397 0.3440952 4.041270  8.022222
+## 2 8.227027 17.53243 0.4696757 1.875676 5.010811 0.3614865 6.348649 12.535135
+##        X2P.      eFG.       FT      FTA       FT.      ORB      DRB      TRB
+## 1 0.5024603 0.5219841 2.473016 3.133333 0.7919365 1.163492 4.247619 5.403175
+## 2 0.5080270 0.5230541 5.151351 6.213514 0.8322432 1.145946 4.794595 5.937838
+##        AST       STL       BLK      TOV       PF      PPG
+## 1 2.961905 0.9492063 0.5396825 1.742857 2.239683 14.96508
+## 2 4.854054 1.1810811 0.6756757 2.724324 2.283784 23.47027</code></pre>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="introduction-to-clustering.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(<span class="fu">subset</span>(nba_pg_2016, nba_clusters<span class="sc">$</span>cluster <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>##  [1] &quot;Kevin Love&quot;               &quot;Zach LaVine&quot;             
+##  [3] &quot;Rudy Gay&quot;                 &quot;Danilo Gallinari&quot;        
+##  [5] &quot;Paul Millsap&quot;             &quot;Chris Paul&quot;              
+##  [7] &quot;Kristaps Porzingis&quot;       &quot;Dennis Schroder&quot;         
+##  [9] &quot;Lou Williams&quot;             &quot;LaMarcus Aldridge&quot;       
+## [11] &quot;Evan Fournier&quot;            &quot;George Hill&quot;             
+## [13] &quot;Nikola Jokic&quot;             &quot;Avery Bradley&quot;           
+## [15] &quot;Eric Gordon&quot;              &quot;Tobias Harris&quot;           
+## [17] &quot;Victor Oladipo&quot;           &quot;Dion Waiters&quot;            
+## [19] &quot;Wilson Chandler&quot;          &quot;D&#39;Angelo Russell&quot;        
+## [21] &quot;Jrue Holiday&quot;             &quot;Jeff Teague&quot;             
+## [23] &quot;Nicolas Batum&quot;            &quot;J.J. Redick&quot;             
+## [25] &quot;Gary Harris&quot;              &quot;Serge Ibaka&quot;             
+## [27] &quot;Jordan Clarkson&quot;          &quot;Khris Middleton&quot;         
+## [29] &quot;Nikola Vucevic&quot;           &quot;Tim Hardaway&quot;            
+## [31] &quot;Reggie Jackson&quot;           &quot;Jeremy Lin&quot;              
+## [33] &quot;Myles Turner&quot;             &quot;T.J. Warren&quot;             
+## [35] &quot;Enes Kanter&quot;              &quot;Dirk Nowitzki&quot;           
+## [37] &quot;Jordan Crawford&quot;          &quot;Zach Randolph&quot;           
+## [39] &quot;Rudy Gobert&quot;              &quot;Al Horford&quot;              
+## [41] &quot;Marcus Morris&quot;            &quot;Markieff Morris&quot;         
+## [43] &quot;Jae Crowder&quot;              &quot;Kentavious Caldwell-Pope&quot;
+## [45] &quot;Will Barton&quot;              &quot;Bojan Bogdanovic&quot;        
+## [47] &quot;Tyler Johnson&quot;            &quot;Ryan Anderson&quot;           
+## [49] &quot;Andre Drummond&quot;           &quot;Dwight Howard&quot;           
+## [51] &quot;Wesley Matthews&quot;          &quot;Otto Porter&quot;             
+## [53] &quot;Darren Collison&quot;          &quot;Julius Randle&quot;           
+## [55] &quot;Nick Young&quot;               &quot;Ersan Ilyasova&quot;          
+## [57] &quot;Sean Kilpatrick&quot;          &quot;Robert Covington&quot;        
+## [59] &quot;Seth Curry&quot;               &quot;James Johnson&quot;           
+## [61] &quot;Elfrid Payton&quot;            &quot;Dario Saric&quot;             
+## [63] &quot;Aaron Gordon&quot;</code></pre>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="introduction-to-clustering.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(<span class="fu">subset</span>(nba_pg_2016, nba_clusters<span class="sc">$</span>cluster <span class="sc">==</span> <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>##  [1] &quot;Russell Westbrook&quot;     &quot;James Harden&quot;          &quot;Isaiah Thomas&quot;        
+##  [4] &quot;Anthony Davis&quot;         &quot;DeMar DeRozan&quot;         &quot;DeMarcus Cousins&quot;     
+##  [7] &quot;Damian Lillard&quot;        &quot;LeBron James&quot;          &quot;Kawhi Leonard&quot;        
+## [10] &quot;Stephen Curry&quot;         &quot;Kyrie Irving&quot;          &quot;Kevin Durant&quot;         
+## [13] &quot;Karl-Anthony Towns&quot;    &quot;Jimmy Butler&quot;          &quot;Paul George&quot;          
+## [16] &quot;Andrew Wiggins&quot;        &quot;Kemba Walker&quot;          &quot;Bradley Beal&quot;         
+## [19] &quot;John Wall&quot;             &quot;C.J. McCollum&quot;         &quot;Giannis Antetokounmpo&quot;
+## [22] &quot;Carmelo Anthony&quot;       &quot;Kyle Lowry&quot;            &quot;Klay Thompson&quot;        
+## [25] &quot;Devin Booker&quot;          &quot;Gordon Hayward&quot;        &quot;Blake Griffin&quot;        
+## [28] &quot;Eric Bledsoe&quot;          &quot;Mike Conley&quot;           &quot;Brook Lopez&quot;          
+## [31] &quot;Goran Dragic&quot;          &quot;Joel Embiid&quot;           &quot;Jabari Parker&quot;        
+## [34] &quot;Marc Gasol&quot;            &quot;Harrison Barnes&quot;       &quot;Dwyane Wade&quot;          
+## [37] &quot;Derrick Rose&quot;</code></pre>
+<p>Knowing something about the NBA it looks like the clustering algorithm has found the a cluster of the “star” players. We could also view this as high usage players versus low usage players. The star cluster gets more shot attempts, free throws, etc then the other cluster. Here is a two dimensional plot of the two cluster solution.</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="introduction-to-clustering.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clusplot</span>(nba_pg_2016, nba_clusters<span class="sc">$</span>cluster)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-196-1.png" width="672" /></p>
+<p>Lets see what happens if we break into three clusters:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="introduction-to-clustering.html#cb273-1" aria-hidden="true" tabindex="-1"></a>nba_clusters <span class="ot">=</span> <span class="fu">kmeans</span>(nba_pg_2016, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb273-2"><a href="introduction-to-clustering.html#cb273-2" aria-hidden="true" tabindex="-1"></a>nba_clusters<span class="sc">$</span>centers</span></code></pre></div>
+<pre><code>##         FG      FGA       FG.      X3P     X3PA      X3P.      X2P      X2PA
+## 1 8.958824 18.75882 0.4795882 1.682353 4.705882 0.3475882 7.282353 14.064706
+## 2 7.310714 15.92857 0.4593571 1.914286 5.003571 0.3724286 5.396429 10.939286
+## 3 5.354545 11.67818 0.4616182 1.461818 3.980000 0.3402909 3.901818  7.705455
+##        X2P.      eFG.       FT      FTA       FT.      ORB      DRB      TRB
+## 1 0.5201176 0.5240000 6.347059 7.705882 0.8255294 1.411765 5.876471 7.288235
+## 2 0.4960000 0.5187500 3.950000 4.728571 0.8369286 1.050000 4.203571 5.246429
+## 3 0.5040364 0.5237273 2.325455 2.980000 0.7857636 1.132727 4.134545 5.260000
+##        AST       STL       BLK      TOV       PF      PPG
+## 1 5.782353 1.3000000 0.7823529 3.070588 2.282353 25.95882
+## 2 3.985714 1.0857143 0.6285714 2.360714 2.339286 20.47143
+## 3 2.841818 0.9272727 0.5109091 1.678182 2.205455 14.48545</code></pre>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="introduction-to-clustering.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(<span class="fu">subset</span>(nba_pg_2016, nba_clusters<span class="sc">$</span>cluster <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>##  [1] &quot;Russell Westbrook&quot;     &quot;James Harden&quot;          &quot;Isaiah Thomas&quot;        
+##  [4] &quot;Anthony Davis&quot;         &quot;DeMar DeRozan&quot;         &quot;DeMarcus Cousins&quot;     
+##  [7] &quot;Damian Lillard&quot;        &quot;LeBron James&quot;          &quot;Kawhi Leonard&quot;        
+## [10] &quot;Kyrie Irving&quot;          &quot;Kevin Durant&quot;          &quot;Karl-Anthony Towns&quot;   
+## [13] &quot;Jimmy Butler&quot;          &quot;Andrew Wiggins&quot;        &quot;John Wall&quot;            
+## [16] &quot;Giannis Antetokounmpo&quot; &quot;Blake Griffin&quot;</code></pre>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="introduction-to-clustering.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(<span class="fu">subset</span>(nba_pg_2016, nba_clusters<span class="sc">$</span>cluster <span class="sc">==</span> <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>##  [1] &quot;Stephen Curry&quot;      &quot;Paul George&quot;        &quot;Kemba Walker&quot;      
+##  [4] &quot;Bradley Beal&quot;       &quot;C.J. McCollum&quot;      &quot;Carmelo Anthony&quot;   
+##  [7] &quot;Kyle Lowry&quot;         &quot;Klay Thompson&quot;      &quot;Devin Booker&quot;      
+## [10] &quot;Gordon Hayward&quot;     &quot;Eric Bledsoe&quot;       &quot;Mike Conley&quot;       
+## [13] &quot;Brook Lopez&quot;        &quot;Goran Dragic&quot;       &quot;Joel Embiid&quot;       
+## [16] &quot;Jabari Parker&quot;      &quot;Marc Gasol&quot;         &quot;Harrison Barnes&quot;   
+## [19] &quot;Kevin Love&quot;         &quot;Zach LaVine&quot;        &quot;Rudy Gay&quot;          
+## [22] &quot;Dwyane Wade&quot;        &quot;Paul Millsap&quot;       &quot;Chris Paul&quot;        
+## [25] &quot;Kristaps Porzingis&quot; &quot;Derrick Rose&quot;       &quot;Dennis Schroder&quot;   
+## [28] &quot;LaMarcus Aldridge&quot;</code></pre>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="introduction-to-clustering.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(<span class="fu">subset</span>(nba_pg_2016, nba_clusters<span class="sc">$</span>cluster <span class="sc">==</span> <span class="dv">3</span>))</span></code></pre></div>
+<pre><code>##  [1] &quot;Danilo Gallinari&quot;         &quot;Lou Williams&quot;            
+##  [3] &quot;Evan Fournier&quot;            &quot;George Hill&quot;             
+##  [5] &quot;Nikola Jokic&quot;             &quot;Avery Bradley&quot;           
+##  [7] &quot;Eric Gordon&quot;              &quot;Tobias Harris&quot;           
+##  [9] &quot;Victor Oladipo&quot;           &quot;Dion Waiters&quot;            
+## [11] &quot;Wilson Chandler&quot;          &quot;D&#39;Angelo Russell&quot;        
+## [13] &quot;Jrue Holiday&quot;             &quot;Jeff Teague&quot;             
+## [15] &quot;Nicolas Batum&quot;            &quot;J.J. Redick&quot;             
+## [17] &quot;Gary Harris&quot;              &quot;Serge Ibaka&quot;             
+## [19] &quot;Jordan Clarkson&quot;          &quot;Khris Middleton&quot;         
+## [21] &quot;Nikola Vucevic&quot;           &quot;Tim Hardaway&quot;            
+## [23] &quot;Reggie Jackson&quot;           &quot;Jeremy Lin&quot;              
+## [25] &quot;Myles Turner&quot;             &quot;T.J. Warren&quot;             
+## [27] &quot;Enes Kanter&quot;              &quot;Dirk Nowitzki&quot;           
+## [29] &quot;Jordan Crawford&quot;          &quot;Zach Randolph&quot;           
+## [31] &quot;Rudy Gobert&quot;              &quot;Al Horford&quot;              
+## [33] &quot;Marcus Morris&quot;            &quot;Markieff Morris&quot;         
+## [35] &quot;Jae Crowder&quot;              &quot;Kentavious Caldwell-Pope&quot;
+## [37] &quot;Will Barton&quot;              &quot;Bojan Bogdanovic&quot;        
+## [39] &quot;Tyler Johnson&quot;            &quot;Ryan Anderson&quot;           
+## [41] &quot;Andre Drummond&quot;           &quot;Dwight Howard&quot;           
+## [43] &quot;Wesley Matthews&quot;          &quot;Otto Porter&quot;             
+## [45] &quot;Darren Collison&quot;          &quot;Julius Randle&quot;           
+## [47] &quot;Nick Young&quot;               &quot;Ersan Ilyasova&quot;          
+## [49] &quot;Sean Kilpatrick&quot;          &quot;Robert Covington&quot;        
+## [51] &quot;Seth Curry&quot;               &quot;James Johnson&quot;           
+## [53] &quot;Elfrid Payton&quot;            &quot;Dario Saric&quot;             
+## [55] &quot;Aaron Gordon&quot;</code></pre>
+<p>Looks like the “high usage” or stars split into two clusters (mid level stars and superstars) when we allow for three clusters. Conducting an elbow plot analysis shows that two or three clusters is probably the best choice in this case.</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="introduction-to-clustering.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ElbowClusterPlot</span>(nba_pg_2016, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-198-1.png" width="672" /></p>
+</div>
+<div id="requirements-for-performing-cluster-analysis" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Requirements for Performing Cluster Analysis<a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In order to perform kmeans clustering analysis on a data set we need to have a a key property:</p>
+<ul>
+<li>All the data used in the clustering must be either numerical in nature or at least an ordinal categorical variable (stored as a number, with a defined order). You cannot use clustering analysis on data which includes nominal categorical variables as the <strong>distance</strong> between categories like (male/female) isn’t defined. I have written a function called <code>grabNumeric</code> in my package which can be used to remove any non numerical columns from a data frame. By default this will also drop the rows with missing values in the clustering variables.</li>
+</ul>
+<p>See the example below for how to use the grabNumeric function.</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="introduction-to-clustering.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Young_People_Survey&quot;</span>)</span>
+<span id="cb282-2"><a href="introduction-to-clustering.html#cb282-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Young_People_Survey)</span></code></pre></div>
+<pre><code>## [1] 1010  150</code></pre>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="introduction-to-clustering.html#cb284-1" aria-hidden="true" tabindex="-1"></a>yp <span class="ot">=</span> <span class="fu">grabNumeric</span>(Young_People_Survey)</span>
+<span id="cb284-2"><a href="introduction-to-clustering.html#cb284-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(yp)</span></code></pre></div>
+<pre><code>## [1] 686 139</code></pre>
+<ul>
+<li>The clusters found by the algorithm can be sensitive to the normalization of the data. You should choose whether you want to standardize your variables (using <code>scale</code>) carefully. Having variables which were measured on widely different scales can lead to erroneous clusters being found.</li>
+</ul>
+</div>
+<div id="homework-3" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Homework<a href="introduction-to-clustering.html#homework-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="concept-questions-3" class="section level3 hasAnchor" number="5.6.1">
+<h3><span class="header-section-number">5.6.1</span> Concept Questions<a href="introduction-to-clustering.html#concept-questions-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Are the following statements True or False? Why?</p>
+<ol style="list-style-type: decimal">
+<li><p>When performing a kmeans cluster analysis, the algorithm will automatically choose the optimal number of clusters for you.</p></li>
+<li><p>Cluster analysis can be performed using nominal categorical variables.</p></li>
+<li><p>When performing cluster analysis you should <strong>always</strong> standardize the variables.</p></li>
+<li><p>Kmeans clustering seeks to minimise the distance from each point to the center of a fixed number of clusters.</p></li>
+</ol>
+</div>
+<div id="practice-problems-3" class="section level3 hasAnchor" number="5.6.2">
+<h3><span class="header-section-number">5.6.2</span> Practice Problems<a href="introduction-to-clustering.html#practice-problems-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>Give an example of a data set where clustering analysis might be interesting. This can be an imaginary data set, just explain the context.</li>
+</ol>
+</div>
+<div id="advanced-problems-3" class="section level3 hasAnchor" number="5.6.3">
+<h3><span class="header-section-number">5.6.3</span> Advanced Problems<a href="introduction-to-clustering.html#advanced-problems-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><p>Load the bad_drivers data set and perform a cluster analysis.</p>
+<ul>
+<li>Should we standardize the variables in this data set?</li>
+<li>How many clusters should we choose for this data set?</li>
+<li>Which states have the worst drivers? Give just a couple of examples of states in the cluster with the worst drivers.</li>
+</ul></li>
+<li><p>Load the iris data set using <code>data(iris)</code>. Look at the help page to see what this data set contains <code>?iris</code>.</p>
+<ul>
+<li>How many iris species are in the data set?</li>
+<li>Can the Species column be used in a clustering analysis? Why or Why not?</li>
+<li>If the Species column can not be used in your estimation remove this column by running the command: <code>iris$Species&lt;-NULL</code>. How many clusters should we choose for this data set?</li>
+<li>Run a clustering analysis and give the centroids of your clusters</li>
+<li>Make a <code>clusplot</code> of your clusters. How well are they separated? You will need the cluster package for this installed and loaded.</li>
+<li>Make a box plot of the Sepal.Width for the different clusters found in your analysis.</li>
+</ul></li>
+</ol>
+
+</div>
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-wrangling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="probability.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-Clustering.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statsbook.pdf", "statsbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"collapse": "section"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

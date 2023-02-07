@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 18 Logistic Regression | Introduction to Statistics and Data Science</title>
+  <meta name="description" content="Introductory textbook for statistics and data science" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 18 Logistic Regression | Introduction to Statistics and Data Science" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Introductory textbook for statistics and data science" />
+  <meta name="github-repo" content="khannay/statsbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 18 Logistic Regression | Introduction to Statistics and Data Science" />
+  
+  <meta name="twitter:description" content="Introductory textbook for statistics and data science" />
+  
+
+<meta name="author" content="Dr. Kevin Hannay" />
+
+
+<meta name="date" content="2023-02-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction-to-the-chi-square-test.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"> Stats Notes </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#librarian-or-farmer"><i class="fa fa-check"></i><b>1.1</b> Librarian or Farmer?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#profits"><i class="fa fa-check"></i><b>1.2</b> Profits</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#accidental-deaths"><i class="fa fa-check"></i><b>1.3</b> Accidental Deaths</a></li>
+</ul></li>
+<li class="part"><span><b>I Exploratory Data Analysis</b></span></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R Packages</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-as-a-fancy-calculator"><i class="fa fa-check"></i><b>2.3</b> R as a Fancy Calculator</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#more-advanced-r"><i class="fa fa-check"></i><b>2.4</b> More Advanced R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types-in-r"><i class="fa fa-check"></i><b>2.4.1</b> Data Types in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#logic-in-r"><i class="fa fa-check"></i><b>2.5</b> Logic in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#storing-data-in-r"><i class="fa fa-check"></i><b>2.6</b> Storing Data in R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>2.6.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.6.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>2.6.2</b> Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-plots-in-r"><i class="fa fa-check"></i><b>2.7</b> Basic Plots in R</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#additional-resources"><i class="fa fa-check"></i><b>2.8</b> Additional Resources</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#homework"><i class="fa fa-check"></i><b>2.9</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>3</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#shot-logs-basketball-data"><i class="fa fa-check"></i><b>3.1</b> Shot Logs Basketball Data</a></li>
+<li class="chapter" data-level="3.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#principal-types-of-statistical-data"><i class="fa fa-check"></i><b>3.2</b> Principal Types of Statistical Data</a></li>
+<li class="chapter" data-level="3.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#the-distribution-of-a-data-set"><i class="fa fa-check"></i><b>3.3</b> The Distribution of a Data Set</a></li>
+<li class="chapter" data-level="3.4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency"><i class="fa fa-check"></i><b>3.4</b> Numerical Measures for Central Tendency</a></li>
+<li class="chapter" data-level="3.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-of-variability"><i class="fa fa-check"></i><b>3.5</b> Numerical Measures of Variability</a></li>
+<li class="chapter" data-level="3.6" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing"><i class="fa fa-check"></i><b>3.6</b> Numerical Measures for Relative Standing</a></li>
+<li class="chapter" data-level="3.7" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot"><i class="fa fa-check"></i><b>3.7</b> Relation between Continuous and Categorical Variables: Boxplot</a></li>
+<li class="chapter" data-level="3.8" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots"><i class="fa fa-check"></i><b>3.8</b> Relation between Continuous Variables: Scatter Plots</a></li>
+<li class="chapter" data-level="3.9" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables"><i class="fa fa-check"></i><b>3.9</b> Relationship between Categorical Variables: Contingency Tables</a></li>
+<li class="chapter" data-level="3.10" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#tips-and-tricks"><i class="fa fa-check"></i><b>3.10</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="3.11" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#homework-1"><i class="fa fa-check"></i><b>3.11</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.1</b> What is Data Wrangling?</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#nas-and-the-curse-of-real-world-data"><i class="fa fa-check"></i><b>4.2</b> NA’s and the Curse of Real World Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#select-pick-only-a-few-columns"><i class="fa fa-check"></i><b>4.3</b> Select: Pick only a few columns</a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#filter-select-rows"><i class="fa fa-check"></i><b>4.4</b> Filter (select rows)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#compound-criteria"><i class="fa fa-check"></i><b>4.4.1</b> Compound Criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#chainspipes"><i class="fa fa-check"></i><b>4.5</b> Chains/Pipes %&gt;%</a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#grouping-data-together"><i class="fa fa-check"></i><b>4.6</b> Grouping Data Together</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#homework-2"><i class="fa fa-check"></i><b>4.7</b> Homework</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="data-wrangling.html"><a href="data-wrangling.html#concept-questions-2"><i class="fa fa-check"></i><b>4.7.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="4.7.2" data-path="data-wrangling.html"><a href="data-wrangling.html#practice-problems-2"><i class="fa fa-check"></i><b>4.7.2</b> Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html"><i class="fa fa-check"></i><b>5</b> Introduction to Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#what-is-clustering"><i class="fa fa-check"></i><b>5.1</b> What is Clustering?</a></li>
+<li class="chapter" data-level="5.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#introduction-to-kmeans-clustering"><i class="fa fa-check"></i><b>5.2</b> Introduction to Kmeans clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#how-many-clusters-should-we-choose"><i class="fa fa-check"></i><b>5.3</b> How many clusters should we choose?</a></li>
+<li class="chapter" data-level="5.4" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#clustering-nba-players"><i class="fa fa-check"></i><b>5.4</b> Clustering NBA Players</a></li>
+<li class="chapter" data-level="5.5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis"><i class="fa fa-check"></i><b>5.5</b> Requirements for Performing Cluster Analysis</a></li>
+<li class="chapter" data-level="5.6" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#homework-3"><i class="fa fa-check"></i><b>5.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#concept-questions-3"><i class="fa fa-check"></i><b>5.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="5.6.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#practice-problems-3"><i class="fa fa-check"></i><b>5.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="5.6.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#advanced-problems-3"><i class="fa fa-check"></i><b>5.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Probability Theory</b></span></li>
+<li class="chapter" data-level="6" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>6</b> Probability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="probability.html"><a href="probability.html#sample-spaces-and-events"><i class="fa fa-check"></i><b>6.1</b> Sample Spaces and Events</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="probability.html"><a href="probability.html#introduction"><i class="fa fa-check"></i><b>6.1.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.1.2" data-path="probability.html"><a href="probability.html#sample-spaces"><i class="fa fa-check"></i><b>6.1.2</b> Sample Spaces</a></li>
+<li class="chapter" data-level="6.1.3" data-path="probability.html"><a href="probability.html#law-of-sample-spaces"><i class="fa fa-check"></i><b>6.1.3</b> Law of Sample Spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="probability.html"><a href="probability.html#combinatorics"><i class="fa fa-check"></i><b>6.2</b> Combinatorics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="probability.html"><a href="probability.html#basic-principle-of-counting"><i class="fa fa-check"></i><b>6.2.1</b> Basic Principle of Counting</a></li>
+<li class="chapter" data-level="6.2.2" data-path="probability.html"><a href="probability.html#permutations"><i class="fa fa-check"></i><b>6.2.2</b> Permutations</a></li>
+<li class="chapter" data-level="6.2.3" data-path="probability.html"><a href="probability.html#combinations"><i class="fa fa-check"></i><b>6.2.3</b> Combinations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="probability.html"><a href="probability.html#axioms-of-probability"><i class="fa fa-check"></i><b>6.3</b> Axioms of Probability</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="probability.html"><a href="probability.html#beyond-the-law-of-sample-spaces"><i class="fa fa-check"></i><b>6.3.1</b> Beyond the Law of Sample Spaces</a></li>
+<li class="chapter" data-level="6.3.2" data-path="probability.html"><a href="probability.html#set-theory"><i class="fa fa-check"></i><b>6.3.2</b> Set Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="probability.html"><a href="probability.html#the-axioms-of-probability"><i class="fa fa-check"></i><b>6.3.3</b> The Axioms of Probability</a></li>
+<li class="chapter" data-level="6.3.4" data-path="probability.html"><a href="probability.html#the-or-rule"><i class="fa fa-check"></i><b>6.3.4</b> The OR Rule</a></li>
+<li class="chapter" data-level="6.3.5" data-path="probability.html"><a href="probability.html#the-and-rule"><i class="fa fa-check"></i><b>6.3.5</b> The AND Rule</a></li>
+<li class="chapter" data-level="6.3.6" data-path="probability.html"><a href="probability.html#the-complement-rule"><i class="fa fa-check"></i><b>6.3.6</b> The Complement Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="probability.html"><a href="probability.html#conditional-probability-and-independence"><i class="fa fa-check"></i><b>6.4</b> Conditional Probability and Independence</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="probability.html"><a href="probability.html#introduction-1"><i class="fa fa-check"></i><b>6.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.4.2" data-path="probability.html"><a href="probability.html#mathematical-definition"><i class="fa fa-check"></i><b>6.4.2</b> Mathematical Definition</a></li>
+<li class="chapter" data-level="6.4.3" data-path="probability.html"><a href="probability.html#independence"><i class="fa fa-check"></i><b>6.4.3</b> Independence</a></li>
+<li class="chapter" data-level="6.4.4" data-path="probability.html"><a href="probability.html#multiplicative-rule"><i class="fa fa-check"></i><b>6.4.4</b> Multiplicative Rule</a></li>
+<li class="chapter" data-level="6.4.5" data-path="probability.html"><a href="probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>6.4.5</b> Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="probability.html"><a href="probability.html#bayes-rule"><i class="fa fa-check"></i><b>6.5</b> Bayes Rule</a></li>
+<li class="chapter" data-level="6.6" data-path="probability.html"><a href="probability.html#homework-4"><i class="fa fa-check"></i><b>6.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="probability.html"><a href="probability.html#concept-questions-4"><i class="fa fa-check"></i><b>6.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="6.6.2" data-path="probability.html"><a href="probability.html#practice-problems-4"><i class="fa fa-check"></i><b>6.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="6.6.3" data-path="probability.html"><a href="probability.html#advanced-problems-4"><i class="fa fa-check"></i><b>6.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html"><i class="fa fa-check"></i><b>7</b> Discrete Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-variables"><i class="fa fa-check"></i><b>7.1</b> Random Variables</a></li>
+<li class="chapter" data-level="7.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables"><i class="fa fa-check"></i><b>7.2</b> Probability Distributions for Discrete Random Variables</a></li>
+<li class="chapter" data-level="7.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#properties-of-probability-distributions"><i class="fa fa-check"></i><b>7.3</b> Properties of Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-values-of-discrete-random-variables"><i class="fa fa-check"></i><b>7.3.1</b> Expected Values of Discrete Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.4</b> Expected Value of Sums of Random Variables</a></li>
+<li class="chapter" data-level="7.5" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-random-variables"><i class="fa fa-check"></i><b>7.5</b> Variance of Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.5.1</b> Variance of Sums of Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#bernoulli-random-variables"><i class="fa fa-check"></i><b>7.6</b> Bernoulli Random Variables</a></li>
+<li class="chapter" data-level="7.7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variables"><i class="fa fa-check"></i><b>7.7</b> Binomial Random Variables</a></li>
+<li class="chapter" data-level="7.8" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variable-in-r"><i class="fa fa-check"></i><b>7.8</b> Binomial Random Variable in R</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distribution-in-r"><i class="fa fa-check"></i><b>7.8.1</b> Probability Distribution in R</a></li>
+<li class="chapter" data-level="7.8.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r"><i class="fa fa-check"></i><b>7.8.2</b> Cumulative Distribution Calculations in R</a></li>
+<li class="chapter" data-level="7.8.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-binomial-distribution-in-r"><i class="fa fa-check"></i><b>7.8.3</b> Random Binomial Distribution in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#homework-5"><i class="fa fa-check"></i><b>7.9</b> Homework</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#concept-questions-5"><i class="fa fa-check"></i><b>7.9.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="7.9.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#advanced-problems-5"><i class="fa fa-check"></i><b>7.9.2</b> Advanced Problems:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>8</b> Continuous Random Variables</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#introduction-to-continuous-random-variables"><i class="fa fa-check"></i><b>8.1</b> Introduction to Continuous Random Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#uniform-random-variable"><i class="fa fa-check"></i><b>8.2</b> Uniform Random Variable</a></li>
+<li class="chapter" data-level="8.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>8.3</b> Normal Distribution</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#cumulative-distribution-function-cdf-for-normal-random-variables"><i class="fa fa-check"></i><b>8.3.1</b> Cumulative Distribution Function (CDF) for Normal Random Variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#finding-probabilities-for-the-normal-distribution"><i class="fa fa-check"></i><b>8.3.2</b> Finding Probabilities for the Normal Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#standard-normal-distribution-z"><i class="fa fa-check"></i><b>8.4</b> Standard Normal Distribution (<span class="math inline">\(Z\)</span>)</a></li>
+<li class="chapter" data-level="8.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#assessing-normality"><i class="fa fa-check"></i><b>8.5</b> Assessing Normality</a></li>
+<li class="chapter" data-level="8.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#regression-to-the-mean"><i class="fa fa-check"></i><b>8.6</b> Regression to the Mean</a></li>
+<li class="chapter" data-level="8.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#final-thoughts-on-random-variables"><i class="fa fa-check"></i><b>8.7</b> Final Thoughts on Random Variables</a></li>
+<li class="chapter" data-level="8.8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#homework-6"><i class="fa fa-check"></i><b>8.8</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>III Sampling and Confidence Intervals</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html"><i class="fa fa-check"></i><b>9</b> Introduction to Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#why-sample"><i class="fa fa-check"></i><b>9.1</b> Why Sample?</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#average-height-example"><i class="fa fa-check"></i><b>9.1.1</b> Average Height Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#inferences-and-point-estimators"><i class="fa fa-check"></i><b>9.2</b> Inferences and Point Estimators</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-distribution-of-sample-means"><i class="fa fa-check"></i><b>9.3</b> The Distribution of Sample Means</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#distribution-of-sample-means"><i class="fa fa-check"></i><b>9.4</b> Distribution of Sample Means</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>9.4.1</b> The Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#other-point-estimators"><i class="fa fa-check"></i><b>9.5</b> Other Point Estimators</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#sampling-distribution-for-the-sample-proportion"><i class="fa fa-check"></i><b>9.6</b> Sampling Distribution for the Sample Proportion</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#tales-in-sampling-poincares-baker"><i class="fa fa-check"></i><b>9.7</b> Tales in Sampling: Poincare’s Baker</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#homework-7"><i class="fa fa-check"></i><b>9.8</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>10</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#introduction-nyc-flights-dataset"><i class="fa fa-check"></i><b>10.1</b> Introduction NYC Flights Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#mean-flight-delays"><i class="fa fa-check"></i><b>10.2</b> Mean Flight Delays</a></li>
+<li class="chapter" data-level="10.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#shortcut-using-the-central-limit-theorem"><i class="fa fa-check"></i><b>10.3</b> Shortcut Using the Central Limit Theorem</a></li>
+<li class="chapter" data-level="10.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#additional-practice-comparing-airports"><i class="fa fa-check"></i><b>10.4</b> Additional Practice: Comparing Airports</a></li>
+<li class="chapter" data-level="10.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-proportion-confidence-intervals"><i class="fa fa-check"></i><b>10.5</b> Population Proportion Confidence Intervals</a></li>
+<li class="chapter" data-level="10.6" data-path="confidence-intervals.html"><a href="confidence-intervals.html#extra-practice-problems"><i class="fa fa-check"></i><b>10.6</b> Extra Practice Problems</a></li>
+<li class="chapter" data-level="10.7" data-path="confidence-intervals.html"><a href="confidence-intervals.html#homework-8"><i class="fa fa-check"></i><b>10.7</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>IV Regression</b></span></li>
+<li class="chapter" data-level="11" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Introduction to Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#statistical-models"><i class="fa fa-check"></i><b>11.1</b> Statistical Models</a></li>
+<li class="chapter" data-level="11.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r"><i class="fa fa-check"></i><b>11.2</b> Fitting a Linear Model in R</a></li>
+<li class="chapter" data-level="11.3" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>11.3</b> Assumptions of Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#successful-linear-regression"><i class="fa fa-check"></i><b>11.3.1</b> Successful Linear Regression</a></li>
+<li class="chapter" data-level="11.3.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#what-failure-looks-like"><i class="fa fa-check"></i><b>11.3.2</b> What Failure Looks Like</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>11.4</b> Goodness of Fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#correlation-and-slope"><i class="fa fa-check"></i><b>11.4.1</b> Correlation and Slope</a></li>
+<li class="chapter" data-level="11.4.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits"><i class="fa fa-check"></i><b>11.4.2</b> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions"><i class="fa fa-check"></i><b>11.5</b> Using Regression Models to Make Predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#homework-9"><i class="fa fa-check"></i><b>11.6</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html"><i class="fa fa-check"></i><b>12</b> Regression with Categorical Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#one-hot-encoding"><i class="fa fa-check"></i><b>12.2</b> One Hot Encoding</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#example-exercise-and-weight"><i class="fa fa-check"></i><b>12.2.1</b> Example: Exercise and Weight</a></li>
+<li class="chapter" data-level="12.2.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#housing-prices-by-neighborhood"><i class="fa fa-check"></i><b>12.2.2</b> Housing Prices by Neighborhood</a></li>
+<li class="chapter" data-level="12.2.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-exercise-and-gender-together"><i class="fa fa-check"></i><b>12.2.3</b> Advanced: Exercise and Gender Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#diagnostics"><i class="fa fa-check"></i><b>12.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="12.4" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#homework-10"><i class="fa fa-check"></i><b>12.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#concept-questions-9"><i class="fa fa-check"></i><b>12.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#practice-problems-10"><i class="fa fa-check"></i><b>12.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="12.4.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-problems-10"><i class="fa fa-check"></i><b>12.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html"><i class="fa fa-check"></i><b>13</b> Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#introduction-to-multiple-regression-models"><i class="fa fa-check"></i><b>13.1</b> Introduction to Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#housing-prices-review-of-simple-regression-results"><i class="fa fa-check"></i><b>13.1.1</b> Housing Prices (Review of Simple Regression Results)</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-including-bathrooms"><i class="fa fa-check"></i><b>13.1.2</b> Multiple Regression (Including Bathrooms)</a></li>
+<li class="chapter" data-level="13.1.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#diagnostics-for-multiple-linear-regression"><i class="fa fa-check"></i><b>13.1.3</b> Diagnostics for Multiple Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-with-categorical-variables-including-the-neighborhood"><i class="fa fa-check"></i><b>13.2</b> Multiple Regression with Categorical Variables: Including the Neighborhood</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#predictions"><i class="fa fa-check"></i><b>13.2.1</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#interactions-between-variables"><i class="fa fa-check"></i><b>13.3</b> Interactions between Variables</a></li>
+<li class="chapter" data-level="13.4" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#some-pitfalls-in-multiple-regression"><i class="fa fa-check"></i><b>13.4</b> Some Pitfalls in Multiple Regression</a></li>
+<li class="chapter" data-level="13.5" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#homework-11"><i class="fa fa-check"></i><b>13.5</b> Homework</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#concept-questions-10"><i class="fa fa-check"></i><b>13.5.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="13.5.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#practice-problems-11"><i class="fa fa-check"></i><b>13.5.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="13.5.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#advanced-problems-11"><i class="fa fa-check"></i><b>13.5.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Hypothesis Testing</b></span></li>
+<li class="chapter" data-level="14" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html"><i class="fa fa-check"></i><b>14</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#introduction-and-warning"><i class="fa fa-check"></i><b>14.1</b> Introduction and Warning</a></li>
+<li class="chapter" data-level="14.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#a-starting-example"><i class="fa fa-check"></i><b>14.2</b> A Starting Example</a></li>
+<li class="chapter" data-level="14.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#the-t.test-command-hypothesis-tests-for-the-population-mean-mu"><i class="fa fa-check"></i><b>14.3</b> The t.test command: Hypothesis Tests for the Population Mean <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="14.4" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#theory-of-hypothesis-testing"><i class="fa fa-check"></i><b>14.4</b> Theory of Hypothesis Testing</a></li>
+<li class="chapter" data-level="14.5" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#under-the-hood-t-tests"><i class="fa fa-check"></i><b>14.5</b> Under the Hood (t tests)</a></li>
+<li class="chapter" data-level="14.6" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#errors-in-hypothesis-testing"><i class="fa fa-check"></i><b>14.6</b> Errors in Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#statistical-significance-alpha"><i class="fa fa-check"></i><b>14.6.1</b> Statistical Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+<li class="chapter" data-level="14.6.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#type-ii-error"><i class="fa fa-check"></i><b>14.6.2</b> Type II Error</a></li>
+<li class="chapter" data-level="14.6.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practical-significance-versus-statistical-significance"><i class="fa fa-check"></i><b>14.6.3</b> Practical Significance versus Statistical Significance</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-for-population-fraction"><i class="fa fa-check"></i><b>14.7</b> Hypothesis Testing for Population Fraction</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#example-3"><i class="fa fa-check"></i><b>14.7.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-in-linear-regression"><i class="fa fa-check"></i><b>14.8</b> Hypothesis Testing in Linear Regression</a></li>
+<li class="chapter" data-level="14.9" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>14.9</b> Power of a Statistical Test</a></li>
+<li class="chapter" data-level="14.10" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#homework-12"><i class="fa fa-check"></i><b>14.10</b> Homework</a>
+<ul>
+<li class="chapter" data-level="14.10.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#concept-questions-11"><i class="fa fa-check"></i><b>14.10.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="14.10.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practice-problems-12"><i class="fa fa-check"></i><b>14.10.2</b> Practice Problems:</a></li>
+<li class="chapter" data-level="14.10.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#advanced-problems-12"><i class="fa fa-check"></i><b>14.10.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html"><i class="fa fa-check"></i><b>15</b> Hypothesis Testing: Two Sample Tests</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>15.1</b> Two Sample t test</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#regression-analysis"><i class="fa fa-check"></i><b>15.1.1</b> Regression analysis</a></li>
+<li class="chapter" data-level="15.1.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach"><i class="fa fa-check"></i><b>15.1.2</b> Two Sample t test approach</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests"><i class="fa fa-check"></i><b>15.2</b> Two Sample Proportion Tests</a></li>
+<li class="chapter" data-level="15.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking"><i class="fa fa-check"></i><b>15.3</b> Extra Example: Birth Weights and Smoking</a></li>
+<li class="chapter" data-level="15.4" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#homework-13"><i class="fa fa-check"></i><b>15.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#concept-questions-12"><i class="fa fa-check"></i><b>15.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="15.4.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#practice-problems-13"><i class="fa fa-check"></i><b>15.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="15.4.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13"><i class="fa fa-check"></i><b>15.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html"><i class="fa fa-check"></i><b>16</b> Confidence Intervals and Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#relation-to-confidence-intervals"><i class="fa fa-check"></i><b>16.1</b> Relation to Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#two-sided-tests"><i class="fa fa-check"></i><b>16.1.1</b> Two sided tests</a></li>
+<li class="chapter" data-level="16.1.2" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#one-sided-confidence-intervals"><i class="fa fa-check"></i><b>16.1.2</b> One-sided confidence intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html"><i class="fa fa-check"></i><b>17</b> Introduction to the Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#contingency-tables"><i class="fa fa-check"></i><b>17.1</b> Contingency Tables</a></li>
+<li class="chapter" data-level="17.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#chi-square-test"><i class="fa fa-check"></i><b>17.2</b> Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#conditions-for-using-the-chi2-test"><i class="fa fa-check"></i><b>17.2.1</b> Conditions for Using the <span class="math inline">\(\chi^2\)</span> test</a></li>
+<li class="chapter" data-level="17.2.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#multiple-hypothesis-testing-again"><i class="fa fa-check"></i><b>17.2.2</b> Multiple Hypothesis Testing Again</a></li>
+<li class="chapter" data-level="17.2.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#using-a-different-null-hypothesis"><i class="fa fa-check"></i><b>17.2.3</b> Using a different Null Hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#homework-14"><i class="fa fa-check"></i><b>17.3</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>VI Advanced Regression Topics</b></span></li>
+<li class="chapter" data-level="18" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>18</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression-used-for"><i class="fa fa-check"></i><b>18.1</b> What is logistic regression used for?</a></li>
+<li class="chapter" data-level="18.2" data-path="logistic-regression.html"><a href="logistic-regression.html#glm-generalized-linear-models"><i class="fa fa-check"></i><b>18.2</b> GLM: Generalized Linear Models</a></li>
+<li class="chapter" data-level="18.3" data-path="logistic-regression.html"><a href="logistic-regression.html#a-starting-example-1"><i class="fa fa-check"></i><b>18.3</b> A Starting Example</a>
+<ul>
+<li class="chapter" data-level="18.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#confidence-intervals-for-the-parameters"><i class="fa fa-check"></i><b>18.3.1</b> Confidence Intervals for the Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="logistic-regression.html"><a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests"><i class="fa fa-check"></i><b>18.4</b> Equivalence of Logistic Regression and Proportion Tests</a></li>
+<li class="chapter" data-level="18.5" data-path="logistic-regression.html"><a href="logistic-regression.html#example-building-a-more-accurate-model"><i class="fa fa-check"></i><b>18.5</b> Example: Building a More Accurate Model</a></li>
+<li class="chapter" data-level="18.6" data-path="logistic-regression.html"><a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression"><i class="fa fa-check"></i><b>18.6</b> Example: Measuring Team Defense Using Logistic Regression</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Statistics and Data Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="logistic-regression" class="section level1 hasAnchor" number="18">
+<h1><span class="header-section-number">Chapter 18</span> Logistic Regression<a href="logistic-regression.html#logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="what-is-logistic-regression-used-for" class="section level2 hasAnchor" number="18.1">
+<h2><span class="header-section-number">18.1</span> What is logistic regression used for?<a href="logistic-regression.html#what-is-logistic-regression-used-for" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Logistic regression is useful when we have a <em>response</em> variable which is categorical with only two categories. This might seem like it wouldn’t be especially useful, however with a little thought we can see that this is actually a very useful thing to know how to do. Here are some examples where we might use <strong>logistic regression</strong>.</p>
+<ul>
+<li>Predict whether a customer will visit your website again using browsing data</li>
+<li>Predict whether a voter will vote for the democratic candidate in an upcoming election using demographic and polling data</li>
+<li>Predict whether a patient given a surgery will survive for 5+ years after the surgery using health data</li>
+<li>Given the history of a stock, market trends predict if the closing price tomorrow will be higher or lower than today?</li>
+</ul>
+<p>With many other possible examples. We can often phrase important questions as yes/no or (0-1) answers where we want to use some data to better predict the outcome. This is a simple case of what is called a <em>classification</em> problem in the machine learning/data science community. Given some information we want to use a computer to decide make a prediction which can be sorted into some finite number of outcomes.</p>
+</div>
+<div id="glm-generalized-linear-models" class="section level2 hasAnchor" number="18.2">
+<h2><span class="header-section-number">18.2</span> GLM: Generalized Linear Models<a href="logistic-regression.html#glm-generalized-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our linear regression techniques thus far have focused on cases where the response (<span class="math inline">\(Y\)</span>) variable is continuous in nature. Recall, they take the form:
+<span class="math display">\[
+Y_i=\alpha+ \sum_{j=1}^N \beta_j X_{ij}
+\]</span>
+Where <span class="math inline">\(alpha\)</span> is the intercept and <span class="math inline">\(\{\beta_1, \beta_2, ... \beta_N\}\)</span> are the slope parameters for the explanatory variables (<span class="math inline">\(\{X_1, X_2, ...X_N\}\)</span>). However, our outputs <span class="math inline">\(Y_i\)</span> should give the probability that <span class="math inline">\(Y_i\)</span> takes the value 1 given the <span class="math inline">\(X_j\)</span> values. The right hand side of our model above will produce values in <span class="math inline">\(\mathbb{R}=(-\infty, \infty)\)</span> while the left hand side <em>should</em> live in <span class="math inline">\([0,1]\)</span>.</p>
+<p>Therefore to use a model like this we need to <em>transform</em> our outputs from [0,1] to the whole real line <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<p>The <strong>logit</strong> function is useful for this purpose as it maps <span class="math inline">\(logit: [0,1] \rightarrow \mathbb{R}\)</span>. The logit function takes the form:
+<span class="math display">\[logit(x)=\ln \left(\frac{x}{1-x}\right)\]</span>
+<img src="statsbook_files/figure-html/plotLogit-1.png" width="672" />
+Thus, we can use our multiple regression techniques if treat our outputs as <span class="math inline">\(Y_i=logit(p_i)\)</span>. This is the basic idea of logistic regression:
+<span class="math display">\[
+\begin{aligned}
+&amp; Y_i=logit(p_i)=\alpha+ \sum_{j=1}^N \beta_j X_{ij}
+\end{aligned}
+\]</span>
+Usually, we want to know <span class="math inline">\(p_i\)</span> and not <span class="math inline">\(logit(p_i)\)</span> and we can find this using the <em>inverse logit</em> <span class="math inline">\(logit^{-1}\)</span>.
+<span class="math display">\[
+\begin{aligned}
+&amp; p_i=logit^{-1} \left( \alpha+ \sum_{j=1}^N \beta_j X_{ij}   \right) \\
+&amp; logit^{-1}(\gamma)=\frac{1}{1+e^{-\gamma}}
+\end{aligned}
+\]</span>
+A logistic regression is one example in a family of techniques called <strong>generalized linear models (GLM)</strong>. GLMs involve a linear predictor function <span class="math inline">\(\alpha+ \sum_{j=1}^N \beta_j X_{ij}\)</span> and a <em>link function</em> <span class="math inline">\(g()\)</span> which maps the linear predictor to the response variable.</p>
+<p><span class="math display">\[y_i=g \left( \alpha+ \sum_{j=1}^N \beta_j X_{ij} \right)\]</span></p>
+</div>
+<div id="a-starting-example-1" class="section level2 hasAnchor" number="18.3">
+<h2><span class="header-section-number">18.3</span> A Starting Example<a href="logistic-regression.html#a-starting-example-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s consider the shot logs data set again. We will use the shot distance column SHOT_DIST and the FGM columns for a logistic regression. The FGM column is 1 if the shot was made and 0 otherwise (perfect candidate for the response variable in a logistic regression). We expect that the further the shot is from the basket (SHOT_DIST) the less likely it will be that the shot is made (FGM=1).</p>
+<p>To build this model in R we will use the <code>glm()</code> command and specify the link function we are using a the logit function.</p>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb674-1"><a href="logistic-regression.html#cb674-1" aria-hidden="true" tabindex="-1"></a>logistic.nba <span class="ot">&lt;-</span> <span class="fu">glm</span>(FGM <span class="sc">~</span> SHOT_DIST, <span class="at">data =</span> shot_logs_2014, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb674-2"><a href="logistic-regression.html#cb674-2" aria-hidden="true" tabindex="-1"></a>logistic.nba<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>## (Intercept)   SHOT_DIST 
+##   0.3928408  -0.0427766</code></pre>
+<p><span class="math display">\[logit(p)=0.392-0.04 \times SD \implies p=logit^{-1}(0.392-0.04 \times SD)\]</span>
+So we can find the probability of a shot going in 12 feet from the basket as:</p>
+<div class="sourceCode" id="cb676"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb676-1"><a href="logistic-regression.html#cb676-1" aria-hidden="true" tabindex="-1"></a><span class="fu">invlogit</span>(<span class="fl">0.392</span> <span class="sc">-</span> <span class="fl">0.04</span> <span class="sc">*</span> <span class="dv">12</span>)</span></code></pre></div>
+<pre><code>## [1] 0.4780142</code></pre>
+<p>Here is a plot of the probability of a shot going in as a function of the distance from the basket using our best fit coefficients.</p>
+<div class="sourceCode" id="cb678"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb678-1"><a href="logistic-regression.html#cb678-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">400</span>, <span class="dv">40</span>)</span>
+<span id="cb678-2"><a href="logistic-regression.html#cb678-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">invlogit</span>(<span class="fl">0.392</span> <span class="sc">-</span> <span class="fl">0.04</span> <span class="sc">*</span> x)</span>
+<span id="cb678-3"><a href="logistic-regression.html#cb678-3" aria-hidden="true" tabindex="-1"></a>slplot <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">sample_n</span>(shot_logs_2014, <span class="dv">1000</span>)</span>
+<span id="cb678-4"><a href="logistic-regression.html#cb678-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slplot<span class="sc">$</span>SHOT_DIST, slplot<span class="sc">$</span>FGM <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">dim</span>(slplot)[<span class="dv">1</span>], <span class="at">sd =</span> <span class="fl">0.01</span>), <span class="at">cex =</span> <span class="fl">0.15</span>,</span>
+<span id="cb678-5"><a href="logistic-regression.html#cb678-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Shot Distance (Feet)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Probability of Shot Being Made&quot;</span>)</span>
+<span id="cb678-6"><a href="logistic-regression.html#cb678-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, p, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-606-1.png" width="672" /></p>
+<div id="confidence-intervals-for-the-parameters" class="section level3 hasAnchor" number="18.3.1">
+<h3><span class="header-section-number">18.3.1</span> Confidence Intervals for the Parameters<a href="logistic-regression.html#confidence-intervals-for-the-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A major point of this book is that you should never be satisfied with a single number summary in statistics. Rather than just considering a single best fit for our coefficients we should really form some confidence intervals for their values.</p>
+<p>As we saw for simple regression we can look at the confidence intervals for our intercepts and slopes using the <code>confint</code> command.</p>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="logistic-regression.html#cb679-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb679-2"><a href="logistic-regression.html#cb679-2" aria-hidden="true" tabindex="-1"></a>ci1 <span class="ot">&lt;-</span> <span class="fu">confint</span>(logistic.nba)</span>
+<span id="cb679-3"><a href="logistic-regression.html#cb679-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ci1)</span></code></pre></div>
+<pre><code>##                  2.5 %      97.5 %
+## (Intercept)  0.3721268  0.41356814
+## SHOT_DIST   -0.0440923 -0.04146227</code></pre>
+<p>Note, these values are still in the <code>logit</code> transformed scale.</p>
+</div>
+</div>
+<div id="equivalence-of-logistic-regression-and-proportion-tests" class="section level2 hasAnchor" number="18.4">
+<h2><span class="header-section-number">18.4</span> Equivalence of Logistic Regression and Proportion Tests<a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suppose we want to use the categorical variable of the individual player in our analysis. In the interest of keeping our tables and graphs visible we will limit our players to just those who took more than 820 shots in the data set.</p>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="logistic-regression.html#cb681-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb681-2"><a href="logistic-regression.html#cb681-2" aria-hidden="true" tabindex="-1"></a>lotsShots <span class="ot">&lt;-</span> shot_logs_2014 <span class="sc">%&gt;%</span></span>
+<span id="cb681-3"><a href="logistic-regression.html#cb681-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(player_name) <span class="sc">%&gt;%</span></span>
+<span id="cb681-4"><a href="logistic-regression.html#cb681-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">num.attempts =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb681-5"><a href="logistic-regression.html#cb681-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(num.attempts <span class="sc">&gt;=</span> <span class="dv">820</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb681-6"><a href="logistic-regression.html#cb681-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(player_name)</span>
+<span id="cb681-7"><a href="logistic-regression.html#cb681-7" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(lotsShots, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Number of Shots&quot;</span>))</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="right">Number of Shots</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">blake griffin</td>
+<td align="right">878</td>
+</tr>
+<tr class="even">
+<td align="left">chris paul</td>
+<td align="right">851</td>
+</tr>
+<tr class="odd">
+<td align="left">damian lillard</td>
+<td align="right">925</td>
+</tr>
+<tr class="even">
+<td align="left">gordon hayward</td>
+<td align="right">833</td>
+</tr>
+<tr class="odd">
+<td align="left">james harden</td>
+<td align="right">1006</td>
+</tr>
+<tr class="even">
+<td align="left">klay thompson</td>
+<td align="right">953</td>
+</tr>
+<tr class="odd">
+<td align="left">kyle lowry</td>
+<td align="right">832</td>
+</tr>
+<tr class="even">
+<td align="left">kyrie irving</td>
+<td align="right">919</td>
+</tr>
+<tr class="odd">
+<td align="left">lamarcus aldridge</td>
+<td align="right">1010</td>
+</tr>
+<tr class="even">
+<td align="left">lebron james</td>
+<td align="right">947</td>
+</tr>
+<tr class="odd">
+<td align="left">mnta ellis</td>
+<td align="right">1004</td>
+</tr>
+<tr class="even">
+<td align="left">nikola vucevic</td>
+<td align="right">889</td>
+</tr>
+<tr class="odd">
+<td align="left">rudy gay</td>
+<td align="right">861</td>
+</tr>
+<tr class="even">
+<td align="left">russell westbrook</td>
+<td align="right">943</td>
+</tr>
+<tr class="odd">
+<td align="left">stephen curry</td>
+<td align="right">941</td>
+</tr>
+<tr class="even">
+<td align="left">tyreke evans</td>
+<td align="right">875</td>
+</tr>
+</tbody>
+</table>
+<p>Now we can get a reduced data set with just these players.</p>
+<div class="sourceCode" id="cb682"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb682-1"><a href="logistic-regression.html#cb682-1" aria-hidden="true" tabindex="-1"></a>sl2 <span class="ot">&lt;-</span> shot_logs_2014 <span class="sc">%&gt;%</span></span>
+<span id="cb682-2"><a href="logistic-regression.html#cb682-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(player_name <span class="sc">%in%</span> lotsShots<span class="sc">$</span>player_name) <span class="sc">%&gt;%</span></span>
+<span id="cb682-3"><a href="logistic-regression.html#cb682-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(player_name)</span></code></pre></div>
+<p>Let’s form a logistic regression using just a categorical variable as the explanatory variable.
+<span class="math display">\[
+logit(p)=\beta Player
+\]</span></p>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="logistic-regression.html#cb683-1" aria-hidden="true" tabindex="-1"></a>logistic.nba.player <span class="ot">&lt;-</span> <span class="fu">glm</span>(FGM <span class="sc">~</span> player_name <span class="sc">+</span> <span class="dv">0</span>, <span class="at">data =</span> sl2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb683-2"><a href="logistic-regression.html#cb683-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistic.nba.player)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = FGM ~ player_name + 0, family = binomial(link = &quot;logit&quot;), 
+##     data = sl2)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.234  -1.102  -1.066   1.255   1.323  
+## 
+## Coefficients:
+##                               Estimate Std. Error z value Pr(&gt;|z|)    
+## player_nameblake griffin      0.009112   0.067497   0.135 0.892617    
+## player_namechris paul        -0.063476   0.068594  -0.925 0.354762    
+## player_namedamian lillard    -0.267530   0.066348  -4.032 5.52e-05 ***
+## player_namegordon hayward    -0.185403   0.069594  -2.664 0.007720 ** 
+## player_namejames harden      -0.207501   0.063396  -3.273 0.001064 ** 
+## player_nameklay thompson     -0.145060   0.064957  -2.233 0.025537 *  
+## player_namekyle lowry        -0.334824   0.070309  -4.762 1.92e-06 ***
+## player_namekyrie irving      -0.111104   0.066076  -1.681 0.092672 .  
+## player_namelamarcus aldridge -0.202671   0.063255  -3.204 0.001355 ** 
+## player_namelebron james      -0.023232   0.064996  -0.357 0.720759    
+## player_namemnta ellis        -0.179765   0.063374  -2.837 0.004560 ** 
+## player_namenikola vucevic     0.132929   0.067226   1.977 0.048003 *  
+## player_namerudy gay          -0.193400   0.068478  -2.824 0.004739 ** 
+## player_namerussell westbrook -0.232215   0.065568  -3.542 0.000398 ***
+## player_namestephen curry     -0.027632   0.065204  -0.424 0.671730    
+## player_nametyreke evans      -0.241162   0.068104  -3.541 0.000398 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 20333  on 14667  degrees of freedom
+## Residual deviance: 20211  on 14651  degrees of freedom
+## AIC: 20243
+## 
+## Number of Fisher Scoring iterations: 3</code></pre>
+<p>If we take the inverse logit of the coefficients we get the field goal percentage of the players in our data set.</p>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="logistic-regression.html#cb685-1" aria-hidden="true" tabindex="-1"></a><span class="fu">invlogit</span>(logistic.nba.player<span class="sc">$</span>coefficients)</span></code></pre></div>
+<pre><code>##     player_nameblake griffin        player_namechris paul 
+##                    0.5022779                    0.4841363 
+##    player_namedamian lillard    player_namegordon hayward 
+##                    0.4335135                    0.4537815 
+##      player_namejames harden     player_nameklay thompson 
+##                    0.4483101                    0.4637985 
+##        player_namekyle lowry      player_namekyrie irving 
+##                    0.4170673                    0.4722524 
+## player_namelamarcus aldridge      player_namelebron james 
+##                    0.4495050                    0.4941922 
+##        player_namemnta ellis    player_namenikola vucevic 
+##                    0.4551793                    0.5331834 
+##          player_namerudy gay player_namerussell westbrook 
+##                    0.4518002                    0.4422057 
+##     player_namestephen curry      player_nametyreke evans 
+##                    0.4930925                    0.4400000</code></pre>
+<p>Now suppose we want to see if the players in our data set truly differ in their field goal percentages or whether the differences we observe could just be caused by random effects. To do this we want to compare a model without the players information included with one that includes this information. Let’s create a null model to compare against our player model.</p>
+<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb687-1"><a href="logistic-regression.html#cb687-1" aria-hidden="true" tabindex="-1"></a>null.player.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(FGM <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> sl2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
+<p>This null model contains no explanatory variables and takes the form: <span class="math display">\[logit(p_i)=\alpha\]</span></p>
+<p>Thus, the shooting percentage is not allowed to vary between the players. We find based on this data an overall field goal percentage of:</p>
+<div class="sourceCode" id="cb688"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb688-1"><a href="logistic-regression.html#cb688-1" aria-hidden="true" tabindex="-1"></a><span class="fu">invlogit</span>(null.player.model<span class="sc">$</span>coefficients)</span></code></pre></div>
+<pre><code>## (Intercept) 
+##   0.4645804</code></pre>
+<p>Now we may compare logistic regression models using the <code>anova</code> command in R.</p>
+<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="logistic-regression.html#cb690-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(null.player.model, logistic.nba.player, <span class="at">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: FGM ~ 1
+## Model 2: FGM ~ player_name + 0
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)    
+## 1     14666      20259                         
+## 2     14651      20211 15   48.236 2.33e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The second line contains a p value of 2.33e-5 telling us to reject the null hypothesis that the two models are equivalent. So we found that knowledge of the player does matter in calculating the probability of a shot being made.</p>
+<p>Notice we could have performed this analysis as a proportion test using the null that all players shooting percentages are the same <span class="math inline">\(p_1=p_2=...p_{15}\)</span></p>
+<div class="sourceCode" id="cb692"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb692-1"><a href="logistic-regression.html#cb692-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">table</span>(sl2<span class="sc">$</span>player_name, sl2<span class="sc">$</span>FGM))</span></code></pre></div>
+<pre><code>## 
+##  16-sample test for equality of proportions without continuity
+##  correction
+## 
+## data:  table(sl2$player_name, sl2$FGM)
+## X-squared = 48.247, df = 15, p-value = 2.32e-05
+## alternative hypothesis: two.sided
+## sample estimates:
+##    prop 1    prop 2    prop 3    prop 4    prop 5    prop 6    prop 7    prop 8 
+## 0.4977221 0.5158637 0.5664865 0.5462185 0.5516899 0.5362015 0.5829327 0.5277476 
+##    prop 9   prop 10   prop 11   prop 12   prop 13   prop 14   prop 15   prop 16 
+## 0.5504950 0.5058078 0.5448207 0.4668166 0.5481998 0.5577943 0.5069075 0.5600000</code></pre>
+<p>Notice the p-value obtained matches the logistic regression ANOVA almost exactly. Thus, a proportion test can be viewed as a special case of a logistic regression.</p>
+</div>
+<div id="example-building-a-more-accurate-model" class="section level2 hasAnchor" number="18.5">
+<h2><span class="header-section-number">18.5</span> Example: Building a More Accurate Model<a href="logistic-regression.html#example-building-a-more-accurate-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now we can form a model for the shooting percentages using the individual players data:</p>
+<p><span class="math display">\[ logit(p_i)=\alpha+\beta_1 SF+\beta_{2} DD+\beta_3 (player_dummy) \]</span></p>
+<div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb694-1"><a href="logistic-regression.html#cb694-1" aria-hidden="true" tabindex="-1"></a>logistic.nba2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(FGM <span class="sc">~</span> SHOT_DIST <span class="sc">+</span> Team.Defending, <span class="at">data =</span> shot_logs_2014, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb694-2"><a href="logistic-regression.html#cb694-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistic.nba2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = FGM ~ SHOT_DIST + Team.Defending, family = binomial(link = &quot;logit&quot;), 
+##     data = shot_logs_2014)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4073  -1.0754  -0.8976   1.1397   1.7614  
+## 
+## Coefficients:
+##                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)        3.727e-01  3.398e-02  10.967  &lt; 2e-16 ***
+## SHOT_DIST         -4.283e-02  6.717e-04 -63.761  &lt; 2e-16 ***
+## Team.DefendingBKN  6.384e-02  4.614e-02   1.384 0.166440    
+## Team.DefendingBOS -2.066e-05  4.533e-02   0.000 0.999636    
+## Team.DefendingCHA  7.898e-03  4.594e-02   0.172 0.863503    
+## Team.DefendingCHI -4.528e-03  4.520e-02  -0.100 0.920194    
+## Team.DefendingCLE  3.676e-02  4.549e-02   0.808 0.419011    
+## Team.DefendingDAL  2.845e-02  4.540e-02   0.627 0.530822    
+## Team.DefendingDEN  4.213e-02  4.580e-02   0.920 0.357672    
+## Team.DefendingDET  6.149e-02  4.565e-02   1.347 0.177977    
+## Team.DefendingGSW -8.470e-02  4.570e-02  -1.853 0.063841 .  
+## Team.DefendingHOU  3.672e-02  4.585e-02   0.801 0.423217    
+## Team.DefendingIND -4.503e-02  4.624e-02  -0.974 0.330118    
+## Team.DefendingLAC  3.636e-02  4.556e-02   0.798 0.424814    
+## Team.DefendingLAL  1.149e-01  4.649e-02   2.472 0.013442 *  
+## Team.DefendingMEM -3.034e-03  4.650e-02  -0.065 0.947972    
+## Team.DefendingMIA  5.149e-02  4.676e-02   1.101 0.270751    
+## Team.DefendingMIL -3.506e-02  4.616e-02  -0.760 0.447538    
+## Team.DefendingMIN  1.618e-01  4.547e-02   3.559 0.000373 ***
+## Team.DefendingNOP  2.170e-02  4.559e-02   0.476 0.634098    
+## Team.DefendingNYK  8.745e-02  4.644e-02   1.883 0.059700 .  
+## Team.DefendingOKC -7.212e-02  4.519e-02  -1.596 0.110555    
+## Team.DefendingORL  8.623e-02  4.558e-02   1.892 0.058496 .  
+## Team.DefendingPHI  3.377e-02  4.596e-02   0.735 0.462438    
+## Team.DefendingPHX  4.797e-03  4.494e-02   0.107 0.914992    
+## Team.DefendingPOR -6.947e-02  4.531e-02  -1.533 0.125231    
+## Team.DefendingSAC  4.369e-02  4.548e-02   0.961 0.336674    
+## Team.DefendingSAS -4.109e-02  4.570e-02  -0.899 0.368600    
+## Team.DefendingTOR  7.069e-02  4.575e-02   1.545 0.122312    
+## Team.DefendingUTA  2.248e-02  4.591e-02   0.490 0.624390    
+## Team.DefendingWAS -1.603e-02  4.600e-02  -0.349 0.727443    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 168881  on 122501  degrees of freedom
+## Residual deviance: 164621  on 122471  degrees of freedom
+## AIC: 164683
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+<div id="example-measuring-team-defense-using-logistic-regression" class="section level2 hasAnchor" number="18.6">
+<h2><span class="header-section-number">18.6</span> Example: Measuring Team Defense Using Logistic Regression<a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="math display">\[
+logit(p_i)=\alpha+\beta_1 SD+\beta_2 (Team)+\beta_3 (Team) (SD)
+\]</span>
+Since the team defending is a categorical variable <code>R</code> will store it as a dummy variable when forming the regression. Thus the first level of this variable will not appear in our regression (or more precisely it will be included in the intercept <span class="math inline">\(\alpha\)</span> and slope <span class="math inline">\(\beta_1\)</span>). Before we run the model we can see which team will be missing.</p>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="logistic-regression.html#cb696-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(shot_logs_2014<span class="sc">$</span>Team.Defending)[<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] &quot;ATL&quot;</code></pre>
+<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb698-1"><a href="logistic-regression.html#cb698-1" aria-hidden="true" tabindex="-1"></a>logistic.nba.team <span class="ot">&lt;-</span> <span class="fu">glm</span>(FGM <span class="sc">~</span> SHOT_DIST <span class="sc">+</span> Team.Defending <span class="sc">+</span> Team.Defending<span class="sc">:</span>SHOT_DIST,</span>
+<span id="cb698-2"><a href="logistic-regression.html#cb698-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> shot_logs_2014, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb698-3"><a href="logistic-regression.html#cb698-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistic.nba.team)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = FGM ~ SHOT_DIST + Team.Defending + Team.Defending:SHOT_DIST, 
+##     family = binomial(link = &quot;logit&quot;), data = shot_logs_2014)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4792  -1.0745  -0.8946   1.1427   1.7620  
+## 
+## Coefficients:
+##                               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                  0.4005021  0.0592601   6.758  1.4e-11 ***
+## SHOT_DIST                   -0.0449048  0.0036816 -12.197  &lt; 2e-16 ***
+## Team.DefendingBKN            0.0529624  0.0834836   0.634 0.525817    
+## Team.DefendingBOS            0.0245490  0.0820046   0.299 0.764664    
+## Team.DefendingCHA           -0.0657994  0.0852239  -0.772 0.440069    
+## Team.DefendingCHI           -0.0890407  0.0821292  -1.084 0.278297    
+## Team.DefendingCLE            0.0129281  0.0826230   0.156 0.875661    
+## Team.DefendingDAL           -0.0993400  0.0819511  -1.212 0.225441    
+## Team.DefendingDEN            0.0618145  0.0836755   0.739 0.460064    
+## Team.DefendingDET            0.0093273  0.0827823   0.113 0.910290    
+## Team.DefendingGSW           -0.1245390  0.0826435  -1.507 0.131826    
+## Team.DefendingHOU            0.1135399  0.0827159   1.373 0.169862    
+## Team.DefendingIND           -0.1046288  0.0844236  -1.239 0.215223    
+## Team.DefendingLAC           -0.0239311  0.0835732  -0.286 0.774611    
+## Team.DefendingLAL            0.0837654  0.0842615   0.994 0.320168    
+## Team.DefendingMEM           -0.0833143  0.0846642  -0.984 0.325088    
+## Team.DefendingMIA            0.0880014  0.0843533   1.043 0.296833    
+## Team.DefendingMIL           -0.0605568  0.0828843  -0.731 0.465013    
+## Team.DefendingMIN            0.2967499  0.0827119   3.588 0.000334 ***
+## Team.DefendingNOP            0.0152440  0.0805623   0.189 0.849920    
+## Team.DefendingNYK           -0.0376126  0.0840061  -0.448 0.654343    
+## Team.DefendingOKC           -0.1169250  0.0811210  -1.441 0.149481    
+## Team.DefendingORL            0.1254517  0.0833379   1.505 0.132237    
+## Team.DefendingPHI           -0.0351925  0.0819908  -0.429 0.667759    
+## Team.DefendingPHX            0.0070408  0.0802984   0.088 0.930129    
+## Team.DefendingPOR           -0.0823417  0.0826016  -0.997 0.318835    
+## Team.DefendingSAC            0.1234719  0.0833434   1.481 0.138478    
+## Team.DefendingSAS           -0.1101989  0.0820699  -1.343 0.179355    
+## Team.DefendingTOR           -0.0152719  0.0820374  -0.186 0.852321    
+## Team.DefendingUTA           -0.0875605  0.0834655  -1.049 0.294149    
+## Team.DefendingWAS           -0.0872644  0.0841738  -1.037 0.299867    
+## SHOT_DIST:Team.DefendingBKN  0.0008031  0.0052041   0.154 0.877364    
+## SHOT_DIST:Team.DefendingBOS -0.0019798  0.0051877  -0.382 0.702732    
+## SHOT_DIST:Team.DefendingCHA  0.0054478  0.0053132   1.025 0.305204    
+## SHOT_DIST:Team.DefendingCHI  0.0065266  0.0052458   1.244 0.213441    
+## SHOT_DIST:Team.DefendingCLE  0.0017733  0.0051770   0.343 0.731944    
+## SHOT_DIST:Team.DefendingDAL  0.0095462  0.0050938   1.874 0.060922 .  
+## SHOT_DIST:Team.DefendingDEN -0.0015003  0.0052445  -0.286 0.774825    
+## SHOT_DIST:Team.DefendingDET  0.0039221  0.0051942   0.755 0.450192    
+## SHOT_DIST:Team.DefendingGSW  0.0030042  0.0052286   0.575 0.565583    
+## SHOT_DIST:Team.DefendingHOU -0.0059600  0.0052052  -1.145 0.252204    
+## SHOT_DIST:Team.DefendingIND  0.0045055  0.0053367   0.844 0.398531    
+## SHOT_DIST:Team.DefendingLAC  0.0044213  0.0051440   0.860 0.390054    
+## SHOT_DIST:Team.DefendingLAL  0.0023251  0.0052665   0.441 0.658854    
+## SHOT_DIST:Team.DefendingMEM  0.0059742  0.0052673   1.134 0.256707    
+## SHOT_DIST:Team.DefendingMIA -0.0028108  0.0052823  -0.532 0.594651    
+## SHOT_DIST:Team.DefendingMIL  0.0018985  0.0051708   0.367 0.713497    
+## SHOT_DIST:Team.DefendingMIN -0.0102776  0.0051866  -1.982 0.047526 *  
+## SHOT_DIST:Team.DefendingNOP  0.0003236  0.0051776   0.062 0.950170    
+## SHOT_DIST:Team.DefendingNYK  0.0093015  0.0052134   1.784 0.074400 .  
+## SHOT_DIST:Team.DefendingOKC  0.0033750  0.0050851   0.664 0.506885    
+## SHOT_DIST:Team.DefendingORL -0.0029629  0.0052200  -0.568 0.570293    
+## SHOT_DIST:Team.DefendingPHI  0.0052248  0.0051280   1.019 0.308269    
+## SHOT_DIST:Team.DefendingPHX -0.0003178  0.0051140  -0.062 0.950455    
+## SHOT_DIST:Team.DefendingPOR  0.0009022  0.0052823   0.171 0.864386    
+## SHOT_DIST:Team.DefendingSAC -0.0058417  0.0051705  -1.130 0.258552    
+## SHOT_DIST:Team.DefendingSAS  0.0054010  0.0052809   1.023 0.306435    
+## SHOT_DIST:Team.DefendingTOR  0.0065358  0.0051492   1.269 0.204335    
+## SHOT_DIST:Team.DefendingUTA  0.0082861  0.0052326   1.584 0.113291    
+## SHOT_DIST:Team.DefendingWAS  0.0052850  0.0052339   1.010 0.312610    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 168881  on 122501  degrees of freedom
+## Residual deviance: 164574  on 122442  degrees of freedom
+## AIC: 164694
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>The below plot shows the expected shooting percentages at each distance for the teams in the data set.</p>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-619-1.png" width="672" /></p>
+<div class="sourceCode" id="cb700"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb700-1"><a href="logistic-regression.html#cb700-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a ribbon plot including the errors in the predictions</span></span>
+<span id="cb700-2"><a href="logistic-regression.html#cb700-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb700-3"><a href="logistic-regression.html#cb700-3" aria-hidden="true" tabindex="-1"></a>plotTeamsSP <span class="ot">&lt;-</span> <span class="cf">function</span>(teamList) {</span>
+<span id="cb700-4"><a href="logistic-regression.html#cb700-4" aria-hidden="true" tabindex="-1"></a>    teamdf <span class="sc">%&gt;%</span></span>
+<span id="cb700-5"><a href="logistic-regression.html#cb700-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(Team <span class="sc">%in%</span> teamList) <span class="sc">%&gt;%</span></span>
+<span id="cb700-6"><a href="logistic-regression.html#cb700-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">upper.prob =</span> <span class="fu">invlogit</span>(<span class="fu">logit</span>(Results) <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> se), <span class="at">lower.prob =</span> <span class="fu">invlogit</span>(<span class="fu">logit</span>(Results) <span class="sc">-</span></span>
+<span id="cb700-7"><a href="logistic-regression.html#cb700-7" aria-hidden="true" tabindex="-1"></a>            <span class="dv">2</span> <span class="sc">*</span> se)) <span class="sc">%&gt;%</span></span>
+<span id="cb700-8"><a href="logistic-regression.html#cb700-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> xvalues, <span class="at">y =</span> Results, <span class="at">color =</span> Team)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower.prob,</span>
+<span id="cb700-9"><a href="logistic-regression.html#cb700-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">ymax =</span> upper.prob, <span class="at">color =</span> Team, <span class="at">fill =</span> Team), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Shot Distance (FT)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb700-10"><a href="logistic-regression.html#cb700-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ylab</span>(<span class="st">&quot;Probability of Made Shot&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Team Defense&quot;</span>)</span>
+<span id="cb700-11"><a href="logistic-regression.html#cb700-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb700-12"><a href="logistic-regression.html#cb700-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb700-13"><a href="logistic-regression.html#cb700-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plotTeamsSP</span>(<span class="fu">c</span>(<span class="st">&quot;GSW&quot;</span>, <span class="st">&quot;SAS&quot;</span>))</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-620-1.png" width="672" /></p>
+<p>#Better Approach</p>
+<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb701-1"><a href="logistic-regression.html#cb701-1" aria-hidden="true" tabindex="-1"></a>inTraining <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(shot_logs_2014<span class="sc">$</span>FGM, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb701-2"><a href="logistic-regression.html#cb701-2" aria-hidden="true" tabindex="-1"></a>sl_train <span class="ot">&lt;-</span> shot_logs_2014[inTraining, ]</span>
+<span id="cb701-3"><a href="logistic-regression.html#cb701-3" aria-hidden="true" tabindex="-1"></a>sl_test <span class="ot">&lt;-</span> shot_logs_2014[<span class="sc">-</span>inTraining, ]</span></code></pre></div>
+<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb702-1"><a href="logistic-regression.html#cb702-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a logistic regression model using the training data</span></span>
+<span id="cb702-2"><a href="logistic-regression.html#cb702-2" aria-hidden="true" tabindex="-1"></a>lr_sd <span class="ot">&lt;-</span> <span class="fu">glm</span>(FGM <span class="sc">~</span> SHOT_DIST <span class="sc">+</span> <span class="fu">as.factor</span>(player_name), <span class="at">data =</span> sl_train, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb702-3"><a href="logistic-regression.html#cb702-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb702-4"><a href="logistic-regression.html#cb702-4" aria-hidden="true" tabindex="-1"></a>predicted.train <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">invlogit</span>(<span class="fu">predict.glm</span>(lr_sd, sl_train)) <span class="sc">&lt;</span> <span class="fl">0.5</span>, <span class="st">&quot;Made&quot;</span>, <span class="st">&quot;Missed&quot;</span>)</span>
+<span id="cb702-5"><a href="logistic-regression.html#cb702-5" aria-hidden="true" tabindex="-1"></a>actual.train <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(sl_train<span class="sc">$</span>FGM <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Made&quot;</span>, <span class="st">&quot;Missed&quot;</span>)</span>
+<span id="cb702-6"><a href="logistic-regression.html#cb702-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb702-7"><a href="logistic-regression.html#cb702-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb702-8"><a href="logistic-regression.html#cb702-8" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(predicted.train), <span class="fu">as.factor</span>(actual.train))</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  Made Missed
+##     Made   22991  36657
+##     Missed 21738  16616
+##                                           
+##                Accuracy : 0.4041          
+##                  95% CI : (0.4011, 0.4072)
+##     No Information Rate : 0.5436          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : -0.1696         
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt;2e-16          
+##                                           
+##             Sensitivity : 0.5140          
+##             Specificity : 0.3119          
+##          Pos Pred Value : 0.3854          
+##          Neg Pred Value : 0.4332          
+##              Prevalence : 0.4564          
+##          Detection Rate : 0.2346          
+##    Detection Prevalence : 0.6086          
+##       Balanced Accuracy : 0.4130          
+##                                           
+##        &#39;Positive&#39; Class : Made            
+## </code></pre>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Kahneman, Daniel. 2011. <em>Thinking, Fast and Slow</em>. Macmillan.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. " O’Reilly Media, Inc.".
+</div>
+<div class="csl-entry">
+Xie, Yihui. 2022. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction-to-the-chi-square-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/17-LogisticRegression.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statsbook.pdf", "statsbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"collapse": "section"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
