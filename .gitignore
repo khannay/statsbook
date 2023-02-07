@@ -10,7 +10,6 @@
 *.blg
 
 _bookdown_files/
-libs/
 # ignore all html files except:
 !**/mathjax_header.html
 # R and Rstudio specific files
