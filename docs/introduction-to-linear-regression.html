@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Introduction to Linear Regression | Introduction to Statistics and Data Science</title>
+  <meta name="description" content="Introductory textbook for statistics and data science" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Introduction to Linear Regression | Introduction to Statistics and Data Science" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Introductory textbook for statistics and data science" />
+  <meta name="github-repo" content="khannay/statsbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Introduction to Linear Regression | Introduction to Statistics and Data Science" />
+  
+  <meta name="twitter:description" content="Introductory textbook for statistics and data science" />
+  
+
+<meta name="author" content="Dr. Kevin Hannay" />
+
+
+<meta name="date" content="2023-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="confidence-intervals.html"/>
+<link rel="next" href="regression-with-categorical-variables.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"> Stats Notes </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#librarian-or-farmer"><i class="fa fa-check"></i><b>1.1</b> Librarian or Farmer?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#profits"><i class="fa fa-check"></i><b>1.2</b> Profits</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#accidental-deaths"><i class="fa fa-check"></i><b>1.3</b> Accidental Deaths</a></li>
+</ul></li>
+<li class="part"><span><b>I Exploratory Data Analysis</b></span></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R Packages</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-as-a-fancy-calculator"><i class="fa fa-check"></i><b>2.3</b> R as a Fancy Calculator</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#more-advanced-r"><i class="fa fa-check"></i><b>2.4</b> More Advanced R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types-in-r"><i class="fa fa-check"></i><b>2.4.1</b> Data Types in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#logic-in-r"><i class="fa fa-check"></i><b>2.5</b> Logic in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#storing-data-in-r"><i class="fa fa-check"></i><b>2.6</b> Storing Data in R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>2.6.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.6.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>2.6.2</b> Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-plots-in-r"><i class="fa fa-check"></i><b>2.7</b> Basic Plots in R</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#additional-resources"><i class="fa fa-check"></i><b>2.8</b> Additional Resources</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#homework"><i class="fa fa-check"></i><b>2.9</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>3</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#shot-logs-basketball-data"><i class="fa fa-check"></i><b>3.1</b> Shot Logs Basketball Data</a></li>
+<li class="chapter" data-level="3.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#principal-types-of-statistical-data"><i class="fa fa-check"></i><b>3.2</b> Principal Types of Statistical Data</a></li>
+<li class="chapter" data-level="3.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#the-distribution-of-a-data-set"><i class="fa fa-check"></i><b>3.3</b> The Distribution of a Data Set</a></li>
+<li class="chapter" data-level="3.4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency"><i class="fa fa-check"></i><b>3.4</b> Numerical Measures for Central Tendency</a></li>
+<li class="chapter" data-level="3.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-of-variability"><i class="fa fa-check"></i><b>3.5</b> Numerical Measures of Variability</a></li>
+<li class="chapter" data-level="3.6" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing"><i class="fa fa-check"></i><b>3.6</b> Numerical Measures for Relative Standing</a></li>
+<li class="chapter" data-level="3.7" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot"><i class="fa fa-check"></i><b>3.7</b> Relation between Continuous and Categorical Variables: Boxplot</a></li>
+<li class="chapter" data-level="3.8" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots"><i class="fa fa-check"></i><b>3.8</b> Relation between Continuous Variables: Scatter Plots</a></li>
+<li class="chapter" data-level="3.9" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables"><i class="fa fa-check"></i><b>3.9</b> Relationship between Categorical Variables: Contingency Tables</a></li>
+<li class="chapter" data-level="3.10" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#tips-and-tricks"><i class="fa fa-check"></i><b>3.10</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="3.11" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#homework-1"><i class="fa fa-check"></i><b>3.11</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.1</b> What is Data Wrangling?</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#nas-and-the-curse-of-real-world-data"><i class="fa fa-check"></i><b>4.2</b> NA’s and the Curse of Real World Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#select-pick-only-a-few-columns"><i class="fa fa-check"></i><b>4.3</b> Select: Pick only a few columns</a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#filter-select-rows"><i class="fa fa-check"></i><b>4.4</b> Filter (select rows)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#compound-criteria"><i class="fa fa-check"></i><b>4.4.1</b> Compound Criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#chainspipes"><i class="fa fa-check"></i><b>4.5</b> Chains/Pipes %&gt;%</a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#grouping-data-together"><i class="fa fa-check"></i><b>4.6</b> Grouping Data Together</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#homework-2"><i class="fa fa-check"></i><b>4.7</b> Homework</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="data-wrangling.html"><a href="data-wrangling.html#concept-questions-2"><i class="fa fa-check"></i><b>4.7.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="4.7.2" data-path="data-wrangling.html"><a href="data-wrangling.html#practice-problems-2"><i class="fa fa-check"></i><b>4.7.2</b> Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html"><i class="fa fa-check"></i><b>5</b> Introduction to Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#what-is-clustering"><i class="fa fa-check"></i><b>5.1</b> What is Clustering?</a></li>
+<li class="chapter" data-level="5.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#introduction-to-kmeans-clustering"><i class="fa fa-check"></i><b>5.2</b> Introduction to Kmeans clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#how-many-clusters-should-we-choose"><i class="fa fa-check"></i><b>5.3</b> How many clusters should we choose?</a></li>
+<li class="chapter" data-level="5.4" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#clustering-nba-players"><i class="fa fa-check"></i><b>5.4</b> Clustering NBA Players</a></li>
+<li class="chapter" data-level="5.5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis"><i class="fa fa-check"></i><b>5.5</b> Requirements for Performing Cluster Analysis</a></li>
+<li class="chapter" data-level="5.6" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#homework-3"><i class="fa fa-check"></i><b>5.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#concept-questions-3"><i class="fa fa-check"></i><b>5.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="5.6.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#practice-problems-3"><i class="fa fa-check"></i><b>5.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="5.6.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#advanced-problems-3"><i class="fa fa-check"></i><b>5.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Probability Theory</b></span></li>
+<li class="chapter" data-level="6" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>6</b> Probability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="probability.html"><a href="probability.html#sample-spaces-and-events"><i class="fa fa-check"></i><b>6.1</b> Sample Spaces and Events</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="probability.html"><a href="probability.html#introduction"><i class="fa fa-check"></i><b>6.1.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.1.2" data-path="probability.html"><a href="probability.html#sample-spaces"><i class="fa fa-check"></i><b>6.1.2</b> Sample Spaces</a></li>
+<li class="chapter" data-level="6.1.3" data-path="probability.html"><a href="probability.html#law-of-sample-spaces"><i class="fa fa-check"></i><b>6.1.3</b> Law of Sample Spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="probability.html"><a href="probability.html#combinatorics"><i class="fa fa-check"></i><b>6.2</b> Combinatorics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="probability.html"><a href="probability.html#basic-principle-of-counting"><i class="fa fa-check"></i><b>6.2.1</b> Basic Principle of Counting</a></li>
+<li class="chapter" data-level="6.2.2" data-path="probability.html"><a href="probability.html#permutations"><i class="fa fa-check"></i><b>6.2.2</b> Permutations</a></li>
+<li class="chapter" data-level="6.2.3" data-path="probability.html"><a href="probability.html#combinations"><i class="fa fa-check"></i><b>6.2.3</b> Combinations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="probability.html"><a href="probability.html#axioms-of-probability"><i class="fa fa-check"></i><b>6.3</b> Axioms of Probability</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="probability.html"><a href="probability.html#beyond-the-law-of-sample-spaces"><i class="fa fa-check"></i><b>6.3.1</b> Beyond the Law of Sample Spaces</a></li>
+<li class="chapter" data-level="6.3.2" data-path="probability.html"><a href="probability.html#set-theory"><i class="fa fa-check"></i><b>6.3.2</b> Set Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="probability.html"><a href="probability.html#the-axioms-of-probability"><i class="fa fa-check"></i><b>6.3.3</b> The Axioms of Probability</a></li>
+<li class="chapter" data-level="6.3.4" data-path="probability.html"><a href="probability.html#the-or-rule"><i class="fa fa-check"></i><b>6.3.4</b> The OR Rule</a></li>
+<li class="chapter" data-level="6.3.5" data-path="probability.html"><a href="probability.html#the-and-rule"><i class="fa fa-check"></i><b>6.3.5</b> The AND Rule</a></li>
+<li class="chapter" data-level="6.3.6" data-path="probability.html"><a href="probability.html#the-complement-rule"><i class="fa fa-check"></i><b>6.3.6</b> The Complement Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="probability.html"><a href="probability.html#conditional-probability-and-independence"><i class="fa fa-check"></i><b>6.4</b> Conditional Probability and Independence</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="probability.html"><a href="probability.html#introduction-1"><i class="fa fa-check"></i><b>6.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.4.2" data-path="probability.html"><a href="probability.html#mathematical-definition"><i class="fa fa-check"></i><b>6.4.2</b> Mathematical Definition</a></li>
+<li class="chapter" data-level="6.4.3" data-path="probability.html"><a href="probability.html#independence"><i class="fa fa-check"></i><b>6.4.3</b> Independence</a></li>
+<li class="chapter" data-level="6.4.4" data-path="probability.html"><a href="probability.html#multiplicative-rule"><i class="fa fa-check"></i><b>6.4.4</b> Multiplicative Rule</a></li>
+<li class="chapter" data-level="6.4.5" data-path="probability.html"><a href="probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>6.4.5</b> Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="probability.html"><a href="probability.html#bayes-rule"><i class="fa fa-check"></i><b>6.5</b> Bayes Rule</a></li>
+<li class="chapter" data-level="6.6" data-path="probability.html"><a href="probability.html#homework-4"><i class="fa fa-check"></i><b>6.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="probability.html"><a href="probability.html#concept-questions-4"><i class="fa fa-check"></i><b>6.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="6.6.2" data-path="probability.html"><a href="probability.html#practice-problems-4"><i class="fa fa-check"></i><b>6.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="6.6.3" data-path="probability.html"><a href="probability.html#advanced-problems-4"><i class="fa fa-check"></i><b>6.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html"><i class="fa fa-check"></i><b>7</b> Discrete Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-variables"><i class="fa fa-check"></i><b>7.1</b> Random Variables</a></li>
+<li class="chapter" data-level="7.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables"><i class="fa fa-check"></i><b>7.2</b> Probability Distributions for Discrete Random Variables</a></li>
+<li class="chapter" data-level="7.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#properties-of-probability-distributions"><i class="fa fa-check"></i><b>7.3</b> Properties of Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-values-of-discrete-random-variables"><i class="fa fa-check"></i><b>7.3.1</b> Expected Values of Discrete Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.4</b> Expected Value of Sums of Random Variables</a></li>
+<li class="chapter" data-level="7.5" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-random-variables"><i class="fa fa-check"></i><b>7.5</b> Variance of Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.5.1</b> Variance of Sums of Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#bernoulli-random-variables"><i class="fa fa-check"></i><b>7.6</b> Bernoulli Random Variables</a></li>
+<li class="chapter" data-level="7.7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variables"><i class="fa fa-check"></i><b>7.7</b> Binomial Random Variables</a></li>
+<li class="chapter" data-level="7.8" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variable-in-r"><i class="fa fa-check"></i><b>7.8</b> Binomial Random Variable in R</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distribution-in-r"><i class="fa fa-check"></i><b>7.8.1</b> Probability Distribution in R</a></li>
+<li class="chapter" data-level="7.8.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r"><i class="fa fa-check"></i><b>7.8.2</b> Cumulative Distribution Calculations in R</a></li>
+<li class="chapter" data-level="7.8.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-binomial-distribution-in-r"><i class="fa fa-check"></i><b>7.8.3</b> Random Binomial Distribution in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#homework-5"><i class="fa fa-check"></i><b>7.9</b> Homework</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#concept-questions-5"><i class="fa fa-check"></i><b>7.9.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="7.9.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#advanced-problems-5"><i class="fa fa-check"></i><b>7.9.2</b> Advanced Problems:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>8</b> Continuous Random Variables</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#introduction-to-continuous-random-variables"><i class="fa fa-check"></i><b>8.1</b> Introduction to Continuous Random Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#uniform-random-variable"><i class="fa fa-check"></i><b>8.2</b> Uniform Random Variable</a></li>
+<li class="chapter" data-level="8.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>8.3</b> Normal Distribution</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#cumulative-distribution-function-cdf-for-normal-random-variables"><i class="fa fa-check"></i><b>8.3.1</b> Cumulative Distribution Function (CDF) for Normal Random Variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#finding-probabilities-for-the-normal-distribution"><i class="fa fa-check"></i><b>8.3.2</b> Finding Probabilities for the Normal Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#standard-normal-distribution-z"><i class="fa fa-check"></i><b>8.4</b> Standard Normal Distribution (<span class="math inline">\(Z\)</span>)</a></li>
+<li class="chapter" data-level="8.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#assessing-normality"><i class="fa fa-check"></i><b>8.5</b> Assessing Normality</a></li>
+<li class="chapter" data-level="8.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#regression-to-the-mean"><i class="fa fa-check"></i><b>8.6</b> Regression to the Mean</a></li>
+<li class="chapter" data-level="8.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#final-thoughts-on-random-variables"><i class="fa fa-check"></i><b>8.7</b> Final Thoughts on Random Variables</a></li>
+<li class="chapter" data-level="8.8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#homework-6"><i class="fa fa-check"></i><b>8.8</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>III Sampling and Confidence Intervals</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html"><i class="fa fa-check"></i><b>9</b> Introduction to Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#why-sample"><i class="fa fa-check"></i><b>9.1</b> Why Sample?</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#average-height-example"><i class="fa fa-check"></i><b>9.1.1</b> Average Height Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#inferences-and-point-estimators"><i class="fa fa-check"></i><b>9.2</b> Inferences and Point Estimators</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-distribution-of-sample-means"><i class="fa fa-check"></i><b>9.3</b> The Distribution of Sample Means</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#distribution-of-sample-means"><i class="fa fa-check"></i><b>9.4</b> Distribution of Sample Means</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>9.4.1</b> The Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#other-point-estimators"><i class="fa fa-check"></i><b>9.5</b> Other Point Estimators</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#sampling-distribution-for-the-sample-proportion"><i class="fa fa-check"></i><b>9.6</b> Sampling Distribution for the Sample Proportion</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#tales-in-sampling-poincares-baker"><i class="fa fa-check"></i><b>9.7</b> Tales in Sampling: Poincare’s Baker</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#homework-7"><i class="fa fa-check"></i><b>9.8</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>10</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#introduction-nyc-flights-dataset"><i class="fa fa-check"></i><b>10.1</b> Introduction NYC Flights Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#mean-flight-delays"><i class="fa fa-check"></i><b>10.2</b> Mean Flight Delays</a></li>
+<li class="chapter" data-level="10.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#shortcut-using-the-central-limit-theorem"><i class="fa fa-check"></i><b>10.3</b> Shortcut Using the Central Limit Theorem</a></li>
+<li class="chapter" data-level="10.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#additional-practice-comparing-airports"><i class="fa fa-check"></i><b>10.4</b> Additional Practice: Comparing Airports</a></li>
+<li class="chapter" data-level="10.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-proportion-confidence-intervals"><i class="fa fa-check"></i><b>10.5</b> Population Proportion Confidence Intervals</a></li>
+<li class="chapter" data-level="10.6" data-path="confidence-intervals.html"><a href="confidence-intervals.html#extra-practice-problems"><i class="fa fa-check"></i><b>10.6</b> Extra Practice Problems</a></li>
+<li class="chapter" data-level="10.7" data-path="confidence-intervals.html"><a href="confidence-intervals.html#homework-8"><i class="fa fa-check"></i><b>10.7</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>IV Regression</b></span></li>
+<li class="chapter" data-level="11" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Introduction to Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#statistical-models"><i class="fa fa-check"></i><b>11.1</b> Statistical Models</a></li>
+<li class="chapter" data-level="11.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r"><i class="fa fa-check"></i><b>11.2</b> Fitting a Linear Model in R</a></li>
+<li class="chapter" data-level="11.3" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>11.3</b> Assumptions of Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#successful-linear-regression"><i class="fa fa-check"></i><b>11.3.1</b> Successful Linear Regression</a></li>
+<li class="chapter" data-level="11.3.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#what-failure-looks-like"><i class="fa fa-check"></i><b>11.3.2</b> What Failure Looks Like</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>11.4</b> Goodness of Fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#correlation-and-slope"><i class="fa fa-check"></i><b>11.4.1</b> Correlation and Slope</a></li>
+<li class="chapter" data-level="11.4.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits"><i class="fa fa-check"></i><b>11.4.2</b> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions"><i class="fa fa-check"></i><b>11.5</b> Using Regression Models to Make Predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#homework-9"><i class="fa fa-check"></i><b>11.6</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html"><i class="fa fa-check"></i><b>12</b> Regression with Categorical Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#one-hot-encoding"><i class="fa fa-check"></i><b>12.2</b> One Hot Encoding</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#example-exercise-and-weight"><i class="fa fa-check"></i><b>12.2.1</b> Example: Exercise and Weight</a></li>
+<li class="chapter" data-level="12.2.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#housing-prices-by-neighborhood"><i class="fa fa-check"></i><b>12.2.2</b> Housing Prices by Neighborhood</a></li>
+<li class="chapter" data-level="12.2.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-exercise-and-gender-together"><i class="fa fa-check"></i><b>12.2.3</b> Advanced: Exercise and Gender Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#diagnostics"><i class="fa fa-check"></i><b>12.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="12.4" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#homework-10"><i class="fa fa-check"></i><b>12.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#concept-questions-9"><i class="fa fa-check"></i><b>12.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#practice-problems-10"><i class="fa fa-check"></i><b>12.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="12.4.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-problems-10"><i class="fa fa-check"></i><b>12.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html"><i class="fa fa-check"></i><b>13</b> Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#introduction-to-multiple-regression-models"><i class="fa fa-check"></i><b>13.1</b> Introduction to Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#housing-prices-review-of-simple-regression-results"><i class="fa fa-check"></i><b>13.1.1</b> Housing Prices (Review of Simple Regression Results)</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-including-bathrooms"><i class="fa fa-check"></i><b>13.1.2</b> Multiple Regression (Including Bathrooms)</a></li>
+<li class="chapter" data-level="13.1.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#diagnostics-for-multiple-linear-regression"><i class="fa fa-check"></i><b>13.1.3</b> Diagnostics for Multiple Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-with-categorical-variables-including-the-neighborhood"><i class="fa fa-check"></i><b>13.2</b> Multiple Regression with Categorical Variables: Including the Neighborhood</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#predictions"><i class="fa fa-check"></i><b>13.2.1</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#interactions-between-variables"><i class="fa fa-check"></i><b>13.3</b> Interactions between Variables</a></li>
+<li class="chapter" data-level="13.4" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#some-pitfalls-in-multiple-regression"><i class="fa fa-check"></i><b>13.4</b> Some Pitfalls in Multiple Regression</a></li>
+<li class="chapter" data-level="13.5" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#homework-11"><i class="fa fa-check"></i><b>13.5</b> Homework</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#concept-questions-10"><i class="fa fa-check"></i><b>13.5.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="13.5.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#practice-problems-11"><i class="fa fa-check"></i><b>13.5.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="13.5.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#advanced-problems-11"><i class="fa fa-check"></i><b>13.5.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Hypothesis Testing</b></span></li>
+<li class="chapter" data-level="14" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html"><i class="fa fa-check"></i><b>14</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#introduction-and-warning"><i class="fa fa-check"></i><b>14.1</b> Introduction and Warning</a></li>
+<li class="chapter" data-level="14.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#a-starting-example"><i class="fa fa-check"></i><b>14.2</b> A Starting Example</a></li>
+<li class="chapter" data-level="14.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#the-t.test-command-hypothesis-tests-for-the-population-mean-mu"><i class="fa fa-check"></i><b>14.3</b> The t.test command: Hypothesis Tests for the Population Mean <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="14.4" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#theory-of-hypothesis-testing"><i class="fa fa-check"></i><b>14.4</b> Theory of Hypothesis Testing</a></li>
+<li class="chapter" data-level="14.5" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#under-the-hood-t-tests"><i class="fa fa-check"></i><b>14.5</b> Under the Hood (t tests)</a></li>
+<li class="chapter" data-level="14.6" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#errors-in-hypothesis-testing"><i class="fa fa-check"></i><b>14.6</b> Errors in Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#statistical-significance-alpha"><i class="fa fa-check"></i><b>14.6.1</b> Statistical Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+<li class="chapter" data-level="14.6.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#type-ii-error"><i class="fa fa-check"></i><b>14.6.2</b> Type II Error</a></li>
+<li class="chapter" data-level="14.6.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practical-significance-versus-statistical-significance"><i class="fa fa-check"></i><b>14.6.3</b> Practical Significance versus Statistical Significance</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-for-population-fraction"><i class="fa fa-check"></i><b>14.7</b> Hypothesis Testing for Population Fraction</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#example-3"><i class="fa fa-check"></i><b>14.7.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-in-linear-regression"><i class="fa fa-check"></i><b>14.8</b> Hypothesis Testing in Linear Regression</a></li>
+<li class="chapter" data-level="14.9" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>14.9</b> Power of a Statistical Test</a></li>
+<li class="chapter" data-level="14.10" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#homework-12"><i class="fa fa-check"></i><b>14.10</b> Homework</a>
+<ul>
+<li class="chapter" data-level="14.10.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#concept-questions-11"><i class="fa fa-check"></i><b>14.10.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="14.10.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practice-problems-12"><i class="fa fa-check"></i><b>14.10.2</b> Practice Problems:</a></li>
+<li class="chapter" data-level="14.10.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#advanced-problems-12"><i class="fa fa-check"></i><b>14.10.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html"><i class="fa fa-check"></i><b>15</b> Hypothesis Testing: Two Sample Tests</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>15.1</b> Two Sample t test</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#regression-analysis"><i class="fa fa-check"></i><b>15.1.1</b> Regression analysis</a></li>
+<li class="chapter" data-level="15.1.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach"><i class="fa fa-check"></i><b>15.1.2</b> Two Sample t test approach</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests"><i class="fa fa-check"></i><b>15.2</b> Two Sample Proportion Tests</a></li>
+<li class="chapter" data-level="15.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking"><i class="fa fa-check"></i><b>15.3</b> Extra Example: Birth Weights and Smoking</a></li>
+<li class="chapter" data-level="15.4" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#homework-13"><i class="fa fa-check"></i><b>15.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#concept-questions-12"><i class="fa fa-check"></i><b>15.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="15.4.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#practice-problems-13"><i class="fa fa-check"></i><b>15.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="15.4.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13"><i class="fa fa-check"></i><b>15.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html"><i class="fa fa-check"></i><b>16</b> Confidence Intervals and Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#relation-to-confidence-intervals"><i class="fa fa-check"></i><b>16.1</b> Relation to Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#two-sided-tests"><i class="fa fa-check"></i><b>16.1.1</b> Two sided tests</a></li>
+<li class="chapter" data-level="16.1.2" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#one-sided-confidence-intervals"><i class="fa fa-check"></i><b>16.1.2</b> One-sided confidence intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html"><i class="fa fa-check"></i><b>17</b> Introduction to the Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#contingency-tables"><i class="fa fa-check"></i><b>17.1</b> Contingency Tables</a></li>
+<li class="chapter" data-level="17.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#chi-square-test"><i class="fa fa-check"></i><b>17.2</b> Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#conditions-for-using-the-chi2-test"><i class="fa fa-check"></i><b>17.2.1</b> Conditions for Using the <span class="math inline">\(\chi^2\)</span> test</a></li>
+<li class="chapter" data-level="17.2.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#multiple-hypothesis-testing-again"><i class="fa fa-check"></i><b>17.2.2</b> Multiple Hypothesis Testing Again</a></li>
+<li class="chapter" data-level="17.2.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#using-a-different-null-hypothesis"><i class="fa fa-check"></i><b>17.2.3</b> Using a different Null Hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#homework-14"><i class="fa fa-check"></i><b>17.3</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>VI Advanced Regression Topics</b></span></li>
+<li class="chapter" data-level="18" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>18</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression-used-for"><i class="fa fa-check"></i><b>18.1</b> What is logistic regression used for?</a></li>
+<li class="chapter" data-level="18.2" data-path="logistic-regression.html"><a href="logistic-regression.html#glm-generalized-linear-models"><i class="fa fa-check"></i><b>18.2</b> GLM: Generalized Linear Models</a></li>
+<li class="chapter" data-level="18.3" data-path="logistic-regression.html"><a href="logistic-regression.html#a-starting-example-1"><i class="fa fa-check"></i><b>18.3</b> A Starting Example</a>
+<ul>
+<li class="chapter" data-level="18.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#confidence-intervals-for-the-parameters"><i class="fa fa-check"></i><b>18.3.1</b> Confidence Intervals for the Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="logistic-regression.html"><a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests"><i class="fa fa-check"></i><b>18.4</b> Equivalence of Logistic Regression and Proportion Tests</a></li>
+<li class="chapter" data-level="18.5" data-path="logistic-regression.html"><a href="logistic-regression.html#example-building-a-more-accurate-model"><i class="fa fa-check"></i><b>18.5</b> Example: Building a More Accurate Model</a></li>
+<li class="chapter" data-level="18.6" data-path="logistic-regression.html"><a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression"><i class="fa fa-check"></i><b>18.6</b> Example: Measuring Team Defense Using Logistic Regression</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Statistics and Data Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction-to-linear-regression" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">Chapter 11</span> Introduction to Linear Regression<a href="introduction-to-linear-regression.html#introduction-to-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="statistical-models" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Statistical Models<a href="introduction-to-linear-regression.html#statistical-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We are now ready to start studying <strong>relationship</strong> between variables (columns) in our data. To begin our study of this vast topic we will consider the NYC flight data again. First lets read this data into <code>R</code>.</p>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="introduction-to-linear-regression.html#cb432-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;flightNYC&quot;</span>)</span>
+<span id="cb432-2"><a href="introduction-to-linear-regression.html#cb432-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(flightNYC)</span></code></pre></div>
+<pre><code>##  [1] &quot;month&quot;          &quot;day&quot;            &quot;dep_time&quot;       &quot;sched_dep_time&quot;
+##  [5] &quot;dep_delay&quot;      &quot;arr_time&quot;       &quot;sched_arr_time&quot; &quot;arr_delay&quot;     
+##  [9] &quot;carrier&quot;        &quot;flight&quot;         &quot;origin&quot;         &quot;dest&quot;          
+## [13] &quot;air_time&quot;       &quot;distance&quot;</code></pre>
+<p>Lets begin is a simple example by considering the relationship between the distance (flight distance in miles) and the air_time (flight time in minutes). From high school physics we know these should linearly related in theory, and this is easy enough to examine by making a scatter plot of these two variables:</p>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="introduction-to-linear-regression.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(flightNYC<span class="sc">$</span>distance, flightNYC<span class="sc">$</span>air_time<span class="sc">/</span><span class="dv">60</span>, <span class="at">xlab =</span> <span class="st">&quot;Flight Distance in Miles&quot;</span>,</span>
+<span id="cb434-2"><a href="introduction-to-linear-regression.html#cb434-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">&quot;Flight Time in Hours&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Flight Distance versus time&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb434-3"><a href="introduction-to-linear-regression.html#cb434-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-408-1.png" width="672" /></p>
+<p>This plot shows the expected trend that longer distance flights generally take longer to complete, and intuitively in describing this trend we might draw a line through this cloud of points. However, notice that we have some significant variation in the flying times which are going about the same distance. This may have to do with many possible factors (weather, aircraft type, seasonal effects, airport approach requirements, etc).</p>
+<p>Also notice that we the vast majority of the flights are less than 3000 miles and we have a large gap in out data set for flights between 3000-5000 miles. Since we don’t have any data in this interval it is best that we remove the very long flights from the data and focus on the less than 3000 mile flights.</p>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="introduction-to-linear-regression.html#cb435-1" aria-hidden="true" tabindex="-1"></a>flightNYC <span class="ot">=</span> <span class="fu">subset</span>(flightNYC, flightNYC<span class="sc">$</span>distance <span class="sc">&lt;=</span> <span class="dv">3000</span>)</span></code></pre></div>
+<p>This leads to the following set of questions we would like to answer about this data set:</p>
+<ol style="list-style-type: decimal">
+<li><p>How can we tell is this effect is real or just us seeing trends in random data? (This is obvious in this case…..but not always the case!)</p></li>
+<li><p>If the effect is real, and how can we measure the <em>strength of this effect</em>?</p></li>
+<li><p>How much information does knowledge of the distance give us about the flying time?</p></li>
+<li><p>Given the flight distance can we we make an accurate prediction for the flight time?</p></li>
+</ol>
+<p>To answer these questions we need to build a <strong>statistical model</strong> for the flying time based on the distance. A simple model for the effect of distance on flight time is a <em>linear model</em>: <span class="math display">\[T_{flight}=\beta D+\alpha+\epsilon_i\]</span> This is called a linear model because it takes the form of <span class="math inline">\(y=mx+b\)</span>. In this case <span class="math inline">\(\alpha\)</span> is the y-intercept and <span class="math inline">\(\beta\)</span> is the slope of the line. The <span class="math inline">\(\epsilon_i\)</span> is an assumed <strong>noise</strong> term which allows for random errors in the measurements. We assume these errors have a normal distribution with mean zero and standard deviation <span class="math inline">\(\sigma_r\)</span>. For our flight model we call <span class="math inline">\(T_{flight}\)</span> the <em>response variable</em> (y axis) and <span class="math inline">\(D\)</span> is the called the <em>explanatory variable</em> (x axis).</p>
+<p>To specify the model we will need to find the slope <span class="math inline">\(\beta\)</span> and y-intercept <span class="math inline">\(\alpha\)</span>.</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-410" class="exercise"><strong>Exercise 11.1  </strong></span>Does a unique line exist which goes through all of our data points? If you fit a line to the data points what are you attempting to minimize?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-411" class="exercise"><strong>Exercise 11.2  </strong></span>What do you expect the slope <span class="math inline">\(\beta\)</span> to be if the explanatory variable (distance) and the response variable (flight time) are completely unrelated?</p>
+</div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-412-1.png" width="672" /></p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-413" class="exercise"><strong>Exercise 11.3  </strong></span>What is your intuition for sign (positive/negative) for <span class="math inline">\(\beta\)</span> in the flight data set? Extra: What physical quantity does our <span class="math inline">\(\beta\)</span> correspond to?</p>
+</div>
+
+<div class="note">
+When we interpret a linear model of the form <span class="math inline">\(y=\beta x+ \alpha\)</span>, <span class="math inline">\(\alpha\)</span> is the value the y variable takes when x is zero, <span class="math inline">\(\beta\)</span> gives the amount that <span class="math inline">\(y\)</span> will increase(decrease) when <span class="math inline">\(x\)</span> increases by one.
+</div>
+</div>
+<div id="fitting-a-linear-model-in-r" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Fitting a Linear Model in R<a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It turns out that a very way to choose the <em>best</em> <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> is to minimize the sum of square distance between the data points and the model predictions. Suppose, we have a model with <span class="math inline">\(N\)</span> data points <span class="math inline">\((x_1,y_1), (x_2,y_2), ... (x_N,y_N)\)</span>, then we can measure the <strong>Cost</strong> of the model for one data point <span class="math inline">\(y_j\)</span> by finding the distance (squared) between this data point and the predicted value <span class="math inline">\(\hat{y_j}(x_j)=\alpha+\beta x_j\)</span>. Summing up all these errors or <strong>residuals</strong> gives us a measure of how well the model describes the data.
+<span class="math display">\[
+\text{Cost}(\alpha, \beta)=\sum_{j=1}^N r_j^2=\sum_{j=1}^N [y_j-(\alpha+\beta x_j)]^2
+\]</span></p>
+<p>The below plot shows the residuals as green arrows for a guess of <span class="math inline">\(\alpha=10\)</span>, <span class="math inline">\(\beta=1.5\)</span> for the flight model. The total cost is also printed below for this parameter choice. Note, I reduced the number of data points (circles) in this plot just for the purpose of being able to see the green arrows (residual) values more clearly.</p>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-415-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Cost: &quot;
+## [1] 281466.2</code></pre>
+<p>Now I want to show you how to use <code>R</code> to fit a linear model and view the results. Here is the command to build a linear model for our flying data and view a summary of the results.</p>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="introduction-to-linear-regression.html#cb437-1" aria-hidden="true" tabindex="-1"></a>res.flying <span class="ot">=</span> <span class="fu">lm</span>(air_time <span class="sc">~</span> distance, <span class="at">data =</span> flightNYC)  <span class="do">##notice the format y~x response~explanatory</span></span>
+<span id="cb437-2"><a href="introduction-to-linear-regression.html#cb437-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res.flying)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = air_time ~ distance, data = flightNYC)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -46.475  -7.273  -1.248   6.470  81.136 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 18.193924   0.321725   56.55   &lt;2e-16 ***
+## distance     0.126425   0.000254  497.73   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 12.86 on 4991 degrees of freedom
+## Multiple R-squared:  0.9803, Adjusted R-squared:  0.9802 
+## F-statistic: 2.477e+05 on 1 and 4991 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We will learn what <em>all</em> this output (stats poop) means later. Let’s see what our residual plot looks like for these optimal values:</p>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-417-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Cost: &quot;
+## [1] 17942.86</code></pre>
+<p>Notice that the cost (sum of all the residuals squared has decreased by quite a bit from our initial guess). This is the best (optimal) values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> we could possibly choose. <strong>Any other choice of <span class="math inline">\(\alpha, \beta\)</span> would give a larger cost value.</strong>
+Now we can look at the the estimates for the <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> parameters that <code>R</code> finds:</p>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="introduction-to-linear-regression.html#cb440-1" aria-hidden="true" tabindex="-1"></a>res.flying<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>## (Intercept)    distance 
+##  18.1939236   0.1264254</code></pre>
+<p>The <span class="math inline">\(\beta\)</span> slope parameter is what is most important for our flying model. The best point estimate for <span class="math inline">\(\beta\)</span> is <span class="math inline">\(\approx 0.126\)</span>. In the context of the model this means that for every 1 mile increase in distance we should expect the flying time to increase by about <span class="math inline">\(0.12\)</span> minutes. We can see how well the value of <span class="math inline">\(\beta\)</span> is determined by the data by finding the confidence interval for <span class="math inline">\(\beta\)</span>:</p>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="introduction-to-linear-regression.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(res.flying, <span class="at">level =</span> <span class="fl">0.99</span>)</span></code></pre></div>
+<pre><code>##                  0.5 %   99.5 %
+## (Intercept) 17.3648969 19.02295
+## distance     0.1257709  0.12708</code></pre>
+<p>We can also make a plot of the line that <code>R</code> fit to our flying data. We can see that the line captures some of the big picture trends in the data.</p>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="introduction-to-linear-regression.html#cb444-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(flightNYC<span class="sc">$</span>distance, flightNYC<span class="sc">$</span>air_time, <span class="at">main =</span> <span class="st">&quot;Flying Distance versus Time Linear Model&quot;</span>,</span>
+<span id="cb444-2"><a href="introduction-to-linear-regression.html#cb444-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Distance (Miles)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Time (Minutes)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">cex =</span> <span class="fl">0.3</span>)</span>
+<span id="cb444-3"><a href="introduction-to-linear-regression.html#cb444-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(res.flying, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-420-1.png" width="672" /></p>
+<p>The <span class="math inline">\(\alpha\)</span> term (y-intercept) here tells us that flights which go no distance at all (0 miles) should be expected to take somewhere between 17-19 minutes. This is a bit more difficult to interpret as presumably nobody is booking flights which take off and go nowhere. However, we could regard this value as a measurement of the inevitable inefficiency of airports where planes must take turns to take-off and land and can only approach from particular directions. This effect generally adds something like twenty minutes to flights out of NYC.</p>
+<div id="house-sales-price-vs-square-footage" class="section level4 hasAnchor" number="11.2.0.1">
+<h4><span class="header-section-number">11.2.0.1</span> House Sales Price vs Square Footage<a href="introduction-to-linear-regression.html#house-sales-price-vs-square-footage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Lets consider a more interesting problem. In this section we will use linear regression to understand the relationship between the sales price of a house and the square footage of that house. Intuitively, we expect these two variables to be related, as bigger houses typically sell for more money. The data set comes from Ames, Iowa house sales from 2006-2010. First, lets read this data in and make a scatter plot of the sales price versus the square footage.</p>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="introduction-to-linear-regression.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;AmesHousing_Regression&quot;</span>)  <span class="do">##from HannayAppliedStats package</span></span>
+<span id="cb445-2"><a href="introduction-to-linear-regression.html#cb445-2" aria-hidden="true" tabindex="-1"></a>house <span class="ot">&lt;-</span> AmesHousing_Regression  <span class="do">##rename this data</span></span>
+<span id="cb445-3"><a href="introduction-to-linear-regression.html#cb445-3" aria-hidden="true" tabindex="-1"></a>house <span class="ot">&lt;-</span> <span class="fu">dropLowFactors</span>(house, <span class="at">factor.column =</span> <span class="dv">3</span>, <span class="at">threshold =</span> <span class="dv">30</span>)  <span class="do">##from HannayApplied Stats drop all neighborhoods with less than 30 data points</span></span>
+<span id="cb445-4"><a href="introduction-to-linear-regression.html#cb445-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(house)</span></code></pre></div>
+<pre><code>##   Square.Feet.log10 SalePrice.log10 Neighborhood Bathroom
+## 1          3.219060        5.332438        NAmes      1.0
+## 2          2.952308        5.021189        NAmes      1.0
+## 3          3.123525        5.235528        NAmes      1.5
+## 4          3.324282        5.387390        NAmes      2.5
+## 5          3.211921        5.278525      Gilbert      2.5
+## 6          3.205204        5.291147      Gilbert      2.5</code></pre>
+<p>We can see this has the log10 of the selling price, the square footage and the number of bathrooms in the house.</p>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="introduction-to-linear-regression.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(house<span class="sc">$</span>Square.Feet, house<span class="sc">$</span>SalePrice, <span class="at">main =</span> <span class="st">&quot;Real Estate Prices in Ames Iowa (Color by Neighborhood)&quot;</span>,</span>
+<span id="cb447-2"><a href="introduction-to-linear-regression.html#cb447-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Square Footage (log10)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Sale Price ($) log10&quot;</span>, <span class="at">col =</span> house<span class="sc">$</span>Neighborhood,</span>
+<span id="cb447-3"><a href="introduction-to-linear-regression.html#cb447-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-422-1.png" width="672" /></p>
+<p>As expected we can see from the plot that square footage is somewhat important in determining the sales price of the house, but we can see that their is significant variation in the sales price for any given sqft size. Let’s try and build a linear model for the relationship between the sqft of the houses and the sales price.</p>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="introduction-to-linear-regression.html#cb448-1" aria-hidden="true" tabindex="-1"></a>res.house <span class="ot">&lt;-</span> <span class="fu">lm</span>(SalePrice.log10 <span class="sc">~</span> Square.Feet.log10, <span class="at">data =</span> house)</span>
+<span id="cb448-2"><a href="introduction-to-linear-regression.html#cb448-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res.house)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = SalePrice.log10 ~ Square.Feet.log10, data = house)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.89909 -0.06464  0.01245  0.07581  0.37552 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        2.33795    0.05115   45.71   &lt;2e-16 ***
+## Square.Feet.log10  0.91365    0.01620   56.38   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1225 on 2832 degrees of freedom
+## Multiple R-squared:  0.5289, Adjusted R-squared:  0.5287 
+## F-statistic:  3179 on 1 and 2832 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Lets look to see if the slope we found is significant (relative to a slope of zero):</p>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="introduction-to-linear-regression.html#cb450-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(res.house, <span class="at">level =</span> <span class="fl">0.99</span>)</span></code></pre></div>
+<pre><code>##                       0.5 %    99.5 %
+## (Intercept)       2.2061000 2.4697938
+## Square.Feet.log10 0.8718869 0.9554217</code></pre>
+<p>We can say that the slope is significantly greater than zero with a significance level <span class="math inline">\(\alpha=0.01\)</span> since this 99% confidence interval doesn’t include zero. Finally, lets plot our regression line on the scatter plot:</p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="introduction-to-linear-regression.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(house<span class="sc">$</span>Square.Feet, house<span class="sc">$</span>SalePrice, <span class="at">main =</span> <span class="st">&quot;Real Estate Prices in Ames Iowa (Color by Neighborhood)&quot;</span>,</span>
+<span id="cb452-2"><a href="introduction-to-linear-regression.html#cb452-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Square Footage (log10)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Sale Price ($) log10&quot;</span>, <span class="at">col =</span> house<span class="sc">$</span>Neighborhood,</span>
+<span id="cb452-3"><a href="introduction-to-linear-regression.html#cb452-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cex =</span> <span class="fl">0.5</span>)</span>
+<span id="cb452-4"><a href="introduction-to-linear-regression.html#cb452-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(res.house<span class="sc">$</span>coefficients)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-425-1.png" width="672" /></p>
+<p>Note, since we are dealing with the logarithms of the price and square footage here we these results tell us to <em>expect</em> a 1% increase in the square footage of the house to increase the Sales price by about 1% as well. In terms of the non logarithm transformed variables our model looks like <span class="math display">\[Price=\alpha_0(Sqft)^{\beta}.\]</span> By taking the logarithm of both sides of this we get a linear equation <span class="math display">\[\log(Price)=\log(\alpha_0)+\beta \log(Sqft)\]</span></p>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="introduction-to-linear-regression.html#cb453-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">10</span><span class="sc">^</span>house<span class="sc">$</span>Square.Feet, <span class="dv">10</span><span class="sc">^</span>house<span class="sc">$</span>SalePrice, <span class="at">main =</span> <span class="st">&quot;Real Estate Prices in Ames Iowa (Color by Neighborhood)&quot;</span>,</span>
+<span id="cb453-2"><a href="introduction-to-linear-regression.html#cb453-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Square Footage&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Sale Price ($)&quot;</span>, <span class="at">col =</span> house<span class="sc">$</span>Neighborhood, <span class="at">cex =</span> <span class="fl">0.5</span>)</span>
+<span id="cb453-3"><a href="introduction-to-linear-regression.html#cb453-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5000</span>, <span class="dv">1</span>)</span>
+<span id="cb453-4"><a href="introduction-to-linear-regression.html#cb453-4" aria-hidden="true" tabindex="-1"></a>alpha0 <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fl">2.35</span></span>
+<span id="cb453-5"><a href="introduction-to-linear-regression.html#cb453-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha0 <span class="sc">*</span> x<span class="sc">^</span><span class="fl">0.9</span></span>
+<span id="cb453-6"><a href="introduction-to-linear-regression.html#cb453-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, y, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-426-1.png" width="672" /></p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-427" class="exercise"><strong>Exercise 11.4  </strong></span>Lets get some practice fitting a linear model in R. Load the alligator data set, from the HannayAppliedStats package. Fit a linear model to this data in <code>R</code> with the weight as the response variable and the snout vent length as the explanatory variable.
++ What does the slope tell you for this model?
++ What is a 95% confidence interval for the slope?</p>
+</div>
+</div>
+</div>
+<div id="assumptions-of-linear-regression" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Assumptions of Linear Regression<a href="introduction-to-linear-regression.html#assumptions-of-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Recall the form of our statistical model for linear regression is:</p>
+<p><span class="math display">\[ y_j=\beta_1 x_j+\alpha_0+\epsilon_j \]</span></p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Linearity</strong>: The most important assumption of linear regression is that the response variable <span class="math inline">\(y\)</span> is <strong>linearly</strong> dependent on the explanatory variable. This assumption forms the bedrock for the rest of our analysis, so when it is violated the entire model is invalid. The good news is that many relationships in nature are at least approximately linear. We can examine this assumption by looking at a scatter plot of the two variables, and by examining the residual plot.</p></li>
+<li><p><strong>Independence of Errors</strong>: We assume that the errors added to our model (the <span class="math inline">\(\epsilon_j\)</span> terms) are all independent.</p></li>
+<li><p><strong>Equal Variance of Errors</strong>: We assume the standard deviation of the errors is the same for all values of the explanatory variable <span class="math inline">\(x_j\)</span>. Without this assumption we would need to perform what is called a weighted least squares on our data- which generally requires more data than a normal linear regression. This won’t be covered in the class. The residual plot will reveal if this assumption is at least approximately valid.</p></li>
+<li><p><strong>Normality of Errors</strong>: The least important assumption is that the errors are normally distributed. If this is violated it doesn’t have a effect on the best fit parameters, only in the estimation of the confidence intervals for those parameters. We can verify this assumption by making a QQ plot of the residuals.</p></li>
+</ol>
+<div id="successful-linear-regression" class="section level3 hasAnchor" number="11.3.1">
+<h3><span class="header-section-number">11.3.1</span> Successful Linear Regression<a href="introduction-to-linear-regression.html#successful-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In this notebook we will examine some metrics to test for how well our linear regression has performed for a set of data.</p>
+<p>To begin we make some fake data which fits the assumptions for linear regression analysis:</p>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="introduction-to-linear-regression.html#cb454-1" aria-hidden="true" tabindex="-1"></a>beta0<span class="ot">&lt;-</span><span class="fl">2.0</span>;</span>
+<span id="cb454-2"><a href="introduction-to-linear-regression.html#cb454-2" aria-hidden="true" tabindex="-1"></a>beta1<span class="ot">&lt;-</span><span class="fl">1.0</span>;</span>
+<span id="cb454-3"><a href="introduction-to-linear-regression.html#cb454-3" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="fl">0.05</span>);</span>
+<span id="cb454-4"><a href="introduction-to-linear-regression.html#cb454-4" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span>beta0<span class="sc">+</span>beta1<span class="sc">*</span>x<span class="sc">+</span><span class="fu">rnorm</span>(<span class="fu">length</span>(x),<span class="fl">0.0</span>,<span class="fl">1.0</span>); <span class="do">## random, independent normally distributed noise</span></span>
+<span id="cb454-5"><a href="introduction-to-linear-regression.html#cb454-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-428-1.png" width="672" /></p>
+<p>We may know run a linear regression in <span class="math inline">\(R\)</span> using the <span class="math inline">\(lm\)</span> command,</p>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="introduction-to-linear-regression.html#cb455-1" aria-hidden="true" tabindex="-1"></a>lm.results <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span></code></pre></div>
+<p>we store the results of the linear regression in the lm.results object. If we want a quick summary of the results we can use the <code>summary</code> command:</p>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="introduction-to-linear-regression.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.results)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.40261 -0.75471 -0.03484  0.60492  3.01923 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   2.0745     0.1393   14.89   &lt;2e-16 ***
+## x             0.9754     0.0241   40.48   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9911 on 199 degrees of freedom
+## Multiple R-squared:  0.8917, Adjusted R-squared:  0.8911 
+## F-statistic:  1638 on 1 and 199 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We may get confidence intervals on the parameters by running:</p>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="introduction-to-linear-regression.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm.results, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##                 2.5 %   97.5 %
+## (Intercept) 1.7997706 2.349146
+## x           0.9278395 1.022875</code></pre>
+<p>The following command is part of my package (HannayIntroStats) and makes a few plots automatically which are useful in determining whether linear regression is working on a data set.</p>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="introduction-to-linear-regression.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagRegressionPlots</span>(lm.results)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-432-1.png" width="672" /></p>
+<p>As expected since we created this fake data so that it satisfies each of the assumptions of regression it passes each of our tests. Starting with the histogram and QQ plot of the residuals. We can see from these two plots that the errors are approximately normally distributed (mound shaped histogram, and QQ plot roughly along the line).</p>
+<p>The top right plot shows the residual values as a function of the explanatory variable. We will see this plot will help us check for equal variance in the errors. In this case the width of the residuals is approximately the same as the x variable increases. This indicates the variance in the noise terms is constant. This plot also shows a flat tube of points centered around zero. If this is not the case then this indicates the first assumption (linearity) is violated.</p>
+<p>The bottom right plot shows the data plotted against the regression line model.</p>
+</div>
+<div id="what-failure-looks-like" class="section level3 hasAnchor" number="11.3.2">
+<h3><span class="header-section-number">11.3.2</span> What Failure Looks Like<a href="introduction-to-linear-regression.html#what-failure-looks-like" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now we will see what it looks like when the assumptions of linear regression are violated, and how we can tell from our diagnostic plots. These topics are roughly in the order of how serious these errors are.</p>
+<div id="not-a-linear-relationship-between-variables" class="section level4 hasAnchor" number="11.3.2.1">
+<h4><span class="header-section-number">11.3.2.1</span> Not a Linear Relationship between Variables<a href="introduction-to-linear-regression.html#not-a-linear-relationship-between-variables" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The most serious error occurs when we attempt to fit a linear regression line to data which clearly does not show a linear pattern. Many times this can be avoided by making a scatter plot of the data before you attempt to fit a regression line. For example, in the below plot we can see that their clearly is a nonlinear relationship between the variables x and y.</p>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="introduction-to-linear-regression.html#cb461-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(x), <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb461-2"><a href="introduction-to-linear-regression.html#cb461-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-433-1.png" width="672" /></p>
+<p>Let’s assume we ignores this and fit a linear model anyway.</p>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="introduction-to-linear-regression.html#cb462-1" aria-hidden="true" tabindex="-1"></a>lm.fail.notlinear <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb462-2"><a href="introduction-to-linear-regression.html#cb462-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.fail.notlinear)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.3562 -0.7768  0.0900  0.8724  2.6430 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.34904    0.16941  13.866   &lt;2e-16 ***
+## x           -0.01628    0.02931  -0.556    0.579    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.205 on 199 degrees of freedom
+## Multiple R-squared:  0.001549,   Adjusted R-squared:  -0.003469 
+## F-statistic: 0.3087 on 1 and 199 DF,  p-value: 0.5791</code></pre>
+<p>Now we can make some diagnostic plots for linear regression.</p>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="introduction-to-linear-regression.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagRegressionPlots</span>(lm.fail.notlinear)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-435-1.png" width="672" /></p>
+<p>Notice that the residual plot in the top right shows a clear pattern. This is a sign that the relationship between the variables is nonlinear, and a linear model is not appropriate.</p>
+</div>
+<div id="errors-are-not-independent" class="section level4 hasAnchor" number="11.3.2.2">
+<h4><span class="header-section-number">11.3.2.2</span> Errors are not independent<a href="introduction-to-linear-regression.html#errors-are-not-independent" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The next most important assumption for linear regression models is that the errors are independent. If this isn’t the case then the errors can give false trends when we fit the model.</p>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="introduction-to-linear-regression.html#cb465-1" aria-hidden="true" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">generateCorrelatedErrors</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">lag =</span> <span class="dv">5</span>, <span class="at">sigma =</span> <span class="dv">2</span>)</span>
+<span id="cb465-2"><a href="introduction-to-linear-regression.html#cb465-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> noise</span>
+<span id="cb465-3"><a href="introduction-to-linear-regression.html#cb465-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-436-1.png" width="672" /></p>
+<p>Lets make the linear model as usual.</p>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="introduction-to-linear-regression.html#cb466-1" aria-hidden="true" tabindex="-1"></a>lm.fail.notind <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb466-2"><a href="introduction-to-linear-regression.html#cb466-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.fail.notind)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.94277 -0.35069 -0.03371  0.30615  1.49179 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.20320    0.06769   32.55   &lt;2e-16 ***
+## x            0.94451    0.01171   80.67   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4816 on 199 degrees of freedom
+## Multiple R-squared:  0.9703, Adjusted R-squared:  0.9702 
+## F-statistic:  6507 on 1 and 199 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Now we can make some diagnostic plots for linear regression.</p>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="introduction-to-linear-regression.html#cb468-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagRegressionPlots</span>(lm.fail.notind)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-438-1.png" width="672" /></p>
+<p>Notice that the residual plot has a weird shape/pattern to it. This is because the noise terms are not independent! These not independent random effects invalidate our linear model in this case. Typically, we can look for non-independence by looking for any non-random effects on the residual plot.</p>
+</div>
+<div id="unequal-variance-in-residuals" class="section level4 hasAnchor" number="11.3.2.3">
+<h4><span class="header-section-number">11.3.2.3</span> Unequal Variance in Residuals<a href="introduction-to-linear-regression.html#unequal-variance-in-residuals" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The next assumption of linear regression analysis is that the variance (or standard deviation) of the error terms is constant across all values of the explanatory variable. This is easily checked by looking at the residual plot. If the variance is not constant then the residual plot rectangle will change widths as the explanatory (x) variable changes.</p>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="introduction-to-linear-regression.html#cb469-1" aria-hidden="true" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(x), <span class="at">sd =</span> <span class="fl">0.1</span>) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> x)</span>
+<span id="cb469-2"><a href="introduction-to-linear-regression.html#cb469-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> noise</span>
+<span id="cb469-3"><a href="introduction-to-linear-regression.html#cb469-3" aria-hidden="true" tabindex="-1"></a>lm.fail.var <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb469-4"><a href="introduction-to-linear-regression.html#cb469-4" aria-hidden="true" tabindex="-1"></a><span class="fu">diagRegressionPlots</span>(lm.fail.var)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-439-1.png" width="672" /></p>
+<p>In the above plot the residuals variance increases with x. This issue is correctable if we use weighted least squares analysis.</p>
+</div>
+<div id="non-normality-in-noise" class="section level4 hasAnchor" number="11.3.2.4">
+<h4><span class="header-section-number">11.3.2.4</span> Non-Normality in Noise<a href="introduction-to-linear-regression.html#non-normality-in-noise" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This is not a huge concern for most linear regression models as they are not very sensitive to this assumption. However, our error terms need to be roughly mound shaped and continuous in nature to apply linear regression. If these are violated severely it will appear in the QQ plot and histogram of the residuals.</p>
+<p>For the example below I use a error (noise) term which follows a t distribution with two degrees of freedom (this has heavier tails then the normal distribution). Since our <em>assumed</em> regression model has less density in the tails our model will underestimate the chances of having large deviations from the curve.</p>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="introduction-to-linear-regression.html#cb470-1" aria-hidden="true" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="fu">length</span>(x), <span class="dv">2</span>)  <span class="co">#rbimodalNormal(length(x),sigma1=0.25, sigma2=0.25)</span></span>
+<span id="cb470-2"><a href="introduction-to-linear-regression.html#cb470-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> noise</span>
+<span id="cb470-3"><a href="introduction-to-linear-regression.html#cb470-3" aria-hidden="true" tabindex="-1"></a>lm.fail.normal <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb470-4"><a href="introduction-to-linear-regression.html#cb470-4" aria-hidden="true" tabindex="-1"></a><span class="fu">diagRegressionPlots</span>(lm.fail.normal, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-440-1.png" width="672" /></p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-441" class="exercise"><strong>Exercise 11.5  </strong></span>Run these diagnostics on our model for flying times based on distance used in the first section of the notes. Are any of the assumptions of linear regression significantly violated?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-442" class="exercise"><strong>Exercise 11.6  </strong></span>Run these diagnostics on the model we formed for house prices. Are any of the assumptions of linear regression significantly violated?</p>
+</div>
+</div>
+</div>
+</div>
+<div id="goodness-of-fit" class="section level2 hasAnchor" number="11.4">
+<h2><span class="header-section-number">11.4</span> Goodness of Fit<a href="introduction-to-linear-regression.html#goodness-of-fit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The last topic we will discuss for linear regression are some measures of the <strong>goodness of fits</strong> for our models. These measurements are focused on how well the model performs in predicting the response variable in terms of the explanatory variable.</p>
+<div id="correlation-and-slope" class="section level3 hasAnchor" number="11.4.1">
+<h3><span class="header-section-number">11.4.1</span> Correlation and Slope<a href="introduction-to-linear-regression.html#correlation-and-slope" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You may have heard the term <em>correlation</em> used before. I have focused mainly on the slope of a regression model <span class="math inline">\(\beta\)</span> for measuring the strength of a linear relationship between two continious variables. However, the correlation coefficient is also a meaure for this. In fact the two of them are explicity related:
+<span class="math display">\[
+\begin{aligned}
+&amp; \beta=\rho \frac{\sigma_Y}{\sigma_X} \qquad \implies \qquad \rho=\beta \frac{\sigma_X}{\sigma_Y} \\
+&amp;\rho=\text{Pearson&#39;s correlation coefficient} \\
+&amp;\sigma_Y=\text{Standard deviation of the response variable} \\
+&amp;\sigma_Y=\text{Standard deviation of the explanatory variable}
+\end{aligned}
+\]</span>
+Notice that if we have <span class="math inline">\(\sigma_X=\sigma_Y\)</span> then <span class="math inline">\(\rho=\beta\)</span>. An easy way to get <span class="math inline">\(\sigma_X=\sigma_Y\)</span> is to scale both the explanatory and response variables. Recall that the scale command in R subtracts the mean of a column from the values and divides by the standard deviation. The end result is a value which has mean zero and standard deviation equal to one <span class="math inline">\(\sigma_x=\sigma_y=1\)</span>.</p>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="introduction-to-linear-regression.html#cb471-1" aria-hidden="true" tabindex="-1"></a>at2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(flightNYC<span class="sc">$</span>air_time)</span>
+<span id="cb471-2"><a href="introduction-to-linear-regression.html#cb471-2" aria-hidden="true" tabindex="-1"></a>dist2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(flightNYC<span class="sc">$</span>distance)</span>
+<span id="cb471-3"><a href="introduction-to-linear-regression.html#cb471-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a linear model and show only the computed slope</span></span>
+<span id="cb471-4"><a href="introduction-to-linear-regression.html#cb471-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(at2 <span class="sc">~</span> dist2)<span class="sc">$</span>coefficients[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>##     dist2 
+## 0.9900764</code></pre>
+<p>We can find the correlation between two variables using the <code>corr</code> command in R.</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="introduction-to-linear-regression.html#cb473-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(flightNYC<span class="sc">$</span>air_time, flightNYC<span class="sc">$</span>distance)</span></code></pre></div>
+<pre><code>## [1] 0.9900764</code></pre>
+<p>The correlation coefficient will always have the property that <span class="math inline">\(-1 \leq \rho \leq 1\)</span>. Values near 1 indicate a strong positive linear relationship, and values near -1 indicate a strong negative relationship.</p>
+<p>The correlation coefficient is especially useful when trying to compare the strength of a linear relationship between regression models. Suppose we have formed two models <span class="math inline">\(y=\beta x_1+\alpha\)</span> and <span class="math inline">\(y=\beta x_2+\alpha\)</span> and we want to know which of these exhibits a stronger linear relationship. Comparing the slopes directly isn’t a good idea as the two explanatory variables <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> may have different units. Looking at the correlation coefficients removes the units and allows for a direct comparison.</p>
+</div>
+<div id="r2-coefficient-of-determination-and-measuring-model-fits" class="section level3 hasAnchor" number="11.4.2">
+<h3><span class="header-section-number">11.4.2</span> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits<a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The residual standard error is given by <span class="math display">\[\hat{\sigma}=\sqrt{\frac{\sum_{i=1}^N r_i^2}{N-k}}\]</span> where <span class="math inline">\(N\)</span> is the number of data points and <span class="math inline">\(k\)</span> the number of parameters estimated. This quantity gives us an idea about the raw accuracy of the regression model in its predictions. In other words the residual standard deviation is a measure of the distance each observation falls from its prediction in the model.</p>
+<p>We can also describe the <strong>fit</strong> of a model using the <span class="math inline">\(R^2\)</span> value, which gives the fraction of the response variance explained by the statistical model. The unexplained variance is the variance of the residuals <span class="math inline">\(\sigma_R^2\)</span>, and let <span class="math inline">\(\sigma_Y^2\)</span> be the variance of the response variable data, then <span class="math display">\[R^2=1-\frac{\sigma_R^2}{\sigma_Y^2}=\rho^2.\]</span> This quantity is just the correlation coefficient <span class="math inline">\(\rho\)</span> squared.</p>
+<p>If the model tells us nothing about the relationship we expect to find <span class="math inline">\(R^2=0\)</span> meaning none of the variation in the response variable is explained by the model. On the other hand if the y values lie perfectly along a line we would have <span class="math inline">\(\hat{\sigma}=0\)</span> which gives <span class="math inline">\(R^2=1\)</span>. In general the values of <span class="math inline">\(R^2\)</span> will lie somewhere between zero and one.</p>
+<p>One final note about the <em>goodness of fit</em> measures. They are often incorrectly used as a total measure of the utility of a model. While it is true that a linear model with a small <span class="math inline">\(R^2\)</span> value cannot precisely predict the response variable, these models can still tell us important things about our data (and life in general). As an example lets consider some (fake) data on the life expectancy of people given how many pounds of bacon they have consumed.</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="introduction-to-linear-regression.html#cb475-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;bacon_data&quot;</span>)</span>
+<span id="cb475-2"><a href="introduction-to-linear-regression.html#cb475-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bacon_data<span class="sc">$</span>bacon.lbs, bacon_data<span class="sc">$</span>life.expectancy)</span>
+<span id="cb475-3"><a href="introduction-to-linear-regression.html#cb475-3" aria-hidden="true" tabindex="-1"></a>lm.bacon <span class="ot">&lt;-</span> <span class="fu">lm</span>(life.expectancy <span class="sc">~</span> bacon.lbs, <span class="at">data =</span> bacon_data)</span>
+<span id="cb475-4"><a href="introduction-to-linear-regression.html#cb475-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.bacon)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = life.expectancy ~ bacon.lbs, data = bacon_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -23.0173  -6.7654  -0.8563   7.3563  19.1479 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 74.84679    2.53536   29.52  &lt; 2e-16 ***
+## bacon.lbs   -0.10596    0.02189   -4.84 4.84e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 9.534 on 98 degrees of freedom
+## Multiple R-squared:  0.1929, Adjusted R-squared:  0.1847 
+## F-statistic: 23.43 on 1 and 98 DF,  p-value: 4.836e-06</code></pre>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="introduction-to-linear-regression.html#cb477-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm.bacon)</span></code></pre></div>
+<pre><code>##                  2.5 %     97.5 %
+## (Intercept) 69.8154511 79.8781311
+## bacon.lbs   -0.1494015 -0.0625155</code></pre>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="introduction-to-linear-regression.html#cb479-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bacon_data<span class="sc">$</span>bacon.lbs, bacon_data<span class="sc">$</span>life.expectancy)</span>
+<span id="cb479-2"><a href="introduction-to-linear-regression.html#cb479-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm.bacon, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-445-1.png" width="672" /></p>
+<p>In this analysis of the effect of eating bacon is on life expectancy, we don’t expect for the amount of bacon to completely explain why one person lives longer than others. Therefore, we expect the bacon consumption will have a low <span class="math inline">\(R^2\)</span> value. Indeed we can see above that it does have a low value. However, we also find that for every pound of bacon we eat we expect to lose between 51 days and 21 days of life. According to our fake data bacon doesn’t <em>predict</em> how long you are going to live, but it does have important effects on your life expectancy.</p>
+<p>The lesson here is that we use linear regression to understand complex phenomena we should not expect to have high <span class="math inline">\(R^2\)</span> values (no free lunches). This doesn’t always mean those models are useless– it depends on what you are trying to learn by forming the model!</p>
+</div>
+</div>
+<div id="using-regression-models-to-make-predictions" class="section level2 hasAnchor" number="11.5">
+<h2><span class="header-section-number">11.5</span> Using Regression Models to Make Predictions<a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In many cases you do want to use linear regression on a data set to forecast the response variable (y) given a value for the explanatory variable (x). In the most basic sense we can do this by just plugging the new x variable into our best-fit regression model. For example, let’s think out the flight data set again and say we want to predict the flight time for a flight which will travel 1400 miles. Well our best fit values for the intercept and slope are:</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="introduction-to-linear-regression.html#cb480-1" aria-hidden="true" tabindex="-1"></a>res.flying<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>## (Intercept)    distance 
+##  18.1939236   0.1264254</code></pre>
+<p>Therefore, we can plug in our x value to the linear model: <span class="math display">\[ T=\beta D+\alpha=0.1264*(1400)+18.19 \]</span> which gives an estimate of 195.15 minutes of flying time.</p>
+<p>However, we can do better than just providing a single best estimate for the flying time. Our statistical model can also give a <strong>prediction interval</strong> which is likely to contain the true flying time. This involves factoring in the size of the error terms <span class="math inline">\(\epsilon_i\)</span> in our regression model <span class="math display">\[y_i=\beta x_i+ \alpha+\epsilon_i.\]</span> Of course we have assumed that the <span class="math inline">\(\epsilon_i\)</span> terms are normally distributed with a mean 0 and a constant standard deviation <span class="math inline">\(\sigma_\epsilon\)</span>.</p>
+<p>Therefore, a good start is to form the 95% prediction interval using the empirical rule <span class="math display">\[(\beta x_{new} + \alpha-2\sigma_\epsilon, \beta x_{new} + \alpha+2 \sigma_\epsilon)\approx 0.95.\]</span> However, this is slightly more complicated by the fact that we have some uncertainty in both the slope and y-intercept parameters <span class="math inline">\((\beta, \alpha)\)</span> in addition to our imperfect knowledge of <span class="math inline">\(\sigma_\epsilon\)</span>. For one this means we should be using a t distribution instead of the empirical rule if we want to be precise:
+<span class="math display">\[(\beta x_{new} + \alpha-t(0.025, N-2) se(y_{new}), \beta x_{new} + \alpha+t(0.025, N-2) se(y_{new}))\approx 0.95.\]</span></p>
+<p>The standard error of <span class="math inline">\(y_{new}\)</span> is given by the rather complicated formula:
+<span class="math display">\[y_{new}=s_e \sqrt{1+\frac{1}{N}+\frac{(x_{new}-\bar{x})^2}{(N-1) s_x^2}}\]</span> where <span class="math inline">\(N\)</span> is the sample size, <span class="math inline">\(\bar{x}\)</span> is the mean of the <span class="math inline">\(x\)</span> variable, <span class="math inline">\(s_x\)</span> is the standard deviation of the x variable and <span class="math inline">\(s_e\)</span> is the standard error of the residuals.</p>
+<p>Thankfully, we should not ever have to compute this by hand (or remember this formula). However, notice that <span class="math inline">\(se(y_{new})\approx s_e\)</span> when <span class="math inline">\(x_{new}\approx\bar{x}\)</span> and otherwise the size of the prediction interval will grow. This tells us we can make the most accurate predictions for <span class="math inline">\(x\)</span> near the average value of <span class="math inline">\(x\)</span> in the data set. Also, notice that <span class="math inline">\(se(y_{new})\approx s_e\)</span> for very large data sets <span class="math inline">\(N\rightarrow \infty\)</span>. In these cases we can use the simplified rule of thumb for prediction intervals: <span class="math display">\[ \text{Rule of Thumb:}\qquad y_{new} \pm 2 s_e\]</span></p>
+<p>We can find <span class="math inline">\(s_e\)</span> (the standard error for the residuals) for our model using the command:</p>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="introduction-to-linear-regression.html#cb482-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(res.flying<span class="sc">$</span>residuals)</span></code></pre></div>
+<pre><code>## [1] 12.86345</code></pre>
+<p>or by finding the correct line in the summary:</p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="introduction-to-linear-regression.html#cb484-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res.flying)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = air_time ~ distance, data = flightNYC)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -46.475  -7.273  -1.248   6.470  81.136 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 18.193924   0.321725   56.55   &lt;2e-16 ***
+## distance     0.126425   0.000254  497.73   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 12.86 on 4991 degrees of freedom
+## Multiple R-squared:  0.9803, Adjusted R-squared:  0.9802 
+## F-statistic: 2.477e+05 on 1 and 4991 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Therefore for our flying case we can estimate our prediction interval for the flying time for a 1400 mile trip as <span class="math inline">\(195.15 \pm 2*12.86\)</span>=(169.43, 220.87).</p>
+<p>If we require more accuracy (want to use the more complicated formula) then we can use the software to form the prediction interval. In <code>R</code> we can find the prediction interval with the following command:</p>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="introduction-to-linear-regression.html#cb486-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(res.flying, <span class="fu">data.frame</span>(<span class="at">distance =</span> <span class="dv">1400</span>), <span class="at">interval =</span> <span class="st">&quot;predict&quot;</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##        fit      lwr      upr
+## 1 195.1895 169.9659 220.4132</code></pre>
+<p>Notice this is almost exactly the same interval that our rule of thumb produced. If we want to form prediction intervals for a range of <span class="math inline">\(x\)</span> values we can do this as well. The below code forms the prediction intervals and plots them alongside the data.</p>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="introduction-to-linear-regression.html#cb488-1" aria-hidden="true" tabindex="-1"></a><span class="do">## How to make prediction intervals for flight times</span></span>
+<span id="cb488-2"><a href="introduction-to-linear-regression.html#cb488-2" aria-hidden="true" tabindex="-1"></a>values.predict <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">3000</span>, <span class="dv">10</span>)  <span class="do">##make a sequence of value to predict</span></span>
+<span id="cb488-3"><a href="introduction-to-linear-regression.html#cb488-3" aria-hidden="true" tabindex="-1"></a>predict.flying <span class="ot">=</span> <span class="fu">predict</span>(res.flying, <span class="fu">data.frame</span>(<span class="at">distance =</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">3000</span>, <span class="dv">10</span>)), <span class="at">interval =</span> <span class="st">&quot;predict&quot;</span>,</span>
+<span id="cb488-4"><a href="introduction-to-linear-regression.html#cb488-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb488-5"><a href="introduction-to-linear-regression.html#cb488-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(flightNYC<span class="sc">$</span>distance, flightNYC<span class="sc">$</span>air_time, <span class="at">main =</span> <span class="st">&quot;Flying Distance versus Time Linear Model&quot;</span>,</span>
+<span id="cb488-6"><a href="introduction-to-linear-regression.html#cb488-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Distance (Miles)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Time (Minutes)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">cex =</span> <span class="fl">0.3</span>)</span>
+<span id="cb488-7"><a href="introduction-to-linear-regression.html#cb488-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(values.predict, predict.flying[, <span class="st">&quot;lwr&quot;</span>], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb488-8"><a href="introduction-to-linear-regression.html#cb488-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(values.predict, predict.flying[, <span class="st">&quot;upr&quot;</span>], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-450-1.png" width="672" /></p>
+<div id="some-warnings-about-prediction-intervals" class="section level4 hasAnchor" number="11.5.0.1">
+<h4><span class="header-section-number">11.5.0.1</span> Some Warnings about Prediction Intervals<a href="introduction-to-linear-regression.html#some-warnings-about-prediction-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Some caution is advised when forming prediction intervals for regression models. Here are some warnings:</p>
+<ul>
+<li><p>Prediction intervals are <strong>very sensitive</strong> to the assumptions of linear regression being strictly satisfied. For example, the residuals really need to have a normal distribution for our intervals to form accurate intervals.</p></li>
+<li><p>Be careful using prediction intervals for value of the x values which are outside the range of observed values. Just because the assumptions of linear regression are satisfied for the data shown doesn’t mean they will be outside the range shown.</p></li>
+</ul>
+</div>
+</div>
+<div id="homework-9" class="section level2 hasAnchor" number="11.6">
+<h2><span class="header-section-number">11.6</span> Homework<a href="introduction-to-linear-regression.html#homework-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="concept-questions-8" class="section level4 hasAnchor" number="11.6.0.1">
+<h4><span class="header-section-number">11.6.0.1</span> Concept Questions:<a href="introduction-to-linear-regression.html#concept-questions-8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Are the following statements True or False?:</p>
+<ol style="list-style-type: decimal">
+<li><p>When conducting linear regression we assume that the error terms are independent</p></li>
+<li><p>The <span class="math inline">\(R^2\)</span> term measures the goodness of fit for a linear model</p></li>
+<li><p>Linear models with a small <span class="math inline">\(R^2\)</span> term should be discarded in all applications as they are poor predictive models.</p></li>
+<li><p>An assumption of linear regression analysis is that the error terms have equal variance.</p></li>
+<li><p>The least squares solution finds the minimum of the sum of the residuals squared.</p></li>
+<li><p>The standard error of the residuals gives a measure of the predictive power of a regression model.</p></li>
+<li><p>It is safe to form prediction intervals for any value of the explanatory variable we want.</p></li>
+<li><p>The width of the prediction interval will decrease if the standard error of the residuals for a model decreases.</p></li>
+</ol>
+</div>
+<div id="practice-problems-9" class="section level4 hasAnchor" number="11.6.0.2">
+<h4><span class="header-section-number">11.6.0.2</span> Practice Problems:<a href="introduction-to-linear-regression.html#practice-problems-9" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li>If we fit a linear model for the effect of a pesticide dosage (gallons sprayed) on the yield of tomatoes (pounds) on our field and find the best fit slope is <span class="math inline">\(\beta=1.2\)</span> and a 99% confidence interval for the slope is given by <span class="math inline">\((0.75, 1.25)\)</span> what can we say about the effect of spraying an additional gallon of pesticide on our field on our crop yield?</li>
+<li>We have collected a data set on the amount of hours studying versus the grade on a final exam for 300 students. We find this plot has a slope a best fit slope of <span class="math inline">\(5.0\)</span> with a 95% confidence interval of <span class="math inline">\((3.0,6.0)\)</span>. What can we conclude about the effects of studying for one additional hour? Do you expect this model to have a high <span class="math inline">\(R^2\)</span> value?</li>
+</ol>
+</div>
+<div id="advanced-problems-9" class="section level4 hasAnchor" number="11.6.0.3">
+<h4><span class="header-section-number">11.6.0.3</span> Advanced Problems:<a href="introduction-to-linear-regression.html#advanced-problems-9" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For each of these data sets conduct a full regression analysis including an exploratory scatter plot, fit a linear model, form confidence intervals for the parameters and perform diagnostics to determine if the assumptions of linear regression are satisfied.</p>
+<ol style="list-style-type: decimal">
+<li><p>Load the <code>cricket_chirps</code> data set. Conduct a linear regression using the temperature as the explanatory variable and the chirps per second as the response variable.</p></li>
+<li><p>Load the <code>kidiq</code> data set. Conduct a linear regression analysis to see how well the mom’s IQ (mom_iq) relates to the kid_score) column giving the child’s IQ score. What can you conclude about the genetic components of intelligence?</p></li>
+<li><p>Load the <code>NBA_Draft_Data</code> data set. Perform a linear regression analysis with the <code>Pick.Number</code> column as the explanatory variable and the <code>PTS</code> column as the response variable.</p>
+<ul>
+<li><p>Form a 99% confidence interval for the slope. What does this tell you about the value of an NBA draft pick?</p></li>
+<li><p>About how many more points does the number one pick average than the 10th pick?</p></li>
+<li><p>Form a prediction interval for the PPG average of the number 2 pick in the draft</p></li>
+</ul></li>
+<li><p>Load the <code>seaice_dec_northern</code> data set. Conduct a linear regression analysis of this data set using the year as the explanatory variable and the <code>extent</code> column as the response variable. Check the assumptions of linear regression using diagnostic plots, are any of the conditions violated?</p></li>
+<li><p>Load the <code>StudentsPerformance</code> data set. Conduct a linear regression analysis on this with the <code>Math.Score</code> column as the explanatory variable and <code>Writing.Score</code> as the response variable. Form a confidence interval for the slope parameter and interpret the meaning of this interval.</p></li>
+<li><p><em>Exponential Models:</em> Load the <code>census.us.pop</code> data set. This data contains the census population of the united states every ten years from 1790 to 2010. Make a scatter plot of the <code>Year</code> column versus the <code>Population</code> column. You should notice that the population grows roughly exponentially with the year. Therefore, we could try and fit a exponential model to this data: <span class="math display">\[P=\alpha e^{\beta t}\]</span> where <span class="math inline">\(t\)</span> is the number of years since 1790 and <span class="math inline">\(P\)</span> in the united states population. You might notice that this is <em>not a linear model</em>. However, we can turn this exponential model into a linear one by taking the logarithm of both sides. This gives <span class="math display">\[\log(P)=\log(\alpha)+\beta t\]</span></p></li>
+</ol>
+<p>Make two variables (x,y) to store the tranformed variables:</p>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="introduction-to-linear-regression.html#cb489-1" aria-hidden="true" tabindex="-1"></a>logpop <span class="ot">=</span> <span class="fu">log</span>(census.us.pop<span class="sc">$</span>Population)</span>
+<span id="cb489-2"><a href="introduction-to-linear-regression.html#cb489-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> census.us.pop<span class="sc">$</span>Year <span class="sc">-</span> <span class="dv">1790</span></span></code></pre></div>
+<p>Now perform a linear regression to estimate <span class="math inline">\(\beta\)</span> and <span class="math inline">\(log(\alpha)\)</span>. Perform some diagnostics on your regression. Are the assumptions of linear regression satisfied for our transformed data set?</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="confidence-intervals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regression-with-categorical-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/10-Introduction_to_Regression.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statsbook.pdf", "statsbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"collapse": "section"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

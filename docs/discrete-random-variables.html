@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Discrete Random Variables | Introduction to Statistics and Data Science</title>
+  <meta name="description" content="Introductory textbook for statistics and data science" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Discrete Random Variables | Introduction to Statistics and Data Science" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Introductory textbook for statistics and data science" />
+  <meta name="github-repo" content="khannay/statsbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Discrete Random Variables | Introduction to Statistics and Data Science" />
+  
+  <meta name="twitter:description" content="Introductory textbook for statistics and data science" />
+  
+
+<meta name="author" content="Dr. Kevin Hannay" />
+
+
+<meta name="date" content="2023-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="probability.html"/>
+<link rel="next" href="continuous-random-variables.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"> Stats Notes </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#librarian-or-farmer"><i class="fa fa-check"></i><b>1.1</b> Librarian or Farmer?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#profits"><i class="fa fa-check"></i><b>1.2</b> Profits</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#accidental-deaths"><i class="fa fa-check"></i><b>1.3</b> Accidental Deaths</a></li>
+</ul></li>
+<li class="part"><span><b>I Exploratory Data Analysis</b></span></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R Packages</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-as-a-fancy-calculator"><i class="fa fa-check"></i><b>2.3</b> R as a Fancy Calculator</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#more-advanced-r"><i class="fa fa-check"></i><b>2.4</b> More Advanced R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types-in-r"><i class="fa fa-check"></i><b>2.4.1</b> Data Types in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#logic-in-r"><i class="fa fa-check"></i><b>2.5</b> Logic in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#storing-data-in-r"><i class="fa fa-check"></i><b>2.6</b> Storing Data in R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>2.6.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.6.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>2.6.2</b> Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-plots-in-r"><i class="fa fa-check"></i><b>2.7</b> Basic Plots in R</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#additional-resources"><i class="fa fa-check"></i><b>2.8</b> Additional Resources</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#homework"><i class="fa fa-check"></i><b>2.9</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>3</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#shot-logs-basketball-data"><i class="fa fa-check"></i><b>3.1</b> Shot Logs Basketball Data</a></li>
+<li class="chapter" data-level="3.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#principal-types-of-statistical-data"><i class="fa fa-check"></i><b>3.2</b> Principal Types of Statistical Data</a></li>
+<li class="chapter" data-level="3.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#the-distribution-of-a-data-set"><i class="fa fa-check"></i><b>3.3</b> The Distribution of a Data Set</a></li>
+<li class="chapter" data-level="3.4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency"><i class="fa fa-check"></i><b>3.4</b> Numerical Measures for Central Tendency</a></li>
+<li class="chapter" data-level="3.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-of-variability"><i class="fa fa-check"></i><b>3.5</b> Numerical Measures of Variability</a></li>
+<li class="chapter" data-level="3.6" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing"><i class="fa fa-check"></i><b>3.6</b> Numerical Measures for Relative Standing</a></li>
+<li class="chapter" data-level="3.7" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot"><i class="fa fa-check"></i><b>3.7</b> Relation between Continuous and Categorical Variables: Boxplot</a></li>
+<li class="chapter" data-level="3.8" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots"><i class="fa fa-check"></i><b>3.8</b> Relation between Continuous Variables: Scatter Plots</a></li>
+<li class="chapter" data-level="3.9" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables"><i class="fa fa-check"></i><b>3.9</b> Relationship between Categorical Variables: Contingency Tables</a></li>
+<li class="chapter" data-level="3.10" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#tips-and-tricks"><i class="fa fa-check"></i><b>3.10</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="3.11" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#homework-1"><i class="fa fa-check"></i><b>3.11</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.1</b> What is Data Wrangling?</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#nas-and-the-curse-of-real-world-data"><i class="fa fa-check"></i><b>4.2</b> NA’s and the Curse of Real World Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#select-pick-only-a-few-columns"><i class="fa fa-check"></i><b>4.3</b> Select: Pick only a few columns</a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#filter-select-rows"><i class="fa fa-check"></i><b>4.4</b> Filter (select rows)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#compound-criteria"><i class="fa fa-check"></i><b>4.4.1</b> Compound Criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#chainspipes"><i class="fa fa-check"></i><b>4.5</b> Chains/Pipes %&gt;%</a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#grouping-data-together"><i class="fa fa-check"></i><b>4.6</b> Grouping Data Together</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#homework-2"><i class="fa fa-check"></i><b>4.7</b> Homework</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="data-wrangling.html"><a href="data-wrangling.html#concept-questions-2"><i class="fa fa-check"></i><b>4.7.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="4.7.2" data-path="data-wrangling.html"><a href="data-wrangling.html#practice-problems-2"><i class="fa fa-check"></i><b>4.7.2</b> Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html"><i class="fa fa-check"></i><b>5</b> Introduction to Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#what-is-clustering"><i class="fa fa-check"></i><b>5.1</b> What is Clustering?</a></li>
+<li class="chapter" data-level="5.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#introduction-to-kmeans-clustering"><i class="fa fa-check"></i><b>5.2</b> Introduction to Kmeans clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#how-many-clusters-should-we-choose"><i class="fa fa-check"></i><b>5.3</b> How many clusters should we choose?</a></li>
+<li class="chapter" data-level="5.4" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#clustering-nba-players"><i class="fa fa-check"></i><b>5.4</b> Clustering NBA Players</a></li>
+<li class="chapter" data-level="5.5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis"><i class="fa fa-check"></i><b>5.5</b> Requirements for Performing Cluster Analysis</a></li>
+<li class="chapter" data-level="5.6" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#homework-3"><i class="fa fa-check"></i><b>5.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#concept-questions-3"><i class="fa fa-check"></i><b>5.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="5.6.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#practice-problems-3"><i class="fa fa-check"></i><b>5.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="5.6.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#advanced-problems-3"><i class="fa fa-check"></i><b>5.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Probability Theory</b></span></li>
+<li class="chapter" data-level="6" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>6</b> Probability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="probability.html"><a href="probability.html#sample-spaces-and-events"><i class="fa fa-check"></i><b>6.1</b> Sample Spaces and Events</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="probability.html"><a href="probability.html#introduction"><i class="fa fa-check"></i><b>6.1.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.1.2" data-path="probability.html"><a href="probability.html#sample-spaces"><i class="fa fa-check"></i><b>6.1.2</b> Sample Spaces</a></li>
+<li class="chapter" data-level="6.1.3" data-path="probability.html"><a href="probability.html#law-of-sample-spaces"><i class="fa fa-check"></i><b>6.1.3</b> Law of Sample Spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="probability.html"><a href="probability.html#combinatorics"><i class="fa fa-check"></i><b>6.2</b> Combinatorics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="probability.html"><a href="probability.html#basic-principle-of-counting"><i class="fa fa-check"></i><b>6.2.1</b> Basic Principle of Counting</a></li>
+<li class="chapter" data-level="6.2.2" data-path="probability.html"><a href="probability.html#permutations"><i class="fa fa-check"></i><b>6.2.2</b> Permutations</a></li>
+<li class="chapter" data-level="6.2.3" data-path="probability.html"><a href="probability.html#combinations"><i class="fa fa-check"></i><b>6.2.3</b> Combinations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="probability.html"><a href="probability.html#axioms-of-probability"><i class="fa fa-check"></i><b>6.3</b> Axioms of Probability</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="probability.html"><a href="probability.html#beyond-the-law-of-sample-spaces"><i class="fa fa-check"></i><b>6.3.1</b> Beyond the Law of Sample Spaces</a></li>
+<li class="chapter" data-level="6.3.2" data-path="probability.html"><a href="probability.html#set-theory"><i class="fa fa-check"></i><b>6.3.2</b> Set Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="probability.html"><a href="probability.html#the-axioms-of-probability"><i class="fa fa-check"></i><b>6.3.3</b> The Axioms of Probability</a></li>
+<li class="chapter" data-level="6.3.4" data-path="probability.html"><a href="probability.html#the-or-rule"><i class="fa fa-check"></i><b>6.3.4</b> The OR Rule</a></li>
+<li class="chapter" data-level="6.3.5" data-path="probability.html"><a href="probability.html#the-and-rule"><i class="fa fa-check"></i><b>6.3.5</b> The AND Rule</a></li>
+<li class="chapter" data-level="6.3.6" data-path="probability.html"><a href="probability.html#the-complement-rule"><i class="fa fa-check"></i><b>6.3.6</b> The Complement Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="probability.html"><a href="probability.html#conditional-probability-and-independence"><i class="fa fa-check"></i><b>6.4</b> Conditional Probability and Independence</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="probability.html"><a href="probability.html#introduction-1"><i class="fa fa-check"></i><b>6.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.4.2" data-path="probability.html"><a href="probability.html#mathematical-definition"><i class="fa fa-check"></i><b>6.4.2</b> Mathematical Definition</a></li>
+<li class="chapter" data-level="6.4.3" data-path="probability.html"><a href="probability.html#independence"><i class="fa fa-check"></i><b>6.4.3</b> Independence</a></li>
+<li class="chapter" data-level="6.4.4" data-path="probability.html"><a href="probability.html#multiplicative-rule"><i class="fa fa-check"></i><b>6.4.4</b> Multiplicative Rule</a></li>
+<li class="chapter" data-level="6.4.5" data-path="probability.html"><a href="probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>6.4.5</b> Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="probability.html"><a href="probability.html#bayes-rule"><i class="fa fa-check"></i><b>6.5</b> Bayes Rule</a></li>
+<li class="chapter" data-level="6.6" data-path="probability.html"><a href="probability.html#homework-4"><i class="fa fa-check"></i><b>6.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="probability.html"><a href="probability.html#concept-questions-4"><i class="fa fa-check"></i><b>6.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="6.6.2" data-path="probability.html"><a href="probability.html#practice-problems-4"><i class="fa fa-check"></i><b>6.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="6.6.3" data-path="probability.html"><a href="probability.html#advanced-problems-4"><i class="fa fa-check"></i><b>6.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html"><i class="fa fa-check"></i><b>7</b> Discrete Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-variables"><i class="fa fa-check"></i><b>7.1</b> Random Variables</a></li>
+<li class="chapter" data-level="7.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables"><i class="fa fa-check"></i><b>7.2</b> Probability Distributions for Discrete Random Variables</a></li>
+<li class="chapter" data-level="7.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#properties-of-probability-distributions"><i class="fa fa-check"></i><b>7.3</b> Properties of Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-values-of-discrete-random-variables"><i class="fa fa-check"></i><b>7.3.1</b> Expected Values of Discrete Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.4</b> Expected Value of Sums of Random Variables</a></li>
+<li class="chapter" data-level="7.5" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-random-variables"><i class="fa fa-check"></i><b>7.5</b> Variance of Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.5.1</b> Variance of Sums of Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#bernoulli-random-variables"><i class="fa fa-check"></i><b>7.6</b> Bernoulli Random Variables</a></li>
+<li class="chapter" data-level="7.7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variables"><i class="fa fa-check"></i><b>7.7</b> Binomial Random Variables</a></li>
+<li class="chapter" data-level="7.8" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variable-in-r"><i class="fa fa-check"></i><b>7.8</b> Binomial Random Variable in R</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distribution-in-r"><i class="fa fa-check"></i><b>7.8.1</b> Probability Distribution in R</a></li>
+<li class="chapter" data-level="7.8.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r"><i class="fa fa-check"></i><b>7.8.2</b> Cumulative Distribution Calculations in R</a></li>
+<li class="chapter" data-level="7.8.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-binomial-distribution-in-r"><i class="fa fa-check"></i><b>7.8.3</b> Random Binomial Distribution in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#homework-5"><i class="fa fa-check"></i><b>7.9</b> Homework</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#concept-questions-5"><i class="fa fa-check"></i><b>7.9.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="7.9.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#advanced-problems-5"><i class="fa fa-check"></i><b>7.9.2</b> Advanced Problems:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>8</b> Continuous Random Variables</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#introduction-to-continuous-random-variables"><i class="fa fa-check"></i><b>8.1</b> Introduction to Continuous Random Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#uniform-random-variable"><i class="fa fa-check"></i><b>8.2</b> Uniform Random Variable</a></li>
+<li class="chapter" data-level="8.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>8.3</b> Normal Distribution</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#cumulative-distribution-function-cdf-for-normal-random-variables"><i class="fa fa-check"></i><b>8.3.1</b> Cumulative Distribution Function (CDF) for Normal Random Variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#finding-probabilities-for-the-normal-distribution"><i class="fa fa-check"></i><b>8.3.2</b> Finding Probabilities for the Normal Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#standard-normal-distribution-z"><i class="fa fa-check"></i><b>8.4</b> Standard Normal Distribution (<span class="math inline">\(Z\)</span>)</a></li>
+<li class="chapter" data-level="8.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#assessing-normality"><i class="fa fa-check"></i><b>8.5</b> Assessing Normality</a></li>
+<li class="chapter" data-level="8.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#regression-to-the-mean"><i class="fa fa-check"></i><b>8.6</b> Regression to the Mean</a></li>
+<li class="chapter" data-level="8.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#final-thoughts-on-random-variables"><i class="fa fa-check"></i><b>8.7</b> Final Thoughts on Random Variables</a></li>
+<li class="chapter" data-level="8.8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#homework-6"><i class="fa fa-check"></i><b>8.8</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>III Sampling and Confidence Intervals</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html"><i class="fa fa-check"></i><b>9</b> Introduction to Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#why-sample"><i class="fa fa-check"></i><b>9.1</b> Why Sample?</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#average-height-example"><i class="fa fa-check"></i><b>9.1.1</b> Average Height Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#inferences-and-point-estimators"><i class="fa fa-check"></i><b>9.2</b> Inferences and Point Estimators</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-distribution-of-sample-means"><i class="fa fa-check"></i><b>9.3</b> The Distribution of Sample Means</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#distribution-of-sample-means"><i class="fa fa-check"></i><b>9.4</b> Distribution of Sample Means</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>9.4.1</b> The Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#other-point-estimators"><i class="fa fa-check"></i><b>9.5</b> Other Point Estimators</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#sampling-distribution-for-the-sample-proportion"><i class="fa fa-check"></i><b>9.6</b> Sampling Distribution for the Sample Proportion</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#tales-in-sampling-poincares-baker"><i class="fa fa-check"></i><b>9.7</b> Tales in Sampling: Poincare’s Baker</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#homework-7"><i class="fa fa-check"></i><b>9.8</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>10</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#introduction-nyc-flights-dataset"><i class="fa fa-check"></i><b>10.1</b> Introduction NYC Flights Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#mean-flight-delays"><i class="fa fa-check"></i><b>10.2</b> Mean Flight Delays</a></li>
+<li class="chapter" data-level="10.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#shortcut-using-the-central-limit-theorem"><i class="fa fa-check"></i><b>10.3</b> Shortcut Using the Central Limit Theorem</a></li>
+<li class="chapter" data-level="10.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#additional-practice-comparing-airports"><i class="fa fa-check"></i><b>10.4</b> Additional Practice: Comparing Airports</a></li>
+<li class="chapter" data-level="10.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-proportion-confidence-intervals"><i class="fa fa-check"></i><b>10.5</b> Population Proportion Confidence Intervals</a></li>
+<li class="chapter" data-level="10.6" data-path="confidence-intervals.html"><a href="confidence-intervals.html#extra-practice-problems"><i class="fa fa-check"></i><b>10.6</b> Extra Practice Problems</a></li>
+<li class="chapter" data-level="10.7" data-path="confidence-intervals.html"><a href="confidence-intervals.html#homework-8"><i class="fa fa-check"></i><b>10.7</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>IV Regression</b></span></li>
+<li class="chapter" data-level="11" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Introduction to Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#statistical-models"><i class="fa fa-check"></i><b>11.1</b> Statistical Models</a></li>
+<li class="chapter" data-level="11.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r"><i class="fa fa-check"></i><b>11.2</b> Fitting a Linear Model in R</a></li>
+<li class="chapter" data-level="11.3" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>11.3</b> Assumptions of Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#successful-linear-regression"><i class="fa fa-check"></i><b>11.3.1</b> Successful Linear Regression</a></li>
+<li class="chapter" data-level="11.3.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#what-failure-looks-like"><i class="fa fa-check"></i><b>11.3.2</b> What Failure Looks Like</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>11.4</b> Goodness of Fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#correlation-and-slope"><i class="fa fa-check"></i><b>11.4.1</b> Correlation and Slope</a></li>
+<li class="chapter" data-level="11.4.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits"><i class="fa fa-check"></i><b>11.4.2</b> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions"><i class="fa fa-check"></i><b>11.5</b> Using Regression Models to Make Predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#homework-9"><i class="fa fa-check"></i><b>11.6</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html"><i class="fa fa-check"></i><b>12</b> Regression with Categorical Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#one-hot-encoding"><i class="fa fa-check"></i><b>12.2</b> One Hot Encoding</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#example-exercise-and-weight"><i class="fa fa-check"></i><b>12.2.1</b> Example: Exercise and Weight</a></li>
+<li class="chapter" data-level="12.2.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#housing-prices-by-neighborhood"><i class="fa fa-check"></i><b>12.2.2</b> Housing Prices by Neighborhood</a></li>
+<li class="chapter" data-level="12.2.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-exercise-and-gender-together"><i class="fa fa-check"></i><b>12.2.3</b> Advanced: Exercise and Gender Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#diagnostics"><i class="fa fa-check"></i><b>12.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="12.4" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#homework-10"><i class="fa fa-check"></i><b>12.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#concept-questions-9"><i class="fa fa-check"></i><b>12.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#practice-problems-10"><i class="fa fa-check"></i><b>12.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="12.4.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-problems-10"><i class="fa fa-check"></i><b>12.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html"><i class="fa fa-check"></i><b>13</b> Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#introduction-to-multiple-regression-models"><i class="fa fa-check"></i><b>13.1</b> Introduction to Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#housing-prices-review-of-simple-regression-results"><i class="fa fa-check"></i><b>13.1.1</b> Housing Prices (Review of Simple Regression Results)</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-including-bathrooms"><i class="fa fa-check"></i><b>13.1.2</b> Multiple Regression (Including Bathrooms)</a></li>
+<li class="chapter" data-level="13.1.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#diagnostics-for-multiple-linear-regression"><i class="fa fa-check"></i><b>13.1.3</b> Diagnostics for Multiple Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-with-categorical-variables-including-the-neighborhood"><i class="fa fa-check"></i><b>13.2</b> Multiple Regression with Categorical Variables: Including the Neighborhood</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#predictions"><i class="fa fa-check"></i><b>13.2.1</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#interactions-between-variables"><i class="fa fa-check"></i><b>13.3</b> Interactions between Variables</a></li>
+<li class="chapter" data-level="13.4" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#some-pitfalls-in-multiple-regression"><i class="fa fa-check"></i><b>13.4</b> Some Pitfalls in Multiple Regression</a></li>
+<li class="chapter" data-level="13.5" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#homework-11"><i class="fa fa-check"></i><b>13.5</b> Homework</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#concept-questions-10"><i class="fa fa-check"></i><b>13.5.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="13.5.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#practice-problems-11"><i class="fa fa-check"></i><b>13.5.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="13.5.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#advanced-problems-11"><i class="fa fa-check"></i><b>13.5.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Hypothesis Testing</b></span></li>
+<li class="chapter" data-level="14" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html"><i class="fa fa-check"></i><b>14</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#introduction-and-warning"><i class="fa fa-check"></i><b>14.1</b> Introduction and Warning</a></li>
+<li class="chapter" data-level="14.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#a-starting-example"><i class="fa fa-check"></i><b>14.2</b> A Starting Example</a></li>
+<li class="chapter" data-level="14.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#the-t.test-command-hypothesis-tests-for-the-population-mean-mu"><i class="fa fa-check"></i><b>14.3</b> The t.test command: Hypothesis Tests for the Population Mean <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="14.4" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#theory-of-hypothesis-testing"><i class="fa fa-check"></i><b>14.4</b> Theory of Hypothesis Testing</a></li>
+<li class="chapter" data-level="14.5" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#under-the-hood-t-tests"><i class="fa fa-check"></i><b>14.5</b> Under the Hood (t tests)</a></li>
+<li class="chapter" data-level="14.6" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#errors-in-hypothesis-testing"><i class="fa fa-check"></i><b>14.6</b> Errors in Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#statistical-significance-alpha"><i class="fa fa-check"></i><b>14.6.1</b> Statistical Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+<li class="chapter" data-level="14.6.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#type-ii-error"><i class="fa fa-check"></i><b>14.6.2</b> Type II Error</a></li>
+<li class="chapter" data-level="14.6.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practical-significance-versus-statistical-significance"><i class="fa fa-check"></i><b>14.6.3</b> Practical Significance versus Statistical Significance</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-for-population-fraction"><i class="fa fa-check"></i><b>14.7</b> Hypothesis Testing for Population Fraction</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#example-3"><i class="fa fa-check"></i><b>14.7.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-in-linear-regression"><i class="fa fa-check"></i><b>14.8</b> Hypothesis Testing in Linear Regression</a></li>
+<li class="chapter" data-level="14.9" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>14.9</b> Power of a Statistical Test</a></li>
+<li class="chapter" data-level="14.10" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#homework-12"><i class="fa fa-check"></i><b>14.10</b> Homework</a>
+<ul>
+<li class="chapter" data-level="14.10.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#concept-questions-11"><i class="fa fa-check"></i><b>14.10.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="14.10.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practice-problems-12"><i class="fa fa-check"></i><b>14.10.2</b> Practice Problems:</a></li>
+<li class="chapter" data-level="14.10.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#advanced-problems-12"><i class="fa fa-check"></i><b>14.10.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html"><i class="fa fa-check"></i><b>15</b> Hypothesis Testing: Two Sample Tests</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>15.1</b> Two Sample t test</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#regression-analysis"><i class="fa fa-check"></i><b>15.1.1</b> Regression analysis</a></li>
+<li class="chapter" data-level="15.1.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach"><i class="fa fa-check"></i><b>15.1.2</b> Two Sample t test approach</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests"><i class="fa fa-check"></i><b>15.2</b> Two Sample Proportion Tests</a></li>
+<li class="chapter" data-level="15.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking"><i class="fa fa-check"></i><b>15.3</b> Extra Example: Birth Weights and Smoking</a></li>
+<li class="chapter" data-level="15.4" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#homework-13"><i class="fa fa-check"></i><b>15.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#concept-questions-12"><i class="fa fa-check"></i><b>15.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="15.4.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#practice-problems-13"><i class="fa fa-check"></i><b>15.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="15.4.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13"><i class="fa fa-check"></i><b>15.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html"><i class="fa fa-check"></i><b>16</b> Confidence Intervals and Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#relation-to-confidence-intervals"><i class="fa fa-check"></i><b>16.1</b> Relation to Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#two-sided-tests"><i class="fa fa-check"></i><b>16.1.1</b> Two sided tests</a></li>
+<li class="chapter" data-level="16.1.2" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#one-sided-confidence-intervals"><i class="fa fa-check"></i><b>16.1.2</b> One-sided confidence intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html"><i class="fa fa-check"></i><b>17</b> Introduction to the Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#contingency-tables"><i class="fa fa-check"></i><b>17.1</b> Contingency Tables</a></li>
+<li class="chapter" data-level="17.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#chi-square-test"><i class="fa fa-check"></i><b>17.2</b> Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#conditions-for-using-the-chi2-test"><i class="fa fa-check"></i><b>17.2.1</b> Conditions for Using the <span class="math inline">\(\chi^2\)</span> test</a></li>
+<li class="chapter" data-level="17.2.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#multiple-hypothesis-testing-again"><i class="fa fa-check"></i><b>17.2.2</b> Multiple Hypothesis Testing Again</a></li>
+<li class="chapter" data-level="17.2.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#using-a-different-null-hypothesis"><i class="fa fa-check"></i><b>17.2.3</b> Using a different Null Hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#homework-14"><i class="fa fa-check"></i><b>17.3</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>VI Advanced Regression Topics</b></span></li>
+<li class="chapter" data-level="18" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>18</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression-used-for"><i class="fa fa-check"></i><b>18.1</b> What is logistic regression used for?</a></li>
+<li class="chapter" data-level="18.2" data-path="logistic-regression.html"><a href="logistic-regression.html#glm-generalized-linear-models"><i class="fa fa-check"></i><b>18.2</b> GLM: Generalized Linear Models</a></li>
+<li class="chapter" data-level="18.3" data-path="logistic-regression.html"><a href="logistic-regression.html#a-starting-example-1"><i class="fa fa-check"></i><b>18.3</b> A Starting Example</a>
+<ul>
+<li class="chapter" data-level="18.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#confidence-intervals-for-the-parameters"><i class="fa fa-check"></i><b>18.3.1</b> Confidence Intervals for the Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="logistic-regression.html"><a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests"><i class="fa fa-check"></i><b>18.4</b> Equivalence of Logistic Regression and Proportion Tests</a></li>
+<li class="chapter" data-level="18.5" data-path="logistic-regression.html"><a href="logistic-regression.html#example-building-a-more-accurate-model"><i class="fa fa-check"></i><b>18.5</b> Example: Building a More Accurate Model</a></li>
+<li class="chapter" data-level="18.6" data-path="logistic-regression.html"><a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression"><i class="fa fa-check"></i><b>18.6</b> Example: Measuring Team Defense Using Logistic Regression</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Statistics and Data Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="discrete-random-variables" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Discrete Random Variables<a href="discrete-random-variables.html#discrete-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="random-variables" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Random Variables<a href="discrete-random-variables.html#random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:unnamed-chunk-250" class="definition"><strong>Definition 7.1  (Random Variables) </strong></span>Random variables are functions which map from the sample space <span class="math inline">\(\Omega\)</span> of a random experiment to numerical values.</p>
+</div>
+<p>The diagram below shows the random variable mapping a coin flip to the numbers <span class="math inline">\(\{0,1\}\)</span>.</p>
+<p>Random variables are called <strong>discrete</strong> when the outputs taken on a integer (countable) number of values, (e.g. (1,2,3), (-2,-1,0,1,2,3,4,5, …). Countable in the mathematical sense just means the values can be arranged in some ordered list which doesn’t leave any values out.</p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-251" class="example"><strong>Example 7.1  </strong></span>For a coin flip with <span class="math inline">\(\Omega=\{H,T\}\)</span> we could define a random variable <span class="math inline">\(X\)</span> such that <span class="math inline">\(X(T)=1\)</span> and <span class="math inline">\(X(H)=0\)</span>, this is shown in the above diagram.</p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-252" class="example"><strong>Example 7.2  </strong></span>If our random experiment is flipping a coin ten times we could define a discrete random variable <span class="math inline">\(X\)</span> which gives the number of heads that appear in the experiment. <span class="math inline">\(X(HTHTTTTTTT)=2\)</span>, etc.</p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-253" class="example"><strong>Example 7.3  </strong></span>If our random experiment is a baseball game, a random variable <span class="math inline">\(B\)</span> could be the number of base hits during the game.</p>
+</div>
+<p>Notice we haven’t talked yet about probability, in our discussion of random variables. When we want to know the probablity of a random variable taking a certain value we need to introduce the idea of a <em>probability distribution</em>.</p>
+</div>
+<div id="probability-distributions-for-discrete-random-variables" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Probability Distributions for Discrete Random Variables<a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To specify a random variable completely, we need to specify all the values the random variable can take (this is called the range of the random variable) and the probability that it takes each of those values.</p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-254" class="example"><strong>Example 7.4  </strong></span>For example, let’s consider a random variable <span class="math inline">\(X\)</span> which gives the number of flips of a fair coin until the first head appears.</p>
+<ol style="list-style-type: decimal">
+<li>What possible values can our random variable <span class="math inline">\(X\)</span> take?</li>
+</ol>
+<p>Well we know it will take at least one flip of the coin to get our first heads to appear, and it could be any number of flips until the first head appears. So the range of <span class="math inline">\(X\)</span> is <span class="math inline">\(\{1,2,3,4,5,6,.....\}\)</span>. That is all the positive integers.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>The probability that it takes each of those values?</li>
+</ol>
+<p>Let’s start with the probability that the first flip is heads, which would mean that <span class="math inline">\(X=1\)</span>. We denote this quantity <span class="math inline">\(\prob{X=1}\)</span>, the probability that the random variable <span class="math inline">\(X\)</span> takes the value 1. Since it is a fair coin we have that <span class="math inline">\(\prob{X=1}=1/2\)</span>.</p>
+<p>To find <span class="math inline">\(\prob{X=2}\)</span> is the probability that we flip a tails and then flip a heads <span class="math inline">\(HT\)</span>. This two flips are independent so we can multiply these two probabilities to get <span class="math display">\[\prob{X=2}=\frac{1}{2} \times \frac{1}{2}=\frac{1}{4}\]</span>
+In general, the probability of the first heads coming up on the kth flip of the coin is:
+<span class="math display">\[\prob{X=k}=\left( \frac{1}{2} \right)^k.\]</span></p>
+<p>We can also present the probability distribution of a discrete random variable as a graph. The probability distribution for our random variable <span class="math inline">\(X\)</span> for the first 11 values is shown in Fig.<a href="discrete-random-variables.html#fig:geoDistPlot">7.1</a>.</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:geoDistPlot"></span>
+<img src="statsbook_files/figure-html/geoDistPlot-1.png" alt="Probability Distribution of the number of flips until the first head appears" width="672" />
+<p class="caption">
+Figure 7.1: Probability Distribution of the number of flips until the first head appears
+</p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-255" class="example"><strong>Example 7.5  </strong></span>As another example of a random variable let <span class="math inline">\(Y\)</span> be the sum of the rolls of two six sided dice.</p>
+<ol style="list-style-type: decimal">
+<li>What possible values can our random variable <span class="math inline">\(Y\)</span> take?</li>
+</ol>
+<p>Here <span class="math inline">\(Y\)</span> can has to be a integer between 1 and 12 <span class="math inline">\(\{2,3,4,5,6,7,8,9,10,11,12\}\)</span>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>The probability that it takes each of those values?
+We have calculated these odds before for individual values. Now, we store the results in a random variable function. To get the probabilities we can make a table of the values each of the dice produce.</li>
+</ol>
+</div>
+<div class="figure"><span style="display:block;" id="fig:addCatanTable"></span>
+<img src="catan1.png" alt="Table of possibilities for the sum of two six-sided dice." width="50%" />
+<p class="caption">
+Figure 7.2: Table of possibilities for the sum of two six-sided dice.
+</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:addCatanPMF"></span>
+<img src="CatanPMF.png" alt="The probability density function for the random variable $Y$ given by the sum of two dice." width="50%" />
+<p class="caption">
+Figure 7.3: The probability density function for the random variable <span class="math inline">\(Y\)</span> given by the sum of two dice.
+</p>
+</div>
+<p>By counting the number of times the various sums appear in the table, we can get the probability distribution of our random variable <span class="math inline">\(Y\)</span>. We can specify this distribution in two pieces:
+<span class="math display">\[
+\begin{aligned}
+&amp; \prob{Y=k}=\frac{k-1}{36} &amp; k \leq 7 \\
+&amp; \prob{Y=k}=\frac{13-k}{36} &amp; k&gt;7  
+\end{aligned}
+\]</span></p>
+<p>A plot of the probability distribution is shown in the figure.</p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-256" class="example"><strong>Example 7.6  </strong></span>Another application, (perhaps the original application), of the concept of a random variable is to gambling. In this context the numerical outputs of the random variable may be used to store the payoff for various bets. As a concrete example, consider the game of roulette. According to wikipedia, “To determine the winning number and color, a croupier spins a wheel in one direction, then spins a ball in the opposite direction around a tilted circular track running around the circumference of the wheel. The ball eventually loses momentum and falls onto the wheel and into one of 38 (in American roulette) colored and numbered pockets on the wheel.”</p>
+<p>In the simple case a player bets $1 on the ball landing on a single number. If it lands on their number they receive $36 dollars back, otherwise they lose the one dollar bet. Let the random variable <span class="math inline">\(X\)</span> be the winnings from the bet. Then <span class="math inline">\(\prob{X=-1}=\frac{37}{38}\approx 97.3\%\)</span> (this is probability of losing one dollar on the bet) and <span class="math inline">\(\prob{X=36}=\frac{1}{38}=2.63\%\)</span>.</p>
+</div>
+
+<div class="note">
+You may have noticed that we have seen plots which look pretty similar to the probability distribution plots in our examples. These were the histogram plots from our study of exploratory data analysis. The histogram is an estimate of the probability distribution based on a data set, rather than one calculated using the laws of probability. This is the difference between the study of statistics, where we use data to try and learn the probability of events and probability theory where we <em>calculate</em> the probability of events.
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-258" class="exercise"><strong>Exercise 7.1  </strong></span>If <span class="math inline">\(X\)</span> is a random variable which describes the number of rolls of a six-sided dice before the first six is rolled. Find the probability distribution of this random variable.</p>
+</div>
+</div>
+<div id="properties-of-probability-distributions" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Properties of Probability Distributions<a href="discrete-random-variables.html#properties-of-probability-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Directly from the axioms of probability covered in the last chapter we get the following properties of a probability distribution for a random variable:</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-259" class="theorem"><strong>Theorem 7.1  (Properties of Probability Distributions) </strong></span>Any probability distribution <span class="math inline">\(\prob{X=k}\)</span> of a discrete random variable <span class="math inline">\(X\)</span> has the properties:</p>
+<ul>
+<li><span class="math inline">\(\prob{X=k}\geq 0\)</span> for any value <span class="math inline">\(k\)</span> in the range of the random variable.</li>
+<li><span class="math inline">\(\sum_k \prob{X=k}=1\)</span>, where we sum over all possible values of the random variable.</li>
+</ul>
+</div>
+<p>These two properties come from the axiom that the probability of any event in the sample space must be between zero and one, and that the probability that anything in the sample space occurs is one [<span class="math inline">\(\prob{\Omega}=1\)</span>].</p>
+<div id="expected-values-of-discrete-random-variables" class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Expected Values of Discrete Random Variables<a href="discrete-random-variables.html#expected-values-of-discrete-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Just as we found the mean of data sets in EDA as a measure of the central tendency of data, we can find the mean of a probability distribution to measure its central tendency.
+::: {.definition #unnamed-chunk-260 name=“Expected Value/Mean”}
+The mean or expected value of a discrete random variable is given by: <span class="math display">\[\mu=E[X]=\sum y \prob{X=y},\]</span> where the sum goes over all possible outputs of the random variable.
+:::
+The name expected value is a bit of a misnomer, as usually the expected value of a discrete random variable will be outside the range of the random variable. So on any given sample from the random variable the <em>``expected value’’</em> may never occur! However, in the long-run (infinite trials) the average of the random variable will converge to the expected value. This is called the <strong>law of large numbers</strong>.</p>
+<div class="figure"><span style="display:block;" id="fig:addLLNFig"></span>
+<img src="LLN_Plot.jpeg" alt="The Law of Large Numbers: This plot shows different simulations of flipping a fair coin 1000 times and calculating the fraction of heads observed after so many flips of the coin. The average number of heads converges to 0.50 as the number of flips increases. This is called the Law of Large Numbers." width="70%" />
+<p class="caption">
+Figure 7.4: The Law of Large Numbers: This plot shows different simulations of flipping a fair coin 1000 times and calculating the fraction of heads observed after so many flips of the coin. The average number of heads converges to 0.50 as the number of flips increases. This is called the Law of Large Numbers.
+</p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-261" class="example"><strong>Example 7.7  </strong></span>Find the expected value (mean) of a bet on a single number in American roulette.
+<span class="math display">\[
+\begin{aligned}
+&amp; E[X]=\sum y \prob{X=y}= (-1)\left(\frac{37}{38}\right)+(36)\left( \frac{1}{38}\right)=\$-0.02
+\end{aligned}
+\]</span>
+So the expected return on a 1 dollar bet is about negative 2 cents. The expected value for all games at a casino will be negative, as this is how the casino makes money. The casino will make about two cents on every dollar bet on roulette in the long-run.</p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-262" class="example"><strong>Example 7.8  </strong></span>We can also use the expected value to get an idea of the long-term cost of something. For example, lets say I am trying to compare the prices between two cell phone companies, say Monopoly Wireless and Cut-Rate Communications. Monopoly wireless charges me $70 dollars a month, with an overage cost of $20 dollars if I use to much data for that month. However, Cut-Rate communications charges only $60 dollars a month, with an overage charge of $50 dollars if I go over on the data. If I estimate that I will exceed my data allocation for three months in a given year, what is the expected monthly cost for the two companies?</p>
+<p>Let us start with Monopoly Wireless and let <span class="math inline">\(M\)</span> be the random variable describing the monthly bill. Then <span class="math inline">\(M\)</span> is either 70 dollars or 90 dollars depending whether I go over on my data, with <span class="math inline">\(\prob{M=70}=9/12\)</span> and <span class="math inline">\(\prob{M=90}=3/12\)</span>. Therefore the expected cost is <span class="math display">\[E[M]=\sum k \prob{M=k}=70\left(\frac{9}{12}\right)+90\left(\frac{3}{12}\right)=75\]</span>.</p>
+<p>Now consider Cut-Rate Communications and let <span class="math inline">\(C\)</span> be the random variable describing the monthly bill. Then <span class="math inline">\(C\)</span> is either 60 dollars or 110 dollars depending on whether I go over on my data. We have that <span class="math inline">\(\prob{C=60}=9/12\)</span> and <span class="math inline">\(\prob{C=110}=3/12\)</span>. Therefore, the expected monthly bill will be: <span class="math display">\[ E[C]=\sum k \prob{C=k}=60\left( \frac{9}{12} \right)+110\left( \frac{3}{12} \right)=72.5\]</span></p>
+<p>Therefore, we should choose Cut-Rate Communications as in the long-run (over the course of many years) we can expect to save $2.5 dollars a month.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-263" class="exercise"><strong>Exercise 7.2  </strong></span>Greg is trying to decide whether to live on campus for next semester. He estimates it will cost 3 dollars a day for gas, but he has to travel through the Center Point speed trap on his commute to class. From experience he knows that about 3% of the time he forgets to slow down when traveling through Center point and gets a $300 speeding ticket. What is the true cost of his daily commute when living off campus?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-264" class="exercise"><strong>Exercise 7.3  </strong></span>You are offered the chance to enter a raffle by purchasing a $2 dollar ticket and the prize is a $2000 jet-ski. 500 tickets will be sold. What is your expected return on purchasing a ticket in this raffle?</p>
+</div>
+</div>
+</div>
+<div id="expected-value-of-sums-of-random-variables" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Expected Value of Sums of Random Variables<a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> be random variables then <span class="math inline">\(Y=X_1+X_2\)</span> is also a random variable. For example, we could let <span class="math inline">\(X_1\)</span> be the roll of one dice and <span class="math inline">\(X_2\)</span> be the roll of a second dice. Then the random variable <span class="math inline">\(Y\)</span> would be the sum of these two dice, as we considered earlier in these notes. For random variables which can be written as the sum of multiple of another random variable we have the following property:</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-265" class="theorem"><strong>Theorem 7.2  (Sums and Constant Multiples of Random Variables) </strong></span>Let <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> be random variables, and <span class="math inline">\(a,b\)</span> are constant numbers then if <span class="math inline">\(Y=aX_2+bX_2\)</span> we have that: <span class="math display">\[E[Y]=aE[X_1]+bE[X_2].\]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-266" class="example"><strong>Example 7.9  </strong></span>Lets consider finding the expected value of the sum of two dice. Remember this will give is the long term average if we repeated the rolls thousands of times. Then as given earlier <span class="math inline">\(Y=X_1+X_2\)</span> with <span class="math inline">\(X_1\)</span> giving the roll of the first dice and <span class="math inline">\(X_2\)</span> the roll of the second dice. Then,
+<span class="math display">\[
+\begin{aligned}
+E[Y]&amp;=E[X_1]+E[X_2]=\frac{1}{6}(1+2+3+4+5+6)+\frac{1}{6}(1+2+3+4+5+6)\\&amp;=3.5+3.5=7
+\end{aligned}
+\]</span>
+Notice we got this answer in a much easier way then finding the probability distribution of <span class="math inline">\(Y\)</span> and computing the expected value directly from that.</p>
+</div>
+<p>If we want to find the expected value of any function of a random variable <span class="math inline">\(f(X)\)</span>, we have the following theorem:</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-267" class="theorem"><strong>Theorem 7.3  </strong></span>Let <span class="math inline">\(X\)</span> be a random variable, then the expected value of <span class="math inline">\(f(X)\)</span> is given by: <span class="math display">\[E[f(X)]=\sum f(y) \prob{X=k}\]</span></p>
+</div>
+<p>For example, if we want to know the expected value of the random variable <span class="math inline">\(Y=X^2\)</span> where <span class="math inline">\(X\)</span> is the result of a random roll of a six-sided dice. Then we have that <span class="math display">\[E[Y]=E[X^2]=\frac{1}{6} (1^2+2^2+3^2+4^2+5^2+6^2)=15.16667\]</span></p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-268" class="exercise"><strong>Exercise 7.4  </strong></span>If <span class="math inline">\(X\)</span> is the random variable which gives the number of heads produced when we flip a coin 100 times, find <span class="math inline">\(E[X]\)</span></p>
+</div>
+</div>
+<div id="variance-of-random-variables" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Variance of Random Variables<a href="discrete-random-variables.html#variance-of-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We may also get a measure for the width of the probability distribution of a random variable. For this we compute the variance of the random variable:</p>
+<div class="definition">
+<p><span id="def:unnamed-chunk-269" class="definition"><strong>Definition 7.2  (Variance of a Discrete RV) </strong></span>The variance of a random variable <span class="math inline">\(X\)</span>, with expected value <span class="math inline">\(E[X]=\mu\)</span> is given by: <span class="math display">\[\var(X)= E[(x-\mu)^2]=\sum (k-\mu)^2 \prob{X=k}=E[X^2]-(E[X])^2 \]</span></p>
+</div>
+<p>Note that the variance for a random variable is always non-negative (<span class="math inline">\(\var(X)\geq0\)</span>).</p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-270" class="example"><strong>Example 7.10  </strong></span>Find the variance of the random variable <span class="math inline">\(X\)</span> describing the betting results from a roulette wheel. We found earlier that <span class="math inline">\(E[X]=-0.02\)</span>, so to get the variance we only need to find <span class="math inline">\(E[X^2]\)</span>:
+<span class="math display">\[
+\begin{aligned}
+&amp;E[X^2]=(-1)^2\left(\frac{37}{38}\right)+(36)^2\left( \frac{1}{38}\right)=35.07
+\end{aligned}
+\]</span>
+Therefore the <span class="math inline">\(\var(X)=E[X^2]-(E[X])^2=35.07-(-0.02)^2=35.06\)</span>.</p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-271" class="example"><strong>Example 7.11  </strong></span>Find the variance of the random variable <span class="math inline">\(X\)</span> given by the roll of a fair six sided dice. Well, <span class="math inline">\(E[X]=\frac{1}{6}(1+2+3+4+5+6)=3.5\)</span> and we calculated above that <span class="math inline">\(E[X^2]=15.16667\)</span>. Therefore the variance is <span class="math inline">\(\var(X)=E[X^2]-(E[X])^2=15.1667-3.5=11.6667\)</span>.</p>
+</div>
+<p>We may also define the <strong>standard deviation</strong> <span class="math inline">\(\sigma\)</span> of a random variable as the square root of the variance. <span class="math display">\[\sigma=\sqrt{\var(X)}.\]</span> The standard deviation of a random variable has the advantage of having the same units as the outputs of the random variable <span class="math inline">\(X\)</span>. Recall that we can use the mean and standard deviation to get prediction intervals for discrete random intervals using either the empirical rule (for mound-shaped distributions) or Chebyshev’s rule for non-mound shaped distributions.</p>
+<div id="variance-of-sums-of-random-variables" class="section level3 hasAnchor" number="7.5.1">
+<h3><span class="header-section-number">7.5.1</span> Variance of Sums of Random Variables<a href="discrete-random-variables.html#variance-of-sums-of-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We may find the variance of the sum and constant multiple of <em>independent</em> random variables using the following theorem.</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-272" class="theorem"><strong>Theorem 7.4  (Variance of a Sum of Random Variables) </strong></span>Let <span class="math inline">\(Y=aX_1+bX_2\)</span> be a random variable which is the sum of two independent random variables <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> with <span class="math inline">\(a,b\)</span> constant numbers. Then we have:
+<span class="math display">\[\var(Y)=\var(aX_1+bX_2)=a^2 \var(X_1)+b^2 \var(X_2).\]</span></p>
+</div>
+<p>For example if we consider the random variable <span class="math inline">\(Y=X_1+X_2\)</span> given by the sum of the results of two dice rolls again. Since the two dice rolls are independent we have that <span class="math inline">\(\var(Y)=\var(X_1)+\var(X_2)=11.6667+11.6667=23.333\)</span>.</p>
+</div>
+</div>
+<div id="bernoulli-random-variables" class="section level2 hasAnchor" number="7.6">
+<h2><span class="header-section-number">7.6</span> Bernoulli Random Variables<a href="discrete-random-variables.html#bernoulli-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The simplest discrete random variable is called a Bernoulli random variable. Despite their simplicity we may use them as building blocks towards more complex random variables.</p>
+<div class="definition">
+<p><span id="def:unnamed-chunk-273" class="definition"><strong>Definition 7.3  (Bernoulli Random Variable) </strong></span>A random variable <span class="math inline">\(X\)</span> is called a Bernoulli random variable if:</p>
+<ul>
+<li>It takes on only the values 0 and 1 (two possible outcomes)</li>
+<li><span class="math inline">\(\prob{X=1}=p\)</span> and <span class="math inline">\(\prob{X=0}=q=1-p\)</span>.
+We often think of a Bernoulli random variable as a test, which is successful (equal to 1) with probability <span class="math inline">\(p\)</span> and fails (equals 0) with probability <span class="math inline">\(q=1-p\)</span>.</li>
+</ul>
+</div>
+<p>We can easily compute the expected value and variance of a Bernoulli random variable:</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-274" class="theorem"><strong>Theorem 7.5  (Properties of Bernoulli Random Variables) </strong></span>If <span class="math inline">\(X\)</span> is a Bernoulli random variable then:</p>
+<ul>
+<li><span class="math inline">\(E[X]=p\)</span></li>
+<li><span class="math inline">\(\var(X)=pq\)</span></li>
+<li><span class="math inline">\(\sigma_X=\sqrt{pq}=\sqrt{p(1-p)}\)</span></li>
+</ul>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-275" class="exercise"><strong>Exercise 7.5  </strong></span>As a doctor you prescribe an experimental drug to a patient, which will cure the disease with a probability <span class="math inline">\(p=0.20\)</span>. Write this as a Bernoulli random variable and find the variance of this random variable. Also, find the formula for the expected value and variance of a Bernoulli random variable from the definitions</p>
+</div>
+</div>
+<div id="binomial-random-variables" class="section level2 hasAnchor" number="7.7">
+<h2><span class="header-section-number">7.7</span> Binomial Random Variables<a href="discrete-random-variables.html#binomial-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consider a random variable that counts the number of successes in <span class="math inline">\(N\)</span> Bernoulli trials. We could write this random variable <span class="math inline">\(X\)</span> as <span class="math display">\[X=\sum_{j=1}^N B_j\]</span> where <span class="math inline">\(B_j\)</span> are independent identically distributed Bernoulli random variables. Since a Bernoulli random variable returns a <span class="math inline">\(1\)</span> whenever the event is ``successful’’, the sum of these will give the number successes in <span class="math inline">\(N\)</span> attempts. <span class="math inline">\(X\)</span> is called a <strong>Binomial Random Variable</strong> and will take values in the range <span class="math inline">\([0,1,2,...N]\)</span>. The following theorem gives the probability distribution of a binomial random variable.</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-276" class="theorem"><strong>Theorem 7.6  (Binomial Random Variable) </strong></span>A probability distribution for a Binomial random variable <span class="math inline">\(X\)</span> is given by <span class="math display">\[ \prob{X=m}=\binom{N}{m} p^m (1-p)^{N-m}\]</span>
+where</p>
+<ul>
+<li>N is the number of trials</li>
+<li>m is the number of successes</li>
+<li><span class="math inline">\(p\)</span> is the probability of success on each trial.</li>
+</ul>
+</div>
+<p>We can compute the expected value and variance of a binomial random variable <span class="math inline">\(X\)</span> using the definition that:
+<span class="math display">\[X=\sum_{j=1}^N B_j\]</span>
+with each <span class="math inline">\(B_j\)</span> being an independent Bernoulli random variable with a probability of success of <span class="math inline">\(p\)</span>. <span class="math display">\[E[X]=E\left[\sum_{j=1}^N B_j\right]=\sum_{j=1}^N E[B_j]=\sum_{j=1}^N p=Np.\]</span> The variance can be found in a similar manner <span class="math display">\[\var(X)=\var\left(\sum_{j=1}^N B_j\right)=\sum_{j=1}^N \var(B_j)=\sum_{j=1}^N p(1-p)=Np(1-p)=Npq.\]</span> Let’s record these results as a theorem:</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-277" class="theorem"><strong>Theorem 7.7  (Expected Value and Variance of Binomial Random Variables) </strong></span>If <span class="math inline">\(X\)</span> is a binomial random variable with <span class="math inline">\(N\)</span> trials with a probability of success of each trial <span class="math inline">\(p\)</span> then:</p>
+<ul>
+<li><span class="math inline">\(E[X]=Np\)</span></li>
+<li><span class="math inline">\(\var(X)=Np(1-p)=Npq\)</span></li>
+</ul>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-278" class="example"><strong>Example 7.12  </strong></span>Karl is guessing on a true/false quiz with ten questions. Find the probability distribution for the number of questions he gets correct.
+This is a binomial random variable with <span class="math inline">\(N=10\)</span> and <span class="math inline">\(p=1/2\)</span>. Therefore <span class="math display">\[\prob{X=m}=\binom{10}{m} (0.5)^m (0.5)^{10-m}=\binom{10}{m} (0.5)^{10}.\]</span> This distribution is plotted in Fig.<a href="discrete-random-variables.html#fig:guessTF">7.5</a>.</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:guessTF"></span>
+<img src="statsbook_files/figure-html/guessTF-1.png" alt="The probability of getting X answers correct on a 10 question True/False Exam" width="672" />
+<p class="caption">
+Figure 7.5: The probability of getting X answers correct on a 10 question True/False Exam
+</p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-279" class="example"><strong>Example 7.13  </strong></span>In the NBA finals they play a seven-game series of games. The team who wins four (or more) games wins the championship. The Golden State Warriors are heavy favorites and the probability they win a given game against the Cleveland Cavaliers is <span class="math inline">\(p=0.6\)</span>. Lets assume that the games are independent. What is the probability that the Cavaliers win the series?</p>
+<p>The Cavs will win the series if they win four or more games out of 7. Let the number of Cavs wins be the random variable <span class="math inline">\(X\)</span>. This is a binomial random variable with <span class="math inline">\(N=7\)</span>, <span class="math inline">\(p=0.4\)</span> (the chances the Cavs win is 1-0.6=0.4) and the want <span class="math inline">\(\prob{X \geq 4}\)</span>. Using the binomial distribution we have:
+<span class="math display">\[
+\begin{aligned}
+\prob{X \geq 4} &amp;= \sum_{m=4}^7 \binom{7}{m} (0.4)^m (0.6)^{7-m} \\
+&amp;= \binom{7}{4} (0.4)^{4} (0.6)^{3}+\binom{7}{5} (0.4)^{5} (0.6)^{2}+\binom{7}{6} (0.4)^{6} (0.6)^{1}+\binom{7}{7} (0.4)^{7} (0.6)^{0}  \\
+&amp;=0.2897
+\end{aligned}
+\]</span>
+So even with a heavy favorite and a seven game series the inferior team still wins about 29% of the time. This distribution is shown in Fig.<a href="discrete-random-variables.html#fig:nbaFinalsBin">7.6</a>.</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:nbaFinalsBin"></span>
+<img src="statsbook_files/figure-html/nbaFinalsBin-1.png" alt="Odds of the inferrior team winning X number of games" width="672" />
+<p class="caption">
+Figure 7.6: Odds of the inferrior team winning X number of games
+</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-280" class="exercise"><strong>Exercise 7.6  </strong></span>If you know that 5% of a companies products are defective. In an order of 30 products what is the probability that less than three are defective? What is the expected number of defective products?</p>
+</div>
+</div>
+<div id="binomial-random-variable-in-r" class="section level2 hasAnchor" number="7.8">
+<h2><span class="header-section-number">7.8</span> Binomial Random Variable in R<a href="discrete-random-variables.html#binomial-random-variable-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A binomial random variable <span class="math inline">\(X\)</span> gives the number of successes in <span class="math inline">\(N\)</span> independent Bernoulli trials each with a probability <span class="math inline">\(p\)</span> of success. Recall that probability distribution function for a binomial random variable is given by <span class="math display">\[\mathbb{P}(X=k)=\binom{N}{k} p^k (1-p)^{N-k},\]</span> where <span class="math inline">\(N\)</span> is the number of trails and <span class="math inline">\(p\)</span> is the probability of a success on any given trial. <span class="math inline">\((N,p)\)</span> are called the parameters for a binomial distribution. <code>R</code> provides several tools for studying binomial random variables.</p>
+<div id="probability-distribution-in-r" class="section level3 hasAnchor" number="7.8.1">
+<h3><span class="header-section-number">7.8.1</span> Probability Distribution in R<a href="discrete-random-variables.html#probability-distribution-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we may find the probability of an event using the <code>dbinom</code> command. For example, if we want to know the probability of having 3 successes in 10 trials, with a probability of success on each trial of <span class="math inline">\(0.4\)</span> we would type:</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="discrete-random-variables.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.4</span>)  <span class="do">##Find the probability of having 3 success out of 10 for binomial with N=10, p=0.4</span></span></code></pre></div>
+<pre><code>## [1] 0.2149908</code></pre>
+<p>The <code>size=10</code> tells R that <span class="math inline">\(N=10\)</span> and <code>prob=0.4</code> sets the <span class="math inline">\(p=0.4\)</span>. If we want to make a plot of a binomial distribution we can use the barplot feature:</p>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="discrete-random-variables.html#cb290-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>  <span class="do">##make a vector of numbers from 0 to 10</span></span>
+<span id="cb290-2"><a href="discrete-random-variables.html#cb290-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(x, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.4</span>)  <span class="do">##calculate the probability of each value using dbinom</span></span>
+<span id="cb290-3"><a href="discrete-random-variables.html#cb290-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(y, <span class="at">names.arg =</span> x, <span class="at">ylab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Number of Sucesses&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Binomial Distribution Plot&quot;</span>,</span>
+<span id="cb290-4"><a href="discrete-random-variables.html#cb290-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>)  <span class="do">##make a barplot</span></span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-282-1.png" width="672" /></p>
+</div>
+<div id="cumulative-distribution-calculations-in-r" class="section level3 hasAnchor" number="7.8.2">
+<h3><span class="header-section-number">7.8.2</span> Cumulative Distribution Calculations in R<a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When finding probabilties we very often want to answer questions like <span class="math inline">\(\mathbb{P}(X\leq m)\)</span>. For example we may want to know the probability that I see less that 40 heads when flipping a fair coin 100 times. We could get this answer the long way by doing a long sum.
+<span class="math display">\[\mathbb{P}(X\leq m)=\sum_{j=1}^m \mathbb{P}(X=j).\]</span> However, this can get cumbersome quickly. It is better to use the <code>pbinom</code> function in <code>R</code> which calculates this sum for us.</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="discrete-random-variables.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">40</span>, <span class="at">size =</span> <span class="dv">100</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>## [1] 0.02844397</code></pre>
+<p>The argument <span class="math inline">\(40\)</span> tells R we want the probability that <span class="math inline">\(X \leq 40\)</span>. For the coin flipping example we can see that only about 2% of time will we see less than or equal to 40 heads appear.</p>
+<p>Equivalently, if we want to find probabilities like <span class="math inline">\(\mathbb{P}(X&gt;m)\)</span>, we can use the formula <span class="math display">\[\mathbb{P}(X&gt;m)=1-\mathbb{P}(X\leq m)\]</span>.</p>
+<p>For example, we can find the probability we see more than <span class="math inline">\(55\)</span> heads using:</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="discrete-random-variables.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">55</span>, <span class="at">size =</span> <span class="dv">100</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1356265</code></pre>
+<p>so only around 13% of the time will we see more than 55 heads.</p>
+</div>
+<div id="random-binomial-distribution-in-r" class="section level3 hasAnchor" number="7.8.3">
+<h3><span class="header-section-number">7.8.3</span> Random Binomial Distribution in R<a href="discrete-random-variables.html#random-binomial-distribution-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We may also generate random numbers drawn from a binomial distribution, using the<code>rbinom</code> function. The below code draws <span class="math inline">\(10\)</span> random numbers from a binomial distribution with <span class="math inline">\(N=100\)</span> and <span class="math inline">\(p=0.5\)</span></p>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="discrete-random-variables.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>, <span class="at">size =</span> <span class="dv">100</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>##  [1] 43 57 60 47 56 51 44 59 49 52</code></pre>
+<p>Each of these numbers gives the results of flipping a fair coin one hundred times and counting the number of heads that come up. Each time we do this we would get different answers.
+However we draw large samples we can see the <strong>law of large numbers</strong> start to take effect, where the average of our samples is very close to the theoretical average <span class="math inline">\(Np\)</span> for a binomial distribution.</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="discrete-random-variables.html#cb297-1" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>, <span class="at">size =</span> <span class="dv">100</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb297-2"><a href="discrete-random-variables.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rs)</span></code></pre></div>
+<pre><code>## [1] 49.974</code></pre>
+<p>In addition for large sample sizes the histogram of the random samples approaches the theoretical probability distribution.</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="discrete-random-variables.html#cb299-1" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.4</span>)</span>
+<span id="cb299-2"><a href="discrete-random-variables.html#cb299-2" aria-hidden="true" tabindex="-1"></a>hist.data <span class="ot">&lt;-</span> <span class="fu">hist</span>(rs, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">10</span>, <span class="at">main =</span> <span class="st">&quot;Histogram of Random Samples from a Binomial Dist&quot;</span>,</span>
+<span id="cb299-3"><a href="discrete-random-variables.html#cb299-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-287-1.png" width="672" /></p>
+<p>This histogram should look close to the barplot of the distribution we made above. However, any random sample won’t match the theoretical probability distribution exactly due to sampling error. Sampling error is a huge topic in statistics so much more on this later.</p>
+</div>
+</div>
+<div id="homework-5" class="section level2 hasAnchor" number="7.9">
+<h2><span class="header-section-number">7.9</span> Homework<a href="discrete-random-variables.html#homework-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="concept-questions-5" class="section level3 hasAnchor" number="7.9.1">
+<h3><span class="header-section-number">7.9.1</span> Concept Questions:<a href="discrete-random-variables.html#concept-questions-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>If the random variable <span class="math inline">\(X\)</span> has units of dollars, what are the units of var(X)?</li>
+<li>Does the binomial distribution have a mound-shape?</li>
+<li>How many parameters does a binomial distribution have?</li>
+<li>Is it true that <span class="math inline">\(var(X_1+X_2)\geq var(X_1)\)</span> for any random variables <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>?</li>
+<li>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are random variables, we must assume they are independent to apply the formula <span class="math inline">\(E[X+Y]=E[X]+E[Y]\)</span> (True/False).</li>
+<li>The binomial random variable can be written as a sum of Bernoulli random variables (True/False)</li>
+<li>The variance of a binomial random variable increases with the number of trials (<span class="math inline">\(N\)</span>). (True/False)</li>
+</ol>
+<div id="practice-problems-5" class="section level4 hasAnchor" number="7.9.1.1">
+<h4><span class="header-section-number">7.9.1.1</span> Practice Problems:<a href="discrete-random-variables.html#practice-problems-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><p>Let <span class="math inline">\(X\)</span> denote a random variable that takes the values <span class="math inline">\(-1,0,1\)</span> with the probabilities <span class="math inline">\(\prob{X=1}=0.3\)</span>, <span class="math inline">\(\prob{X=0}=0.5\)</span> and <span class="math inline">\(\prob{X=-1}=0.2\)</span>, find <span class="math inline">\(E[X]\)</span> and <span class="math inline">\(E[X^2]\)</span>.</p></li>
+<li><p>During the rifle qualification in the Marine Corps the final ten shots are taken from 500 yards. You receive one point for a hit and zero points for a miss. If each shot is independent of all the others and the probability you hit the target on each shot is <span class="math inline">\(p=0.70\)</span> what is the probability you hit <span class="math inline">\(7\)</span> or more of your shots?</p></li>
+<li><p>In the NBA 3-point contest the player shoots 20 shots from positions around the court. Sixteen (16) of these shots are taken with a normal basketball and each made shot counts as one point, and four shots are taken with a stripped money ball where makes count as 2 points. Assume that each shot taken has an independent probability of <span class="math inline">\(p=0.43\)</span> of going in.</p>
+<ul>
+<li>Find the expected value for the points scored</li>
+<li>Find the standard deviation of the total points scored</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="advanced-problems-5" class="section level3 hasAnchor" number="7.9.2">
+<h3><span class="header-section-number">7.9.2</span> Advanced Problems:<a href="discrete-random-variables.html#advanced-problems-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Parking Tickets:</strong> Parking on the street costs $1 a day, but about 5% of the time I forget to bring the parking pass and receive a $50 dollar parking ticket. How much should I budget for my daily parking costs in the long-term?</p></li>
+<li><p><strong>Hogwarts Test Guessing:</strong> Professor Dumbledore is writing an exam for his students. He plans on giving a multiple choice exam, with no partial credit. However, he is worried that students who are randomly guessing may score much higher than they deserve. His test has 20 questions on it, with four answer choices for each problem.</p>
+<ul>
+<li>What is the expected number of questions correct when a student is purely guessing on the exam?</li>
+<li>What is standard deviation for a randomly guessing students number of correct answers?</li>
+<li>What is the probability that a student who is purely guessing scores 70% or better on the exam?</li>
+<li>Give an interval which will contain about 99% of the students number of correct answers, if they are guessing on the exam.</li>
+</ul></li>
+<li><p><strong>Home Runs</strong>: In 1961 Roger Maris broke Babe Ruth’s home run record with 61 home runs. Rather than adoration Maris was despised by much of the public because he was deemed unworthy of dethroning the great Babe Ruth as the home run king. This was largely because Maris never hit more than 40 home-runs in a season except his record breaking season. We can estimate Roger Maris’s probability of hitting a home run in any given game as <span class="math inline">\(p=0.187\)</span> by taking his 275 career home runs and dividing by his 1463 career games.</p>
+<ul>
+<li>Given his career numbers what is Maris’s expected number of home runs in a 162 game season?</li>
+<li>What is the standard deviation expected in his home run output each year?</li>
+<li>Construct an interval which will contain about 95% of Maris’s home run output for a season?</li>
+<li>Using these numbers do you think this malice towards Maris is justified?</li>
+</ul></li>
+<li><p><strong>Triple A Rated Mortgages</strong>: Most people who are investing their money want to do so at a very limited risk. For this reason many pension funds and mutual funds require that any stock or bond purchased has to be rated to have an very low risk of going into default. Standard and Poors (S&amp;P) and Moody are two companies who rate the risk of investments, and their triple <span class="math inline">\(A\)</span> ranking is supposed to indicate that the bond has a risk of less that 1 in 850 (0.12%) of going into default.
+It is rather difficult to find individual investments which are this conservative in their risk. Therefore, it is common practice on Wall Street to bundle together a bunch of risker investments into what are called <em>Collateralized Debt Obligations</em> (CDO’s). The idea is that these bonds pay out as long as <strong>not every loan in the bundle fails</strong>.</p>
+<ul>
+<li>What is the risk of a CDO failing to pay out if it consists of 10 loans which all independently have a probability of 5% of failing individually?</li>
+<li>If we are trying to bundle together subprime loans which each have a probability of 50% of failing into a triple AAA CDO how many loans do we need to put into the CDO?</li>
+<li>What is the probability the subprime CDO will fail to pay out if the loans used in the bundle are completely on one another?</li>
+<li>Do you expect that mortgage loan foreclosures are completely independent of one another? This error by the ratings agencies was a major contributing factor in the recent global economic meltdown.</li>
+</ul></li>
+<li><p><strong>Murphy’s Law:</strong> The Air Force has ordered a new fighter jet from Lockheed Martin with contains 1000 critical engineering components. Tests have shown that each of these parts will fail independently with a probability of <span class="math inline">\(p=0.001\)</span>. In the design team they have to decide how much redundancy to build into the system.</p>
+<ul>
+<li>Define a random variable <span class="math inline">\(X\)</span> which counts the number of components which fail on the jet. What distribution does <span class="math inline">\(X\)</span> have, and what are the parameters of the distribution?</li>
+<li>If they add no redundancy into the system, so that the jet will fail if of these 100 critical components fails what is the probability that the jet fails?</li>
+<li>Given these numbers they decide to add some redundancy so that the jet will continue to work as long as less than <span class="math inline">\(k\)</span> components fail. What is the minimum <span class="math inline">\(k\)</span> where the probability for the jet to fail is less than <span class="math inline">\(\prob{X&gt;k}&lt; 0.001\)</span>.</li>
+</ul></li>
+<li><p><strong>Zombie Apocalypse</strong>: The zombie apocalypse is here, and the population of Kerrville is quickly being converted to zombies. You are well prepared for such a contingency, but you estimate you have a 5% chance of being bitten by a zombie on any given day. Let <span class="math inline">\(S\)</span> be a random variable which gives the number of days you are able to survive.</p>
+<ul>
+<li>Find the probability distribution for <span class="math inline">\(S\)</span>, that is write a formula for <span class="math inline">\(\prob{S=d}\)</span>.</li>
+<li>If you get word that the national guard is on the way, but it will be ten days until they arrive, what are the odds that you survive until help arrives? [Hint: Use the first example of random variables for the number of flips of a coin until a heads appears]</li>
+<li>The national guard is trying to estimate how many trucks to bring to evacuate the survivors. If there are 100 survivors left in Kerrville today and they each have the same 5% daily chance of being bitten independent of the rest, how many people should the national guard expect to have survived 10 days from now?</li>
+</ul></li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="probability.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="continuous-random-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-Discrete_Random_Variables.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statsbook.pdf", "statsbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"collapse": "section"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

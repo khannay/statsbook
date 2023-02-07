@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 15 Hypothesis Testing: Two Sample Tests | Introduction to Statistics and Data Science</title>
+  <meta name="description" content="Introductory textbook for statistics and data science" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 15 Hypothesis Testing: Two Sample Tests | Introduction to Statistics and Data Science" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Introductory textbook for statistics and data science" />
+  <meta name="github-repo" content="khannay/statsbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 15 Hypothesis Testing: Two Sample Tests | Introduction to Statistics and Data Science" />
+  
+  <meta name="twitter:description" content="Introductory textbook for statistics and data science" />
+  
+
+<meta name="author" content="Dr. Kevin Hannay" />
+
+
+<meta name="date" content="2023-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="hypothesis-testing-one-sample.html"/>
+<link rel="next" href="confidence-intervals-and-hypothesis-testing.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"> Stats Notes </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#librarian-or-farmer"><i class="fa fa-check"></i><b>1.1</b> Librarian or Farmer?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#profits"><i class="fa fa-check"></i><b>1.2</b> Profits</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#accidental-deaths"><i class="fa fa-check"></i><b>1.3</b> Accidental Deaths</a></li>
+</ul></li>
+<li class="part"><span><b>I Exploratory Data Analysis</b></span></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R Packages</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-as-a-fancy-calculator"><i class="fa fa-check"></i><b>2.3</b> R as a Fancy Calculator</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#more-advanced-r"><i class="fa fa-check"></i><b>2.4</b> More Advanced R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types-in-r"><i class="fa fa-check"></i><b>2.4.1</b> Data Types in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#logic-in-r"><i class="fa fa-check"></i><b>2.5</b> Logic in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#storing-data-in-r"><i class="fa fa-check"></i><b>2.6</b> Storing Data in R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>2.6.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.6.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>2.6.2</b> Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-plots-in-r"><i class="fa fa-check"></i><b>2.7</b> Basic Plots in R</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#additional-resources"><i class="fa fa-check"></i><b>2.8</b> Additional Resources</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#homework"><i class="fa fa-check"></i><b>2.9</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>3</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#shot-logs-basketball-data"><i class="fa fa-check"></i><b>3.1</b> Shot Logs Basketball Data</a></li>
+<li class="chapter" data-level="3.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#principal-types-of-statistical-data"><i class="fa fa-check"></i><b>3.2</b> Principal Types of Statistical Data</a></li>
+<li class="chapter" data-level="3.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#the-distribution-of-a-data-set"><i class="fa fa-check"></i><b>3.3</b> The Distribution of a Data Set</a></li>
+<li class="chapter" data-level="3.4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency"><i class="fa fa-check"></i><b>3.4</b> Numerical Measures for Central Tendency</a></li>
+<li class="chapter" data-level="3.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-of-variability"><i class="fa fa-check"></i><b>3.5</b> Numerical Measures of Variability</a></li>
+<li class="chapter" data-level="3.6" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing"><i class="fa fa-check"></i><b>3.6</b> Numerical Measures for Relative Standing</a></li>
+<li class="chapter" data-level="3.7" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot"><i class="fa fa-check"></i><b>3.7</b> Relation between Continuous and Categorical Variables: Boxplot</a></li>
+<li class="chapter" data-level="3.8" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots"><i class="fa fa-check"></i><b>3.8</b> Relation between Continuous Variables: Scatter Plots</a></li>
+<li class="chapter" data-level="3.9" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables"><i class="fa fa-check"></i><b>3.9</b> Relationship between Categorical Variables: Contingency Tables</a></li>
+<li class="chapter" data-level="3.10" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#tips-and-tricks"><i class="fa fa-check"></i><b>3.10</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="3.11" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#homework-1"><i class="fa fa-check"></i><b>3.11</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.1</b> What is Data Wrangling?</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#nas-and-the-curse-of-real-world-data"><i class="fa fa-check"></i><b>4.2</b> NA’s and the Curse of Real World Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#select-pick-only-a-few-columns"><i class="fa fa-check"></i><b>4.3</b> Select: Pick only a few columns</a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#filter-select-rows"><i class="fa fa-check"></i><b>4.4</b> Filter (select rows)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#compound-criteria"><i class="fa fa-check"></i><b>4.4.1</b> Compound Criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#chainspipes"><i class="fa fa-check"></i><b>4.5</b> Chains/Pipes %&gt;%</a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#grouping-data-together"><i class="fa fa-check"></i><b>4.6</b> Grouping Data Together</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#homework-2"><i class="fa fa-check"></i><b>4.7</b> Homework</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="data-wrangling.html"><a href="data-wrangling.html#concept-questions-2"><i class="fa fa-check"></i><b>4.7.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="4.7.2" data-path="data-wrangling.html"><a href="data-wrangling.html#practice-problems-2"><i class="fa fa-check"></i><b>4.7.2</b> Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html"><i class="fa fa-check"></i><b>5</b> Introduction to Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#what-is-clustering"><i class="fa fa-check"></i><b>5.1</b> What is Clustering?</a></li>
+<li class="chapter" data-level="5.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#introduction-to-kmeans-clustering"><i class="fa fa-check"></i><b>5.2</b> Introduction to Kmeans clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#how-many-clusters-should-we-choose"><i class="fa fa-check"></i><b>5.3</b> How many clusters should we choose?</a></li>
+<li class="chapter" data-level="5.4" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#clustering-nba-players"><i class="fa fa-check"></i><b>5.4</b> Clustering NBA Players</a></li>
+<li class="chapter" data-level="5.5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis"><i class="fa fa-check"></i><b>5.5</b> Requirements for Performing Cluster Analysis</a></li>
+<li class="chapter" data-level="5.6" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#homework-3"><i class="fa fa-check"></i><b>5.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#concept-questions-3"><i class="fa fa-check"></i><b>5.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="5.6.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#practice-problems-3"><i class="fa fa-check"></i><b>5.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="5.6.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#advanced-problems-3"><i class="fa fa-check"></i><b>5.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Probability Theory</b></span></li>
+<li class="chapter" data-level="6" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>6</b> Probability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="probability.html"><a href="probability.html#sample-spaces-and-events"><i class="fa fa-check"></i><b>6.1</b> Sample Spaces and Events</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="probability.html"><a href="probability.html#introduction"><i class="fa fa-check"></i><b>6.1.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.1.2" data-path="probability.html"><a href="probability.html#sample-spaces"><i class="fa fa-check"></i><b>6.1.2</b> Sample Spaces</a></li>
+<li class="chapter" data-level="6.1.3" data-path="probability.html"><a href="probability.html#law-of-sample-spaces"><i class="fa fa-check"></i><b>6.1.3</b> Law of Sample Spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="probability.html"><a href="probability.html#combinatorics"><i class="fa fa-check"></i><b>6.2</b> Combinatorics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="probability.html"><a href="probability.html#basic-principle-of-counting"><i class="fa fa-check"></i><b>6.2.1</b> Basic Principle of Counting</a></li>
+<li class="chapter" data-level="6.2.2" data-path="probability.html"><a href="probability.html#permutations"><i class="fa fa-check"></i><b>6.2.2</b> Permutations</a></li>
+<li class="chapter" data-level="6.2.3" data-path="probability.html"><a href="probability.html#combinations"><i class="fa fa-check"></i><b>6.2.3</b> Combinations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="probability.html"><a href="probability.html#axioms-of-probability"><i class="fa fa-check"></i><b>6.3</b> Axioms of Probability</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="probability.html"><a href="probability.html#beyond-the-law-of-sample-spaces"><i class="fa fa-check"></i><b>6.3.1</b> Beyond the Law of Sample Spaces</a></li>
+<li class="chapter" data-level="6.3.2" data-path="probability.html"><a href="probability.html#set-theory"><i class="fa fa-check"></i><b>6.3.2</b> Set Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="probability.html"><a href="probability.html#the-axioms-of-probability"><i class="fa fa-check"></i><b>6.3.3</b> The Axioms of Probability</a></li>
+<li class="chapter" data-level="6.3.4" data-path="probability.html"><a href="probability.html#the-or-rule"><i class="fa fa-check"></i><b>6.3.4</b> The OR Rule</a></li>
+<li class="chapter" data-level="6.3.5" data-path="probability.html"><a href="probability.html#the-and-rule"><i class="fa fa-check"></i><b>6.3.5</b> The AND Rule</a></li>
+<li class="chapter" data-level="6.3.6" data-path="probability.html"><a href="probability.html#the-complement-rule"><i class="fa fa-check"></i><b>6.3.6</b> The Complement Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="probability.html"><a href="probability.html#conditional-probability-and-independence"><i class="fa fa-check"></i><b>6.4</b> Conditional Probability and Independence</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="probability.html"><a href="probability.html#introduction-1"><i class="fa fa-check"></i><b>6.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.4.2" data-path="probability.html"><a href="probability.html#mathematical-definition"><i class="fa fa-check"></i><b>6.4.2</b> Mathematical Definition</a></li>
+<li class="chapter" data-level="6.4.3" data-path="probability.html"><a href="probability.html#independence"><i class="fa fa-check"></i><b>6.4.3</b> Independence</a></li>
+<li class="chapter" data-level="6.4.4" data-path="probability.html"><a href="probability.html#multiplicative-rule"><i class="fa fa-check"></i><b>6.4.4</b> Multiplicative Rule</a></li>
+<li class="chapter" data-level="6.4.5" data-path="probability.html"><a href="probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>6.4.5</b> Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="probability.html"><a href="probability.html#bayes-rule"><i class="fa fa-check"></i><b>6.5</b> Bayes Rule</a></li>
+<li class="chapter" data-level="6.6" data-path="probability.html"><a href="probability.html#homework-4"><i class="fa fa-check"></i><b>6.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="probability.html"><a href="probability.html#concept-questions-4"><i class="fa fa-check"></i><b>6.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="6.6.2" data-path="probability.html"><a href="probability.html#practice-problems-4"><i class="fa fa-check"></i><b>6.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="6.6.3" data-path="probability.html"><a href="probability.html#advanced-problems-4"><i class="fa fa-check"></i><b>6.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html"><i class="fa fa-check"></i><b>7</b> Discrete Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-variables"><i class="fa fa-check"></i><b>7.1</b> Random Variables</a></li>
+<li class="chapter" data-level="7.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables"><i class="fa fa-check"></i><b>7.2</b> Probability Distributions for Discrete Random Variables</a></li>
+<li class="chapter" data-level="7.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#properties-of-probability-distributions"><i class="fa fa-check"></i><b>7.3</b> Properties of Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-values-of-discrete-random-variables"><i class="fa fa-check"></i><b>7.3.1</b> Expected Values of Discrete Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.4</b> Expected Value of Sums of Random Variables</a></li>
+<li class="chapter" data-level="7.5" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-random-variables"><i class="fa fa-check"></i><b>7.5</b> Variance of Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.5.1</b> Variance of Sums of Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#bernoulli-random-variables"><i class="fa fa-check"></i><b>7.6</b> Bernoulli Random Variables</a></li>
+<li class="chapter" data-level="7.7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variables"><i class="fa fa-check"></i><b>7.7</b> Binomial Random Variables</a></li>
+<li class="chapter" data-level="7.8" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variable-in-r"><i class="fa fa-check"></i><b>7.8</b> Binomial Random Variable in R</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distribution-in-r"><i class="fa fa-check"></i><b>7.8.1</b> Probability Distribution in R</a></li>
+<li class="chapter" data-level="7.8.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r"><i class="fa fa-check"></i><b>7.8.2</b> Cumulative Distribution Calculations in R</a></li>
+<li class="chapter" data-level="7.8.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-binomial-distribution-in-r"><i class="fa fa-check"></i><b>7.8.3</b> Random Binomial Distribution in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#homework-5"><i class="fa fa-check"></i><b>7.9</b> Homework</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#concept-questions-5"><i class="fa fa-check"></i><b>7.9.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="7.9.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#advanced-problems-5"><i class="fa fa-check"></i><b>7.9.2</b> Advanced Problems:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>8</b> Continuous Random Variables</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#introduction-to-continuous-random-variables"><i class="fa fa-check"></i><b>8.1</b> Introduction to Continuous Random Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#uniform-random-variable"><i class="fa fa-check"></i><b>8.2</b> Uniform Random Variable</a></li>
+<li class="chapter" data-level="8.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>8.3</b> Normal Distribution</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#cumulative-distribution-function-cdf-for-normal-random-variables"><i class="fa fa-check"></i><b>8.3.1</b> Cumulative Distribution Function (CDF) for Normal Random Variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#finding-probabilities-for-the-normal-distribution"><i class="fa fa-check"></i><b>8.3.2</b> Finding Probabilities for the Normal Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#standard-normal-distribution-z"><i class="fa fa-check"></i><b>8.4</b> Standard Normal Distribution (<span class="math inline">\(Z\)</span>)</a></li>
+<li class="chapter" data-level="8.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#assessing-normality"><i class="fa fa-check"></i><b>8.5</b> Assessing Normality</a></li>
+<li class="chapter" data-level="8.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#regression-to-the-mean"><i class="fa fa-check"></i><b>8.6</b> Regression to the Mean</a></li>
+<li class="chapter" data-level="8.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#final-thoughts-on-random-variables"><i class="fa fa-check"></i><b>8.7</b> Final Thoughts on Random Variables</a></li>
+<li class="chapter" data-level="8.8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#homework-6"><i class="fa fa-check"></i><b>8.8</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>III Sampling and Confidence Intervals</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html"><i class="fa fa-check"></i><b>9</b> Introduction to Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#why-sample"><i class="fa fa-check"></i><b>9.1</b> Why Sample?</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#average-height-example"><i class="fa fa-check"></i><b>9.1.1</b> Average Height Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#inferences-and-point-estimators"><i class="fa fa-check"></i><b>9.2</b> Inferences and Point Estimators</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-distribution-of-sample-means"><i class="fa fa-check"></i><b>9.3</b> The Distribution of Sample Means</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#distribution-of-sample-means"><i class="fa fa-check"></i><b>9.4</b> Distribution of Sample Means</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>9.4.1</b> The Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#other-point-estimators"><i class="fa fa-check"></i><b>9.5</b> Other Point Estimators</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#sampling-distribution-for-the-sample-proportion"><i class="fa fa-check"></i><b>9.6</b> Sampling Distribution for the Sample Proportion</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#tales-in-sampling-poincares-baker"><i class="fa fa-check"></i><b>9.7</b> Tales in Sampling: Poincare’s Baker</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#homework-7"><i class="fa fa-check"></i><b>9.8</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>10</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#introduction-nyc-flights-dataset"><i class="fa fa-check"></i><b>10.1</b> Introduction NYC Flights Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#mean-flight-delays"><i class="fa fa-check"></i><b>10.2</b> Mean Flight Delays</a></li>
+<li class="chapter" data-level="10.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#shortcut-using-the-central-limit-theorem"><i class="fa fa-check"></i><b>10.3</b> Shortcut Using the Central Limit Theorem</a></li>
+<li class="chapter" data-level="10.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#additional-practice-comparing-airports"><i class="fa fa-check"></i><b>10.4</b> Additional Practice: Comparing Airports</a></li>
+<li class="chapter" data-level="10.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-proportion-confidence-intervals"><i class="fa fa-check"></i><b>10.5</b> Population Proportion Confidence Intervals</a></li>
+<li class="chapter" data-level="10.6" data-path="confidence-intervals.html"><a href="confidence-intervals.html#extra-practice-problems"><i class="fa fa-check"></i><b>10.6</b> Extra Practice Problems</a></li>
+<li class="chapter" data-level="10.7" data-path="confidence-intervals.html"><a href="confidence-intervals.html#homework-8"><i class="fa fa-check"></i><b>10.7</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>IV Regression</b></span></li>
+<li class="chapter" data-level="11" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Introduction to Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#statistical-models"><i class="fa fa-check"></i><b>11.1</b> Statistical Models</a></li>
+<li class="chapter" data-level="11.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r"><i class="fa fa-check"></i><b>11.2</b> Fitting a Linear Model in R</a></li>
+<li class="chapter" data-level="11.3" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>11.3</b> Assumptions of Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#successful-linear-regression"><i class="fa fa-check"></i><b>11.3.1</b> Successful Linear Regression</a></li>
+<li class="chapter" data-level="11.3.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#what-failure-looks-like"><i class="fa fa-check"></i><b>11.3.2</b> What Failure Looks Like</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>11.4</b> Goodness of Fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#correlation-and-slope"><i class="fa fa-check"></i><b>11.4.1</b> Correlation and Slope</a></li>
+<li class="chapter" data-level="11.4.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits"><i class="fa fa-check"></i><b>11.4.2</b> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions"><i class="fa fa-check"></i><b>11.5</b> Using Regression Models to Make Predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#homework-9"><i class="fa fa-check"></i><b>11.6</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html"><i class="fa fa-check"></i><b>12</b> Regression with Categorical Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#one-hot-encoding"><i class="fa fa-check"></i><b>12.2</b> One Hot Encoding</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#example-exercise-and-weight"><i class="fa fa-check"></i><b>12.2.1</b> Example: Exercise and Weight</a></li>
+<li class="chapter" data-level="12.2.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#housing-prices-by-neighborhood"><i class="fa fa-check"></i><b>12.2.2</b> Housing Prices by Neighborhood</a></li>
+<li class="chapter" data-level="12.2.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-exercise-and-gender-together"><i class="fa fa-check"></i><b>12.2.3</b> Advanced: Exercise and Gender Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#diagnostics"><i class="fa fa-check"></i><b>12.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="12.4" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#homework-10"><i class="fa fa-check"></i><b>12.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#concept-questions-9"><i class="fa fa-check"></i><b>12.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#practice-problems-10"><i class="fa fa-check"></i><b>12.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="12.4.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-problems-10"><i class="fa fa-check"></i><b>12.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html"><i class="fa fa-check"></i><b>13</b> Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#introduction-to-multiple-regression-models"><i class="fa fa-check"></i><b>13.1</b> Introduction to Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#housing-prices-review-of-simple-regression-results"><i class="fa fa-check"></i><b>13.1.1</b> Housing Prices (Review of Simple Regression Results)</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-including-bathrooms"><i class="fa fa-check"></i><b>13.1.2</b> Multiple Regression (Including Bathrooms)</a></li>
+<li class="chapter" data-level="13.1.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#diagnostics-for-multiple-linear-regression"><i class="fa fa-check"></i><b>13.1.3</b> Diagnostics for Multiple Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-with-categorical-variables-including-the-neighborhood"><i class="fa fa-check"></i><b>13.2</b> Multiple Regression with Categorical Variables: Including the Neighborhood</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#predictions"><i class="fa fa-check"></i><b>13.2.1</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#interactions-between-variables"><i class="fa fa-check"></i><b>13.3</b> Interactions between Variables</a></li>
+<li class="chapter" data-level="13.4" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#some-pitfalls-in-multiple-regression"><i class="fa fa-check"></i><b>13.4</b> Some Pitfalls in Multiple Regression</a></li>
+<li class="chapter" data-level="13.5" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#homework-11"><i class="fa fa-check"></i><b>13.5</b> Homework</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#concept-questions-10"><i class="fa fa-check"></i><b>13.5.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="13.5.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#practice-problems-11"><i class="fa fa-check"></i><b>13.5.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="13.5.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#advanced-problems-11"><i class="fa fa-check"></i><b>13.5.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Hypothesis Testing</b></span></li>
+<li class="chapter" data-level="14" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html"><i class="fa fa-check"></i><b>14</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#introduction-and-warning"><i class="fa fa-check"></i><b>14.1</b> Introduction and Warning</a></li>
+<li class="chapter" data-level="14.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#a-starting-example"><i class="fa fa-check"></i><b>14.2</b> A Starting Example</a></li>
+<li class="chapter" data-level="14.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#the-t.test-command-hypothesis-tests-for-the-population-mean-mu"><i class="fa fa-check"></i><b>14.3</b> The t.test command: Hypothesis Tests for the Population Mean <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="14.4" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#theory-of-hypothesis-testing"><i class="fa fa-check"></i><b>14.4</b> Theory of Hypothesis Testing</a></li>
+<li class="chapter" data-level="14.5" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#under-the-hood-t-tests"><i class="fa fa-check"></i><b>14.5</b> Under the Hood (t tests)</a></li>
+<li class="chapter" data-level="14.6" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#errors-in-hypothesis-testing"><i class="fa fa-check"></i><b>14.6</b> Errors in Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#statistical-significance-alpha"><i class="fa fa-check"></i><b>14.6.1</b> Statistical Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+<li class="chapter" data-level="14.6.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#type-ii-error"><i class="fa fa-check"></i><b>14.6.2</b> Type II Error</a></li>
+<li class="chapter" data-level="14.6.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practical-significance-versus-statistical-significance"><i class="fa fa-check"></i><b>14.6.3</b> Practical Significance versus Statistical Significance</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-for-population-fraction"><i class="fa fa-check"></i><b>14.7</b> Hypothesis Testing for Population Fraction</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#example-3"><i class="fa fa-check"></i><b>14.7.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-in-linear-regression"><i class="fa fa-check"></i><b>14.8</b> Hypothesis Testing in Linear Regression</a></li>
+<li class="chapter" data-level="14.9" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>14.9</b> Power of a Statistical Test</a></li>
+<li class="chapter" data-level="14.10" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#homework-12"><i class="fa fa-check"></i><b>14.10</b> Homework</a>
+<ul>
+<li class="chapter" data-level="14.10.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#concept-questions-11"><i class="fa fa-check"></i><b>14.10.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="14.10.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practice-problems-12"><i class="fa fa-check"></i><b>14.10.2</b> Practice Problems:</a></li>
+<li class="chapter" data-level="14.10.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#advanced-problems-12"><i class="fa fa-check"></i><b>14.10.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html"><i class="fa fa-check"></i><b>15</b> Hypothesis Testing: Two Sample Tests</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>15.1</b> Two Sample t test</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#regression-analysis"><i class="fa fa-check"></i><b>15.1.1</b> Regression analysis</a></li>
+<li class="chapter" data-level="15.1.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach"><i class="fa fa-check"></i><b>15.1.2</b> Two Sample t test approach</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests"><i class="fa fa-check"></i><b>15.2</b> Two Sample Proportion Tests</a></li>
+<li class="chapter" data-level="15.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking"><i class="fa fa-check"></i><b>15.3</b> Extra Example: Birth Weights and Smoking</a></li>
+<li class="chapter" data-level="15.4" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#homework-13"><i class="fa fa-check"></i><b>15.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#concept-questions-12"><i class="fa fa-check"></i><b>15.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="15.4.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#practice-problems-13"><i class="fa fa-check"></i><b>15.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="15.4.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13"><i class="fa fa-check"></i><b>15.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html"><i class="fa fa-check"></i><b>16</b> Confidence Intervals and Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#relation-to-confidence-intervals"><i class="fa fa-check"></i><b>16.1</b> Relation to Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#two-sided-tests"><i class="fa fa-check"></i><b>16.1.1</b> Two sided tests</a></li>
+<li class="chapter" data-level="16.1.2" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#one-sided-confidence-intervals"><i class="fa fa-check"></i><b>16.1.2</b> One-sided confidence intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html"><i class="fa fa-check"></i><b>17</b> Introduction to the Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#contingency-tables"><i class="fa fa-check"></i><b>17.1</b> Contingency Tables</a></li>
+<li class="chapter" data-level="17.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#chi-square-test"><i class="fa fa-check"></i><b>17.2</b> Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#conditions-for-using-the-chi2-test"><i class="fa fa-check"></i><b>17.2.1</b> Conditions for Using the <span class="math inline">\(\chi^2\)</span> test</a></li>
+<li class="chapter" data-level="17.2.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#multiple-hypothesis-testing-again"><i class="fa fa-check"></i><b>17.2.2</b> Multiple Hypothesis Testing Again</a></li>
+<li class="chapter" data-level="17.2.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#using-a-different-null-hypothesis"><i class="fa fa-check"></i><b>17.2.3</b> Using a different Null Hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#homework-14"><i class="fa fa-check"></i><b>17.3</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>VI Advanced Regression Topics</b></span></li>
+<li class="chapter" data-level="18" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>18</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression-used-for"><i class="fa fa-check"></i><b>18.1</b> What is logistic regression used for?</a></li>
+<li class="chapter" data-level="18.2" data-path="logistic-regression.html"><a href="logistic-regression.html#glm-generalized-linear-models"><i class="fa fa-check"></i><b>18.2</b> GLM: Generalized Linear Models</a></li>
+<li class="chapter" data-level="18.3" data-path="logistic-regression.html"><a href="logistic-regression.html#a-starting-example-1"><i class="fa fa-check"></i><b>18.3</b> A Starting Example</a>
+<ul>
+<li class="chapter" data-level="18.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#confidence-intervals-for-the-parameters"><i class="fa fa-check"></i><b>18.3.1</b> Confidence Intervals for the Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="logistic-regression.html"><a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests"><i class="fa fa-check"></i><b>18.4</b> Equivalence of Logistic Regression and Proportion Tests</a></li>
+<li class="chapter" data-level="18.5" data-path="logistic-regression.html"><a href="logistic-regression.html#example-building-a-more-accurate-model"><i class="fa fa-check"></i><b>18.5</b> Example: Building a More Accurate Model</a></li>
+<li class="chapter" data-level="18.6" data-path="logistic-regression.html"><a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression"><i class="fa fa-check"></i><b>18.6</b> Example: Measuring Team Defense Using Logistic Regression</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Statistics and Data Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hypothesis-testing-two-sample-tests" class="section level1 hasAnchor" number="15">
+<h1><span class="header-section-number">Chapter 15</span> Hypothesis Testing: Two Sample Tests<a href="hypothesis-testing-two-sample-tests.html#hypothesis-testing-two-sample-tests" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="two-sample-t-test" class="section level2 hasAnchor" number="15.1">
+<h2><span class="header-section-number">15.1</span> Two Sample t test<a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can also use the t test command to conduct a hypothesis test on data where we have samples from two populations. To introduce this lets consider an example from sports analytics. In particular, let us consider the NBA draft and the value of a lottery pick in the draft. Teams which do make the playoffs are entered into a lottery to determine the order of the top picks in the draft for the following year. These top 14 picks are called lottery picks.</p>
+<p>Using historical data we might want to investigate the value of a lottery pick against those players who were selected outside the lottery.</p>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="hypothesis-testing-two-sample-tests.html#cb599-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;NBA_Draft_Data&quot;</span>)</span>
+<span id="cb599-2"><a href="hypothesis-testing-two-sample-tests.html#cb599-2" aria-hidden="true" tabindex="-1"></a>NBA_Draft_Data<span class="sc">$</span>Lottery.Pick <span class="ot">=</span> <span class="fu">ifelse</span>(NBA_Draft_Data<span class="sc">$</span>Pick.Number <span class="sc">&lt;=</span> <span class="dv">14</span>, <span class="st">&quot;Lottery&quot;</span>,</span>
+<span id="cb599-3"><a href="hypothesis-testing-two-sample-tests.html#cb599-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Not Lottery&quot;</span>)  <span class="do">##create a lottery pick column</span></span></code></pre></div>
+<p>We can now make a boxplot comparing the career scoring averages of the lottery picks between these two pick levels.</p>
+<div class="sourceCode" id="cb600"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb600-1"><a href="hypothesis-testing-two-sample-tests.html#cb600-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(NBA_Draft_Data<span class="sc">$</span>PTS <span class="sc">~</span> NBA_Draft_Data<span class="sc">$</span>Lottery.Pick, <span class="at">ylab =</span> <span class="st">&quot;Career PPG Average&quot;</span>,</span>
+<span id="cb600-2"><a href="hypothesis-testing-two-sample-tests.html#cb600-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">&quot;Career PPG for Lottery Picks versus Non Lottery Picks&quot;</span>, <span class="at">col =</span> <span class="st">&quot;skyblue1&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-544-1.png" width="672" /></p>
+<p>From this boxplot we notice that the lottery picks tend to have a higher point per game (PPG) average. However, we certainly see many exceptions to this rule. We can also compute the averages of the PTS column for these two groups:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Lottery.Pick</th>
+<th align="right">ppg</th>
+<th align="right">NumberPlayers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Lottery</td>
+<td align="right">11.236927</td>
+<td align="right">371</td>
+</tr>
+<tr class="even">
+<td align="left">Not Lottery</td>
+<td align="right">7.107924</td>
+<td align="right">366</td>
+</tr>
+</tbody>
+</table>
+<p>This table once again demonstrates that the lottery picks tend to average more points. However, we might like to test this trend to see if have sufficient evidence to conclude this trend is real (this could also just be a function of sampling error).</p>
+<div id="regression-analysis" class="section level3 hasAnchor" number="15.1.1">
+<h3><span class="header-section-number">15.1.1</span> Regression analysis<a href="hypothesis-testing-two-sample-tests.html#regression-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Our first technique for looking for a difference between our two categories is linear regression with a categorical explanatory variable. We fit a regression model of the form:
+<span class="math display">\[PTS=\beta \delta_{\text{ not lottery}}+\alpha\]</span>
+Where <span class="math inline">\(\delta_{\text{ not lottery}}\)</span> is equal to one if the draft pick fell outside the lottery and zero otherwise.</p>
+<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="hypothesis-testing-two-sample-tests.html#cb601-1" aria-hidden="true" tabindex="-1"></a>lm.draft <span class="ot">=</span> <span class="fu">lm</span>(PTS <span class="sc">~</span> Lottery.Pick, <span class="at">data =</span> NBA_Draft_Data)</span>
+<span id="cb601-2"><a href="hypothesis-testing-two-sample-tests.html#cb601-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.draft)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = PTS ~ Lottery.Pick, data = NBA_Draft_Data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.3369 -3.2369 -0.7079  2.7631 15.9631 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)              11.2369     0.2329   48.24   &lt;2e-16 ***
+## Lottery.PickNot Lottery  -4.1290     0.3305  -12.49   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.486 on 735 degrees of freedom
+## Multiple R-squared:  0.1751, Adjusted R-squared:  0.174 
+## F-statistic: 156.1 on 1 and 735 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>To see if this relationship is real we can form a confidence interval for the coefficients.</p>
+<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="hypothesis-testing-two-sample-tests.html#cb603-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm.draft)</span></code></pre></div>
+<pre><code>##                             2.5 %    97.5 %
+## (Intercept)             10.779671 11.694183
+## Lottery.PickNot Lottery -4.777866 -3.480142</code></pre>
+<p>From this we can see that Lottery picks to tend to average more point per game over their careers. The magnitude of this effect is somewhere between 3.5 and 4.7 points more for lottery picks.</p>
+</div>
+<div id="two-sample-t-test-approach" class="section level3 hasAnchor" number="15.1.2">
+<h3><span class="header-section-number">15.1.2</span> Two Sample t test approach<a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For this we can use the <strong>two-sample</strong> t-test to compare the means of these two distinct populations.</p>
+<p>Here the alternative hypothesis is that the lottery players score more points <span class="math display">\[H_A: \mu_L &gt; \mu_{NL}\]</span> thus the null hypothesis is <span class="math display">\[H_0: \mu_L \leq \mu_{NL}.\]</span>
+We can now perform the test in <code>R</code> using the same <code>t.test</code> command as before.</p>
+<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb605-1"><a href="hypothesis-testing-two-sample-tests.html#cb605-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(NBA_Draft_Data<span class="sc">$</span>PTS <span class="sc">~</span> NBA_Draft_Data<span class="sc">$</span>Lottery.Pick, <span class="at">alternative =</span> <span class="st">&quot;g&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  NBA_Draft_Data$PTS by NBA_Draft_Data$Lottery.Pick
+## t = 12.522, df = 660.95, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means between group Lottery and group Not Lottery is greater than 0
+## 95 percent confidence interval:
+##  3.585879      Inf
+## sample estimates:
+##     mean in group Lottery mean in group Not Lottery 
+##                 11.236927                  7.107923</code></pre>
+<p>Notice that I used the magic tilde <code>~</code> to split the PTS column into the lottery/non-lottery pick subdivisions. I could also do this manually and get the same answer:</p>
+<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb607-1"><a href="hypothesis-testing-two-sample-tests.html#cb607-1" aria-hidden="true" tabindex="-1"></a>lottery.ppg <span class="ot">=</span> <span class="fu">subset</span>(NBA_Draft_Data<span class="sc">$</span>PTS, NBA_Draft_Data<span class="sc">$</span>Lottery.Pick <span class="sc">==</span> <span class="st">&quot;Lottery&quot;</span>)</span>
+<span id="cb607-2"><a href="hypothesis-testing-two-sample-tests.html#cb607-2" aria-hidden="true" tabindex="-1"></a>not.lottery.ppg <span class="ot">=</span> <span class="fu">subset</span>(NBA_Draft_Data<span class="sc">$</span>PTS, NBA_Draft_Data<span class="sc">$</span>Lottery.Pick <span class="sc">==</span> <span class="st">&quot;Not Lottery&quot;</span>)</span>
+<span id="cb607-3"><a href="hypothesis-testing-two-sample-tests.html#cb607-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(lottery.ppg, not.lottery.ppg, <span class="at">alternative =</span> <span class="st">&quot;g&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  lottery.ppg and not.lottery.ppg
+## t = 12.522, df = 660.95, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is greater than 0
+## 95 percent confidence interval:
+##  3.585879      Inf
+## sample estimates:
+## mean of x mean of y 
+## 11.236927  7.107923</code></pre>
+<p>The very small p-value here indicates that the population mean of the lottery picks is truly greater than the population mean of the non-lottery picks.</p>
+<p>The 95% confidence interval also tells us that this difference is rather large (at least 3.85 points).</p>
+
+<div class="warning">
+<p><strong>Conditions for using a two-sample t test:</strong></p>
+<p>These are roughly the same as the conditions for using a one sample t test, although we now need to assume that <strong>BOTH</strong> samples satisfy the conditions.</p>
+<ol style="list-style-type: decimal">
+<li><p>Must be looking for a difference in the population means (averages)</p></li>
+<li><p>30 or greater samples in both groups (CLT)</p></li>
+<li><p>If you have less than 30 in one sample, you can use the t test must you must then assume that the population is roughly mound shaped.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-551" class="exercise"><strong>Exercise 15.1  </strong></span>Perform a two sample t test to see how the TRB (total rebounds) column differs between the lottery and non-lottery picks. Interpret your results.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-552" class="exercise"><strong>Exercise 15.2  </strong></span>Repeat the above analysis but this time split the data into Top-5 picks versus Non-Top-5 picks. The below command will create this column for you:</p>
+</div>
+<div class="sourceCode" id="cb609"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb609-1"><a href="hypothesis-testing-two-sample-tests.html#cb609-1" aria-hidden="true" tabindex="-1"></a>NBA_Draft_Data<span class="sc">$</span>Top.Five <span class="ot">=</span> <span class="fu">ifelse</span>(NBA_Draft_Data<span class="sc">$</span>Pick.Number <span class="sc">&lt;=</span> <span class="dv">5</span>, <span class="st">&quot;Top 5&quot;</span>, <span class="st">&quot;Not Top 5&quot;</span>)  <span class="do">##create top 5 pick column</span></span></code></pre></div>
+
+<div class="note">
+<p>At this point you would probably like to know why we would ever want to do a two sample t test instead of a linear regression?</p>
+<p>My answer is that a two sample t test is more robust against a difference in variance between the two groups. Recall, that one of the assumptions of simple linear regression is that the variance of the residuals does not depend on the explanatory variable(s). By default <code>R</code> does a type of t test which does not assume equal variance between the two groups. This is the one advantage of using the t test command.</p>
+Also, you should know what a two sample t test is. Even if you are not going to be doing many you will still see if being done by others all the time.
+</div>
+
+<div class="warning">
+The two sample t test is specialized to deal with comparing the mean values between only two categories. It doesn’t work for categorical variables with more than two levels.
+</div>
+<div id="paired-t-test" class="section level4 hasAnchor" number="15.1.2.1">
+<h4><span class="header-section-number">15.1.2.1</span> Paired t test<a href="hypothesis-testing-two-sample-tests.html#paired-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Lets say we are trying to estimate the effect of a new training regiment on the 40 yard dash times for soccer players. Before implementing the training regime we measure the 40 yard dash times of the 30 players. First lets read this data set into R.</p>
+<div class="sourceCode" id="cb610"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb610-1"><a href="hypothesis-testing-two-sample-tests.html#cb610-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;soccer_coach&quot;</span>)</span>
+<span id="cb610-2"><a href="hypothesis-testing-two-sample-tests.html#cb610-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(soccer_coach)</span></code></pre></div>
+<pre><code>##   Player before.time after.time
+## 1      1    4.904049   4.795461
+## 2      2    5.562047   4.981210
+## 3      3    5.240206   5.230049
+## 4      4    5.765166   5.484009
+## 5      5    5.755104   5.628038
+## 6      6    5.764430   5.741686</code></pre>
+<p>First, we can compare the mean times before and after the training:</p>
+<div class="sourceCode" id="cb612"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb612-1"><a href="hypothesis-testing-two-sample-tests.html#cb612-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(soccer_coach<span class="sc">$</span>before.time)</span></code></pre></div>
+<pre><code>## [1] 5.458765</code></pre>
+<div class="sourceCode" id="cb614"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb614-1"><a href="hypothesis-testing-two-sample-tests.html#cb614-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(soccer_coach<span class="sc">$</span>after.time)</span></code></pre></div>
+<pre><code>## [1] 5.329473</code></pre>
+<p>Also we could make a side by side boxplot for the soccer players times before and after the training</p>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="hypothesis-testing-two-sample-tests.html#cb616-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(soccer_coach<span class="sc">$</span>before.time, soccer_coach<span class="sc">$</span>after.time, <span class="at">main =</span> <span class="st">&quot;40 yard dash times of Soccer Players before/after Training&quot;</span>,</span>
+<span id="cb616-2"><a href="hypothesis-testing-two-sample-tests.html#cb616-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">&quot;Time (sec)&quot;</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">&quot;Before&quot;</span>, <span class="st">&quot;After&quot;</span>), <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-558-1.png" width="672" /></p>
+<p>We could do a simple t test to examine whether mean of the players times after the training regime is implemented decrease (on average). Here we have the alternative hypothesis that <span class="math inline">\(H_a: \mu_b-\mu_a&gt;0\)</span> and thus the null hypothesis that <span class="math inline">\(H_0: \mu_b-\mu_a \leq 0\)</span>. Using the two sample t test format in <code>R</code> we have:</p>
+<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb617-1"><a href="hypothesis-testing-two-sample-tests.html#cb617-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(soccer_coach<span class="sc">$</span>before.time, soccer_coach<span class="sc">$</span>after.time, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  soccer_coach$before.time and soccer_coach$after.time
+## t = 1.0918, df = 57.751, p-value = 0.1397
+## alternative hypothesis: true difference in means is greater than 0
+## 95 percent confidence interval:
+##  -0.06866467         Inf
+## sample estimates:
+## mean of x mean of y 
+##  5.458765  5.329473</code></pre>
+<p>Here we cannot reject the null hypothesis that the training had no effect on the players sprinting performance. However, we haven’t used all of the information available to us in this scenario. The t test we have just run doesn’t know that we recorded the before and after for the <em>same players</em> more than once. As far as <code>R</code> knows the before and after times could be entirely different players as if we are comparing the results between one team which received the training and one who didn’t. Therefore, <code>R</code> has to be pretty conservative in its predictions. The differences between the two groups could be due to many reasons other than the training regime implemented. Maybe the second set of players just started off being a little bit faster, etc.</p>
+<p>The data we collected is actually more powerful because we know the performance of the <strong>same</strong> players before and after the test. This greatly reduces the number of variables which need to be accounted for in our statistical test. Luckily, we can easily let <code>R</code> know that our data points are <strong>paired</strong>.</p>
+<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb619-1"><a href="hypothesis-testing-two-sample-tests.html#cb619-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(soccer_coach<span class="sc">$</span>before.time, soccer_coach<span class="sc">$</span>after.time, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>,</span>
+<span id="cb619-2"><a href="hypothesis-testing-two-sample-tests.html#cb619-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  soccer_coach$before.time and soccer_coach$after.time
+## t = 3.6285, df = 29, p-value = 0.0005429
+## alternative hypothesis: true mean difference is greater than 0
+## 95 percent confidence interval:
+##  0.06874732        Inf
+## sample estimates:
+## mean difference 
+##       0.1292918</code></pre>
+<p>Setting the <code>paired</code> keyword to true lets <code>R</code> know that the two columns should be paired together during the test. We can see that running the a <em>paired t test</em> gives us a much smaller p value. Moreover, we can now safely conclude that the new training regiment is effective in at least modestly reducing the 40 yard dash times of the soccer players.</p>
+<p>This is our first example of the huge subject of <em>experimental design</em> which is the study of methods which can be used to create data sets which have more <em>power</em> to distinguish differences between groups. Where possible it is better to collect data for the same subjects under two conditions as this will allow for more powerful statistical analysis of the data (i.e a paired t test instead of a normal t test).</p>
+<p>Whenever the assumptions are met for a paired t test, you will be expected to perform a paired t test in this class.</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-561" class="exercise"><strong>Exercise 15.3  </strong></span>Use the <code>Diet_data</code> set to examine whether a diet program is effective in reducing the weight of the participants. Record the p value for the most powerful test for a difference in the mean values of the participants.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="two-sample-proportion-tests" class="section level2 hasAnchor" number="15.2">
+<h2><span class="header-section-number">15.2</span> Two Sample Proportion Tests<a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can also use statistical hypothesis testing to compare the proportion between two samples. For example, we might conduct a survey of 100 smokers and 50 non-smokers to see whether they buy organic foods. If we find that 30/100 smokers buy organic and only 11/50 non-smokers buy organic then can we conclude that more smokers buy organic foods that smokers? <span class="math inline">\(H_a: p_s &gt; p_n\)</span> and <span class="math inline">\(H_0: p_s \leq p_n\)</span>.</p>
+<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb621-1"><a href="hypothesis-testing-two-sample-tests.html#cb621-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">11</span>), <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">50</span>), <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  2-sample test for equality of proportions with continuity correction
+## 
+## data:  c(30, 11) out of c(100, 50)
+## X-squared = 0.70905, df = 1, p-value = 0.1999
+## alternative hypothesis: greater
+## 95 percent confidence interval:
+##  -0.05733996  1.00000000
+## sample estimates:
+## prop 1 prop 2 
+##   0.30   0.22</code></pre>
+<p>In this case we don’t have sufficient evidence to conclude that a larger fraction of smokers buy organic foods. It is common when analyzing survey data to want to compare proportions between populations.</p>
+<p>The key assumptions when performing a two-sample proportion test are that we have at least 5 successes and 5 failures in <strong>BOTH</strong> samples.</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-563" class="exercise"><strong>Exercise 15.4  </strong></span>Fred is gambling in Las Vegas, and has been watching two roulette tables all day. Table 1 has landed on red 63 out of 100 times and table 2 has landed on red 56 out of 100. Use a statistical hypothesis test to determine whether he has enough evidence to indicate he should bet on red at table 1 instead of table 2.</p>
+</div>
+</div>
+<div id="extra-example-birth-weights-and-smoking" class="section level2 hasAnchor" number="15.3">
+<h2><span class="header-section-number">15.3</span> Extra Example: Birth Weights and Smoking<a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For this example we are going to use a data from a study on the risk factors associated with giving birth to a low-weight baby (sometimes defined as less than 2,500 grams). This data set is another one which is build into <code>R</code>. To load this data for analysis type:</p>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="hypothesis-testing-two-sample-tests.html#cb623-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb623-2"><a href="hypothesis-testing-two-sample-tests.html#cb623-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(birthwt)</span></code></pre></div>
+<p>You can view all a description of the data by typing <code>?birthwt</code> once it is loaded. To begin we could look at the raw birth weight of mothers who were smokers versus non-smokers. We can do some EDA on this data using a boxplot:</p>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="hypothesis-testing-two-sample-tests.html#cb624-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(birthwt<span class="sc">$</span>bwt <span class="sc">~</span> birthwt<span class="sc">$</span>smoke, <span class="at">xlab =</span> <span class="st">&quot;Smoke&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Birth Weight&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-565-1.png" width="672" /></p>
+<p>From the boxplot we can see that the median birth weight of babies whose mothers smoked was smaller. We can test the data for a difference in the <code>means</code> using a <code>t.test</code> command.</p>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="hypothesis-testing-two-sample-tests.html#cb625-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(birthwt<span class="sc">$</span>bwt <span class="sc">~</span> birthwt<span class="sc">$</span>smoke, <span class="at">alternative =</span> <span class="st">&quot;g&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  birthwt$bwt by birthwt$smoke
+## t = 2.7299, df = 170.1, p-value = 0.003501
+## alternative hypothesis: true difference in means between group 0 and group 1 is greater than 0
+## 95 percent confidence interval:
+##  111.8548      Inf
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        3055.696        2771.919</code></pre>
+<p>Notice we can use the <code>~</code> shorthand to split the data into those two groups faster than filtering. Here we get a small <code>p value</code> meaning we have sufficient evidence to reject the null hypothesis that the mean weight of babies of women who smoked is greater than or equal to those of non-smokers.</p>
+<p>Within this data set we also have a column <code>low</code> which classifies whether the babies birth weight is considered low using the medical criterion (birth weight less than 2,500 grams):</p>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb627-1"><a href="hypothesis-testing-two-sample-tests.html#cb627-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(birthwt<span class="sc">$</span>smoke, birthwt<span class="sc">$</span>low)</span></code></pre></div>
+<pre><code>##    
+##      0  1
+##   0 86 29
+##   1 44 30</code></pre>
+<p>We can see that smoking gives a higher fraction of low-weight births. However, this could just be due to sampling error so let’s run a proportion test to find out.</p>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="hypothesis-testing-two-sample-tests.html#cb629-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">table</span>(birthwt<span class="sc">$</span>smoke, birthwt<span class="sc">$</span>low), <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)  <span class="do">##does a proportion test between rows</span></span></code></pre></div>
+<pre><code>## 
+##  2-sample test for equality of proportions with continuity correction
+## 
+## data:  table(birthwt$smoke, birthwt$low)
+## X-squared = 4.2359, df = 1, p-value = 0.01979
+## alternative hypothesis: greater
+## 95 percent confidence interval:
+##  0.02701885 1.00000000
+## sample estimates:
+##    prop 1    prop 2 
+## 0.7478261 0.5945946</code></pre>
+<p>Once again we find we have sufficient evidence to reject the null hypothesis that smoking does not increase the risk of a low birth weight.</p>
+</div>
+<div id="homework-13" class="section level2 hasAnchor" number="15.4">
+<h2><span class="header-section-number">15.4</span> Homework<a href="hypothesis-testing-two-sample-tests.html#homework-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="concept-questions-12" class="section level3 hasAnchor" number="15.4.1">
+<h3><span class="header-section-number">15.4.1</span> Concept Questions<a href="hypothesis-testing-two-sample-tests.html#concept-questions-12" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>What the assumptions behind using a two sample proportion test? Hint these will be the same as forming a confidence interval for for the fraction of a population, with two samples where this assumption needs to hold.</li>
+<li>What assumptions are required for a two sample t test with small <span class="math inline">\(N\leq 30\)</span> sample sizes?</li>
+<li>A paired t test may be used for any two sample experiment (True/False)</li>
+<li>The power of any statistical test will increase with increasing sample sizes. (True/False)</li>
+<li>Where possible it is better to collect data on the same individuals when trying to distinguish a difference in the average response to a condition (True/False)</li>
+<li>The paired t test is a more powerful statistical test than a normal t test (True/ False)</li>
+</ol>
+</div>
+<div id="practice-problems-13" class="section level3 hasAnchor" number="15.4.2">
+<h3><span class="header-section-number">15.4.2</span> Practice Problems<a href="hypothesis-testing-two-sample-tests.html#practice-problems-13" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For each of the scenarios below form the null and alternative hypothesis.</p>
+<ol style="list-style-type: decimal">
+<li>We have conducted an educational study on two classrooms of 30 students using two different teaching methods. The first method had 50% of students pass a standardized test, and the classroom using the second teaching method had 60% of the students pass.</li>
+<li>A basketball coach is extremely superstitious and believes that when he wears his lucky tie the team has a greater chance of winning the game. He comes to you because he is looking to design an experiment to test this belief. If the team has 40 games in the upcoming season, design an experiment and the (null and alt) hypothesis to test the coaches claims.</li>
+</ol>
+<p>For the below question work out the number of errors in the data set.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Before the Olympics all athletes are required to submit a urine sample to be tested for banned substances. This is done by estimating the concentration of certain compounds in the urine and is prone to some degree of laboratory error. In addition, the concentration of these compounds are known to vary with the individual (genetic, diet, etc). To weigh the evidence present in a drug test the laboratory conducts a statistical test. To ensure they don’t falsely convict athletes of doping they use a significance level of <span class="math inline">\(\alpha=0.01\)</span>. If they test 3000 athletes, all of whom are clean about how many will be falsely accused of doping? Explain the issue with this procedure.</li>
+</ol>
+</div>
+<div id="advanced-problems-13" class="section level3 hasAnchor" number="15.4.3">
+<h3><span class="header-section-number">15.4.3</span> Advanced Problems<a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><p>Load the <code>drug_use</code> data set from the <code>fivethirtyeight</code> package. Run a hypothesis test to determine if a larger proportion of 22-23 year olds are using marijuana then 24-25 year olds. Interpret your results statistically and practically.</p></li>
+<li><p>Import the data set <code>Cavaliers_Home_Away_2016</code>. Form a hypothesis on whether being home or away for the game had an effect on the proportion of games won by the Cavaliers during the 2016-2017 season, test this hypothesis using a hypothesis test.</p></li>
+<li><p>Load the data set <code>animal_sleep</code> and compare the average total sleep time (sleep_total column) between carnivores and herbivores (using the <code>vore</code> column) to divide the between the two categories. To begin make a boxplot to compare the total sleep time between these two categories. Do we have sufficient evidence to conclude the average total sleep time differs between these groups?</p></li>
+<li><p>Load the <code>HR_Employee_Attrition</code> data set. We wish to investigate whether the daily rate (pay) has anything to do with whether a employee has quit (the attrition column is “Yes”). To begin make a boxplot of the DailyRate column split into these Attrition categories. Use the boxplot to help form the null hypothesis for your test and decide on an alternative hypothesis. Conduct a statistical hypothesis test to determine if we have sufficient evidence to conclude that those employees who quit tended to be paid less. Report and interpret the p value for your test.</p></li>
+<li><p>Load the <code>BirdCaptureData</code> data set. Perform a hypothesis test to determine if the proportion of orange-crowned warblers (SpeciesCode==OCWA) caught at the station is truly less than the proportion of Yellow Warblers (SpeciesCode==YWAR). Report your p value and interpret the results statistically and practically.</p></li>
+<li><p>(All of Statistics Problem) In 1861, 10 essays appeared in the New Orleans Daily Crescent. They were signed “Quintus Curtius Snodgrass” and one hypothesis is that these essays were written by Mark Twain. One way to look for similarity between writing styles is to compare the proportion of three letter words found in two works. For 8 Mark Twain essays we have:</p></li>
+</ol>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="hypothesis-testing-two-sample-tests.html#cb631-1" aria-hidden="true" tabindex="-1"></a>twain <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.225</span>, <span class="fl">0.262</span>, <span class="fl">0.217</span>, <span class="fl">0.24</span>, <span class="fl">0.23</span>, <span class="fl">0.229</span>, <span class="fl">0.235</span>, <span class="fl">0.217</span>)</span></code></pre></div>
+<p>From 10 Snodgrass essays we have that:</p>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="hypothesis-testing-two-sample-tests.html#cb632-1" aria-hidden="true" tabindex="-1"></a>snodgrass <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.209</span>, <span class="fl">0.205</span>, <span class="fl">0.196</span>, <span class="fl">0.21</span>, <span class="fl">0.202</span>, <span class="fl">0.207</span>, <span class="fl">0.224</span>, <span class="fl">0.223</span>, <span class="fl">0.22</span>, <span class="fl">0.201</span>)</span></code></pre></div>
+<ul>
+<li>Perform a two sample t test to examine these two data sets for a difference in the mean values. Report your p value and a 95% confidence interval for the results.</li>
+<li>What are the issues with using a t-test on this data?
+<!-- + Now use a permutation test on this data to avoid the large sample assumptions of the t test. --></li>
+</ul>
+<ol start="7" style="list-style-type: decimal">
+<li><p>Consider the analysis of the kidiq data set again.</p>
+<ul>
+<li>Run a regression with kid_score as the response and mom_hs as the explanatory variable and look at the <code>summary()</code> of your results. Notice the p-value which is reported in the last line of the summary. This “F-test” is a hypothesis test with the null hypothesis that the explanatory variable tells us nothing about the value of the response variable.</li>
+<li>Perform a t test for the a difference in means in the kid_score values based on the mom_hs column. What is your conclusion?</li>
+<li>Repeat the t test again using the command:</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb633-1"><a href="hypothesis-testing-two-sample-tests.html#cb633-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(kidiq<span class="sc">$</span>kid_score <span class="sc">~</span> kidiq<span class="sc">$</span>mom_hs, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>This keyword has the t test assume that the variance for the two samples (mom_hs=0 and mom_hs=1) is the same. Notice that the p-value now matches the linear regression F-test result exactly. Thus, we can see that a two sample t test is really a linear regression analysis! Also, notice that the assumption of equal variances for all values of the explanatory variable is one of the four assumptions of linear regression analysis.  </code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="hypothesis-testing-one-sample.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="confidence-intervals-and-hypothesis-testing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/14-Hypothesis_Testing_Two_Sample.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statsbook.pdf", "statsbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"collapse": "section"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

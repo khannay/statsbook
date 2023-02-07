@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Probability | Introduction to Statistics and Data Science</title>
+  <meta name="description" content="Introductory textbook for statistics and data science" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Probability | Introduction to Statistics and Data Science" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Introductory textbook for statistics and data science" />
+  <meta name="github-repo" content="khannay/statsbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Probability | Introduction to Statistics and Data Science" />
+  
+  <meta name="twitter:description" content="Introductory textbook for statistics and data science" />
+  
+
+<meta name="author" content="Dr. Kevin Hannay" />
+
+
+<meta name="date" content="2023-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction-to-clustering.html"/>
+<link rel="next" href="discrete-random-variables.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"> Stats Notes </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#librarian-or-farmer"><i class="fa fa-check"></i><b>1.1</b> Librarian or Farmer?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#profits"><i class="fa fa-check"></i><b>1.2</b> Profits</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#accidental-deaths"><i class="fa fa-check"></i><b>1.3</b> Accidental Deaths</a></li>
+</ul></li>
+<li class="part"><span><b>I Exploratory Data Analysis</b></span></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R Packages</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-as-a-fancy-calculator"><i class="fa fa-check"></i><b>2.3</b> R as a Fancy Calculator</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#more-advanced-r"><i class="fa fa-check"></i><b>2.4</b> More Advanced R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types-in-r"><i class="fa fa-check"></i><b>2.4.1</b> Data Types in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#logic-in-r"><i class="fa fa-check"></i><b>2.5</b> Logic in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#storing-data-in-r"><i class="fa fa-check"></i><b>2.6</b> Storing Data in R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>2.6.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.6.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>2.6.2</b> Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-plots-in-r"><i class="fa fa-check"></i><b>2.7</b> Basic Plots in R</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#additional-resources"><i class="fa fa-check"></i><b>2.8</b> Additional Resources</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#homework"><i class="fa fa-check"></i><b>2.9</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>3</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#shot-logs-basketball-data"><i class="fa fa-check"></i><b>3.1</b> Shot Logs Basketball Data</a></li>
+<li class="chapter" data-level="3.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#principal-types-of-statistical-data"><i class="fa fa-check"></i><b>3.2</b> Principal Types of Statistical Data</a></li>
+<li class="chapter" data-level="3.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#the-distribution-of-a-data-set"><i class="fa fa-check"></i><b>3.3</b> The Distribution of a Data Set</a></li>
+<li class="chapter" data-level="3.4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency"><i class="fa fa-check"></i><b>3.4</b> Numerical Measures for Central Tendency</a></li>
+<li class="chapter" data-level="3.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-of-variability"><i class="fa fa-check"></i><b>3.5</b> Numerical Measures of Variability</a></li>
+<li class="chapter" data-level="3.6" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing"><i class="fa fa-check"></i><b>3.6</b> Numerical Measures for Relative Standing</a></li>
+<li class="chapter" data-level="3.7" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot"><i class="fa fa-check"></i><b>3.7</b> Relation between Continuous and Categorical Variables: Boxplot</a></li>
+<li class="chapter" data-level="3.8" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots"><i class="fa fa-check"></i><b>3.8</b> Relation between Continuous Variables: Scatter Plots</a></li>
+<li class="chapter" data-level="3.9" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables"><i class="fa fa-check"></i><b>3.9</b> Relationship between Categorical Variables: Contingency Tables</a></li>
+<li class="chapter" data-level="3.10" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#tips-and-tricks"><i class="fa fa-check"></i><b>3.10</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="3.11" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#homework-1"><i class="fa fa-check"></i><b>3.11</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.1</b> What is Data Wrangling?</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#nas-and-the-curse-of-real-world-data"><i class="fa fa-check"></i><b>4.2</b> NA’s and the Curse of Real World Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#select-pick-only-a-few-columns"><i class="fa fa-check"></i><b>4.3</b> Select: Pick only a few columns</a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#filter-select-rows"><i class="fa fa-check"></i><b>4.4</b> Filter (select rows)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#compound-criteria"><i class="fa fa-check"></i><b>4.4.1</b> Compound Criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#chainspipes"><i class="fa fa-check"></i><b>4.5</b> Chains/Pipes %&gt;%</a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#grouping-data-together"><i class="fa fa-check"></i><b>4.6</b> Grouping Data Together</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#homework-2"><i class="fa fa-check"></i><b>4.7</b> Homework</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="data-wrangling.html"><a href="data-wrangling.html#concept-questions-2"><i class="fa fa-check"></i><b>4.7.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="4.7.2" data-path="data-wrangling.html"><a href="data-wrangling.html#practice-problems-2"><i class="fa fa-check"></i><b>4.7.2</b> Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html"><i class="fa fa-check"></i><b>5</b> Introduction to Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#what-is-clustering"><i class="fa fa-check"></i><b>5.1</b> What is Clustering?</a></li>
+<li class="chapter" data-level="5.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#introduction-to-kmeans-clustering"><i class="fa fa-check"></i><b>5.2</b> Introduction to Kmeans clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#how-many-clusters-should-we-choose"><i class="fa fa-check"></i><b>5.3</b> How many clusters should we choose?</a></li>
+<li class="chapter" data-level="5.4" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#clustering-nba-players"><i class="fa fa-check"></i><b>5.4</b> Clustering NBA Players</a></li>
+<li class="chapter" data-level="5.5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis"><i class="fa fa-check"></i><b>5.5</b> Requirements for Performing Cluster Analysis</a></li>
+<li class="chapter" data-level="5.6" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#homework-3"><i class="fa fa-check"></i><b>5.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#concept-questions-3"><i class="fa fa-check"></i><b>5.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="5.6.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#practice-problems-3"><i class="fa fa-check"></i><b>5.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="5.6.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#advanced-problems-3"><i class="fa fa-check"></i><b>5.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Probability Theory</b></span></li>
+<li class="chapter" data-level="6" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>6</b> Probability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="probability.html"><a href="probability.html#sample-spaces-and-events"><i class="fa fa-check"></i><b>6.1</b> Sample Spaces and Events</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="probability.html"><a href="probability.html#introduction"><i class="fa fa-check"></i><b>6.1.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.1.2" data-path="probability.html"><a href="probability.html#sample-spaces"><i class="fa fa-check"></i><b>6.1.2</b> Sample Spaces</a></li>
+<li class="chapter" data-level="6.1.3" data-path="probability.html"><a href="probability.html#law-of-sample-spaces"><i class="fa fa-check"></i><b>6.1.3</b> Law of Sample Spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="probability.html"><a href="probability.html#combinatorics"><i class="fa fa-check"></i><b>6.2</b> Combinatorics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="probability.html"><a href="probability.html#basic-principle-of-counting"><i class="fa fa-check"></i><b>6.2.1</b> Basic Principle of Counting</a></li>
+<li class="chapter" data-level="6.2.2" data-path="probability.html"><a href="probability.html#permutations"><i class="fa fa-check"></i><b>6.2.2</b> Permutations</a></li>
+<li class="chapter" data-level="6.2.3" data-path="probability.html"><a href="probability.html#combinations"><i class="fa fa-check"></i><b>6.2.3</b> Combinations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="probability.html"><a href="probability.html#axioms-of-probability"><i class="fa fa-check"></i><b>6.3</b> Axioms of Probability</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="probability.html"><a href="probability.html#beyond-the-law-of-sample-spaces"><i class="fa fa-check"></i><b>6.3.1</b> Beyond the Law of Sample Spaces</a></li>
+<li class="chapter" data-level="6.3.2" data-path="probability.html"><a href="probability.html#set-theory"><i class="fa fa-check"></i><b>6.3.2</b> Set Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="probability.html"><a href="probability.html#the-axioms-of-probability"><i class="fa fa-check"></i><b>6.3.3</b> The Axioms of Probability</a></li>
+<li class="chapter" data-level="6.3.4" data-path="probability.html"><a href="probability.html#the-or-rule"><i class="fa fa-check"></i><b>6.3.4</b> The OR Rule</a></li>
+<li class="chapter" data-level="6.3.5" data-path="probability.html"><a href="probability.html#the-and-rule"><i class="fa fa-check"></i><b>6.3.5</b> The AND Rule</a></li>
+<li class="chapter" data-level="6.3.6" data-path="probability.html"><a href="probability.html#the-complement-rule"><i class="fa fa-check"></i><b>6.3.6</b> The Complement Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="probability.html"><a href="probability.html#conditional-probability-and-independence"><i class="fa fa-check"></i><b>6.4</b> Conditional Probability and Independence</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="probability.html"><a href="probability.html#introduction-1"><i class="fa fa-check"></i><b>6.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.4.2" data-path="probability.html"><a href="probability.html#mathematical-definition"><i class="fa fa-check"></i><b>6.4.2</b> Mathematical Definition</a></li>
+<li class="chapter" data-level="6.4.3" data-path="probability.html"><a href="probability.html#independence"><i class="fa fa-check"></i><b>6.4.3</b> Independence</a></li>
+<li class="chapter" data-level="6.4.4" data-path="probability.html"><a href="probability.html#multiplicative-rule"><i class="fa fa-check"></i><b>6.4.4</b> Multiplicative Rule</a></li>
+<li class="chapter" data-level="6.4.5" data-path="probability.html"><a href="probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>6.4.5</b> Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="probability.html"><a href="probability.html#bayes-rule"><i class="fa fa-check"></i><b>6.5</b> Bayes Rule</a></li>
+<li class="chapter" data-level="6.6" data-path="probability.html"><a href="probability.html#homework-4"><i class="fa fa-check"></i><b>6.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="probability.html"><a href="probability.html#concept-questions-4"><i class="fa fa-check"></i><b>6.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="6.6.2" data-path="probability.html"><a href="probability.html#practice-problems-4"><i class="fa fa-check"></i><b>6.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="6.6.3" data-path="probability.html"><a href="probability.html#advanced-problems-4"><i class="fa fa-check"></i><b>6.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html"><i class="fa fa-check"></i><b>7</b> Discrete Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-variables"><i class="fa fa-check"></i><b>7.1</b> Random Variables</a></li>
+<li class="chapter" data-level="7.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables"><i class="fa fa-check"></i><b>7.2</b> Probability Distributions for Discrete Random Variables</a></li>
+<li class="chapter" data-level="7.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#properties-of-probability-distributions"><i class="fa fa-check"></i><b>7.3</b> Properties of Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-values-of-discrete-random-variables"><i class="fa fa-check"></i><b>7.3.1</b> Expected Values of Discrete Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.4</b> Expected Value of Sums of Random Variables</a></li>
+<li class="chapter" data-level="7.5" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-random-variables"><i class="fa fa-check"></i><b>7.5</b> Variance of Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.5.1</b> Variance of Sums of Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#bernoulli-random-variables"><i class="fa fa-check"></i><b>7.6</b> Bernoulli Random Variables</a></li>
+<li class="chapter" data-level="7.7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variables"><i class="fa fa-check"></i><b>7.7</b> Binomial Random Variables</a></li>
+<li class="chapter" data-level="7.8" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variable-in-r"><i class="fa fa-check"></i><b>7.8</b> Binomial Random Variable in R</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distribution-in-r"><i class="fa fa-check"></i><b>7.8.1</b> Probability Distribution in R</a></li>
+<li class="chapter" data-level="7.8.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r"><i class="fa fa-check"></i><b>7.8.2</b> Cumulative Distribution Calculations in R</a></li>
+<li class="chapter" data-level="7.8.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-binomial-distribution-in-r"><i class="fa fa-check"></i><b>7.8.3</b> Random Binomial Distribution in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#homework-5"><i class="fa fa-check"></i><b>7.9</b> Homework</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#concept-questions-5"><i class="fa fa-check"></i><b>7.9.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="7.9.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#advanced-problems-5"><i class="fa fa-check"></i><b>7.9.2</b> Advanced Problems:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>8</b> Continuous Random Variables</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#introduction-to-continuous-random-variables"><i class="fa fa-check"></i><b>8.1</b> Introduction to Continuous Random Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#uniform-random-variable"><i class="fa fa-check"></i><b>8.2</b> Uniform Random Variable</a></li>
+<li class="chapter" data-level="8.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>8.3</b> Normal Distribution</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#cumulative-distribution-function-cdf-for-normal-random-variables"><i class="fa fa-check"></i><b>8.3.1</b> Cumulative Distribution Function (CDF) for Normal Random Variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#finding-probabilities-for-the-normal-distribution"><i class="fa fa-check"></i><b>8.3.2</b> Finding Probabilities for the Normal Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#standard-normal-distribution-z"><i class="fa fa-check"></i><b>8.4</b> Standard Normal Distribution (<span class="math inline">\(Z\)</span>)</a></li>
+<li class="chapter" data-level="8.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#assessing-normality"><i class="fa fa-check"></i><b>8.5</b> Assessing Normality</a></li>
+<li class="chapter" data-level="8.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#regression-to-the-mean"><i class="fa fa-check"></i><b>8.6</b> Regression to the Mean</a></li>
+<li class="chapter" data-level="8.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#final-thoughts-on-random-variables"><i class="fa fa-check"></i><b>8.7</b> Final Thoughts on Random Variables</a></li>
+<li class="chapter" data-level="8.8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#homework-6"><i class="fa fa-check"></i><b>8.8</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>III Sampling and Confidence Intervals</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html"><i class="fa fa-check"></i><b>9</b> Introduction to Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#why-sample"><i class="fa fa-check"></i><b>9.1</b> Why Sample?</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#average-height-example"><i class="fa fa-check"></i><b>9.1.1</b> Average Height Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#inferences-and-point-estimators"><i class="fa fa-check"></i><b>9.2</b> Inferences and Point Estimators</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-distribution-of-sample-means"><i class="fa fa-check"></i><b>9.3</b> The Distribution of Sample Means</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#distribution-of-sample-means"><i class="fa fa-check"></i><b>9.4</b> Distribution of Sample Means</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>9.4.1</b> The Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#other-point-estimators"><i class="fa fa-check"></i><b>9.5</b> Other Point Estimators</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#sampling-distribution-for-the-sample-proportion"><i class="fa fa-check"></i><b>9.6</b> Sampling Distribution for the Sample Proportion</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#tales-in-sampling-poincares-baker"><i class="fa fa-check"></i><b>9.7</b> Tales in Sampling: Poincare’s Baker</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#homework-7"><i class="fa fa-check"></i><b>9.8</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>10</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#introduction-nyc-flights-dataset"><i class="fa fa-check"></i><b>10.1</b> Introduction NYC Flights Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#mean-flight-delays"><i class="fa fa-check"></i><b>10.2</b> Mean Flight Delays</a></li>
+<li class="chapter" data-level="10.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#shortcut-using-the-central-limit-theorem"><i class="fa fa-check"></i><b>10.3</b> Shortcut Using the Central Limit Theorem</a></li>
+<li class="chapter" data-level="10.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#additional-practice-comparing-airports"><i class="fa fa-check"></i><b>10.4</b> Additional Practice: Comparing Airports</a></li>
+<li class="chapter" data-level="10.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-proportion-confidence-intervals"><i class="fa fa-check"></i><b>10.5</b> Population Proportion Confidence Intervals</a></li>
+<li class="chapter" data-level="10.6" data-path="confidence-intervals.html"><a href="confidence-intervals.html#extra-practice-problems"><i class="fa fa-check"></i><b>10.6</b> Extra Practice Problems</a></li>
+<li class="chapter" data-level="10.7" data-path="confidence-intervals.html"><a href="confidence-intervals.html#homework-8"><i class="fa fa-check"></i><b>10.7</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>IV Regression</b></span></li>
+<li class="chapter" data-level="11" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Introduction to Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#statistical-models"><i class="fa fa-check"></i><b>11.1</b> Statistical Models</a></li>
+<li class="chapter" data-level="11.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r"><i class="fa fa-check"></i><b>11.2</b> Fitting a Linear Model in R</a></li>
+<li class="chapter" data-level="11.3" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>11.3</b> Assumptions of Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#successful-linear-regression"><i class="fa fa-check"></i><b>11.3.1</b> Successful Linear Regression</a></li>
+<li class="chapter" data-level="11.3.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#what-failure-looks-like"><i class="fa fa-check"></i><b>11.3.2</b> What Failure Looks Like</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>11.4</b> Goodness of Fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#correlation-and-slope"><i class="fa fa-check"></i><b>11.4.1</b> Correlation and Slope</a></li>
+<li class="chapter" data-level="11.4.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits"><i class="fa fa-check"></i><b>11.4.2</b> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions"><i class="fa fa-check"></i><b>11.5</b> Using Regression Models to Make Predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#homework-9"><i class="fa fa-check"></i><b>11.6</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html"><i class="fa fa-check"></i><b>12</b> Regression with Categorical Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#one-hot-encoding"><i class="fa fa-check"></i><b>12.2</b> One Hot Encoding</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#example-exercise-and-weight"><i class="fa fa-check"></i><b>12.2.1</b> Example: Exercise and Weight</a></li>
+<li class="chapter" data-level="12.2.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#housing-prices-by-neighborhood"><i class="fa fa-check"></i><b>12.2.2</b> Housing Prices by Neighborhood</a></li>
+<li class="chapter" data-level="12.2.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-exercise-and-gender-together"><i class="fa fa-check"></i><b>12.2.3</b> Advanced: Exercise and Gender Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#diagnostics"><i class="fa fa-check"></i><b>12.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="12.4" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#homework-10"><i class="fa fa-check"></i><b>12.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#concept-questions-9"><i class="fa fa-check"></i><b>12.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#practice-problems-10"><i class="fa fa-check"></i><b>12.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="12.4.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-problems-10"><i class="fa fa-check"></i><b>12.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html"><i class="fa fa-check"></i><b>13</b> Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#introduction-to-multiple-regression-models"><i class="fa fa-check"></i><b>13.1</b> Introduction to Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#housing-prices-review-of-simple-regression-results"><i class="fa fa-check"></i><b>13.1.1</b> Housing Prices (Review of Simple Regression Results)</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-including-bathrooms"><i class="fa fa-check"></i><b>13.1.2</b> Multiple Regression (Including Bathrooms)</a></li>
+<li class="chapter" data-level="13.1.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#diagnostics-for-multiple-linear-regression"><i class="fa fa-check"></i><b>13.1.3</b> Diagnostics for Multiple Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-with-categorical-variables-including-the-neighborhood"><i class="fa fa-check"></i><b>13.2</b> Multiple Regression with Categorical Variables: Including the Neighborhood</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#predictions"><i class="fa fa-check"></i><b>13.2.1</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#interactions-between-variables"><i class="fa fa-check"></i><b>13.3</b> Interactions between Variables</a></li>
+<li class="chapter" data-level="13.4" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#some-pitfalls-in-multiple-regression"><i class="fa fa-check"></i><b>13.4</b> Some Pitfalls in Multiple Regression</a></li>
+<li class="chapter" data-level="13.5" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#homework-11"><i class="fa fa-check"></i><b>13.5</b> Homework</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#concept-questions-10"><i class="fa fa-check"></i><b>13.5.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="13.5.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#practice-problems-11"><i class="fa fa-check"></i><b>13.5.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="13.5.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#advanced-problems-11"><i class="fa fa-check"></i><b>13.5.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Hypothesis Testing</b></span></li>
+<li class="chapter" data-level="14" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html"><i class="fa fa-check"></i><b>14</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#introduction-and-warning"><i class="fa fa-check"></i><b>14.1</b> Introduction and Warning</a></li>
+<li class="chapter" data-level="14.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#a-starting-example"><i class="fa fa-check"></i><b>14.2</b> A Starting Example</a></li>
+<li class="chapter" data-level="14.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#the-t.test-command-hypothesis-tests-for-the-population-mean-mu"><i class="fa fa-check"></i><b>14.3</b> The t.test command: Hypothesis Tests for the Population Mean <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="14.4" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#theory-of-hypothesis-testing"><i class="fa fa-check"></i><b>14.4</b> Theory of Hypothesis Testing</a></li>
+<li class="chapter" data-level="14.5" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#under-the-hood-t-tests"><i class="fa fa-check"></i><b>14.5</b> Under the Hood (t tests)</a></li>
+<li class="chapter" data-level="14.6" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#errors-in-hypothesis-testing"><i class="fa fa-check"></i><b>14.6</b> Errors in Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#statistical-significance-alpha"><i class="fa fa-check"></i><b>14.6.1</b> Statistical Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+<li class="chapter" data-level="14.6.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#type-ii-error"><i class="fa fa-check"></i><b>14.6.2</b> Type II Error</a></li>
+<li class="chapter" data-level="14.6.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practical-significance-versus-statistical-significance"><i class="fa fa-check"></i><b>14.6.3</b> Practical Significance versus Statistical Significance</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-for-population-fraction"><i class="fa fa-check"></i><b>14.7</b> Hypothesis Testing for Population Fraction</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#example-3"><i class="fa fa-check"></i><b>14.7.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-in-linear-regression"><i class="fa fa-check"></i><b>14.8</b> Hypothesis Testing in Linear Regression</a></li>
+<li class="chapter" data-level="14.9" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>14.9</b> Power of a Statistical Test</a></li>
+<li class="chapter" data-level="14.10" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#homework-12"><i class="fa fa-check"></i><b>14.10</b> Homework</a>
+<ul>
+<li class="chapter" data-level="14.10.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#concept-questions-11"><i class="fa fa-check"></i><b>14.10.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="14.10.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practice-problems-12"><i class="fa fa-check"></i><b>14.10.2</b> Practice Problems:</a></li>
+<li class="chapter" data-level="14.10.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#advanced-problems-12"><i class="fa fa-check"></i><b>14.10.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html"><i class="fa fa-check"></i><b>15</b> Hypothesis Testing: Two Sample Tests</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>15.1</b> Two Sample t test</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#regression-analysis"><i class="fa fa-check"></i><b>15.1.1</b> Regression analysis</a></li>
+<li class="chapter" data-level="15.1.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach"><i class="fa fa-check"></i><b>15.1.2</b> Two Sample t test approach</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests"><i class="fa fa-check"></i><b>15.2</b> Two Sample Proportion Tests</a></li>
+<li class="chapter" data-level="15.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking"><i class="fa fa-check"></i><b>15.3</b> Extra Example: Birth Weights and Smoking</a></li>
+<li class="chapter" data-level="15.4" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#homework-13"><i class="fa fa-check"></i><b>15.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#concept-questions-12"><i class="fa fa-check"></i><b>15.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="15.4.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#practice-problems-13"><i class="fa fa-check"></i><b>15.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="15.4.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13"><i class="fa fa-check"></i><b>15.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html"><i class="fa fa-check"></i><b>16</b> Confidence Intervals and Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#relation-to-confidence-intervals"><i class="fa fa-check"></i><b>16.1</b> Relation to Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#two-sided-tests"><i class="fa fa-check"></i><b>16.1.1</b> Two sided tests</a></li>
+<li class="chapter" data-level="16.1.2" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#one-sided-confidence-intervals"><i class="fa fa-check"></i><b>16.1.2</b> One-sided confidence intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html"><i class="fa fa-check"></i><b>17</b> Introduction to the Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#contingency-tables"><i class="fa fa-check"></i><b>17.1</b> Contingency Tables</a></li>
+<li class="chapter" data-level="17.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#chi-square-test"><i class="fa fa-check"></i><b>17.2</b> Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#conditions-for-using-the-chi2-test"><i class="fa fa-check"></i><b>17.2.1</b> Conditions for Using the <span class="math inline">\(\chi^2\)</span> test</a></li>
+<li class="chapter" data-level="17.2.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#multiple-hypothesis-testing-again"><i class="fa fa-check"></i><b>17.2.2</b> Multiple Hypothesis Testing Again</a></li>
+<li class="chapter" data-level="17.2.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#using-a-different-null-hypothesis"><i class="fa fa-check"></i><b>17.2.3</b> Using a different Null Hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#homework-14"><i class="fa fa-check"></i><b>17.3</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>VI Advanced Regression Topics</b></span></li>
+<li class="chapter" data-level="18" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>18</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression-used-for"><i class="fa fa-check"></i><b>18.1</b> What is logistic regression used for?</a></li>
+<li class="chapter" data-level="18.2" data-path="logistic-regression.html"><a href="logistic-regression.html#glm-generalized-linear-models"><i class="fa fa-check"></i><b>18.2</b> GLM: Generalized Linear Models</a></li>
+<li class="chapter" data-level="18.3" data-path="logistic-regression.html"><a href="logistic-regression.html#a-starting-example-1"><i class="fa fa-check"></i><b>18.3</b> A Starting Example</a>
+<ul>
+<li class="chapter" data-level="18.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#confidence-intervals-for-the-parameters"><i class="fa fa-check"></i><b>18.3.1</b> Confidence Intervals for the Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="logistic-regression.html"><a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests"><i class="fa fa-check"></i><b>18.4</b> Equivalence of Logistic Regression and Proportion Tests</a></li>
+<li class="chapter" data-level="18.5" data-path="logistic-regression.html"><a href="logistic-regression.html#example-building-a-more-accurate-model"><i class="fa fa-check"></i><b>18.5</b> Example: Building a More Accurate Model</a></li>
+<li class="chapter" data-level="18.6" data-path="logistic-regression.html"><a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression"><i class="fa fa-check"></i><b>18.6</b> Example: Measuring Team Defense Using Logistic Regression</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Statistics and Data Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="probability" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Probability<a href="probability.html#probability" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="sample-spaces-and-events" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Sample Spaces and Events<a href="probability.html#sample-spaces-and-events" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="introduction" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Introduction<a href="probability.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now is the time to take a slight detour from the study of statistics into the sister field of probability theory. Probability theory provides much of the theoretical backbone for the study of statistics. The origins of probability theory come from gambling. In particular, the first person to apply the analysis given here was Geralamo Cardano and Italian gambler in the 1500’s. Cardano was the first person to analyze the outcomes of ``games of chance’’ in a structured and mathematical way. This gave him a tremendous advantage over his competitors in 1500’s Italy. However, he was never able to fully capitalize on his advances as his family life was a 1500’s version of the Jerry Springer show.</p>
+</div>
+<div id="sample-spaces" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Sample Spaces<a href="probability.html#sample-spaces" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Cardano’s great idea was the concept of the <strong>sample space</strong> which will denote as <span class="math inline">\(\Omega\)</span>. To determine the probability on a event occurring, Cardano’s idea is to make a list of all the possible outcomes from a random event. For example, a random event might be flipping a coin in which case the set of possible outcomes (the sample space <span class="math inline">\(\Omega\)</span>) is given by <span class="math inline">\(\Omega=\{H,T\}\)</span>. If the random event is rolling a six-sided dice the sample space is <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span>. In blackjack the sample space is <span class="math inline">\(\Omega=\{2,3,4,...21, B\}\)</span>, where the <span class="math inline">\(B\)</span> stands for busting.</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-200" class="exercise"><strong>Exercise 6.1  </strong></span>List out the possible outcomes from flipping a coin twice.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-201" class="exercise"><strong>Exercise 6.2  </strong></span>List out the possible outcomes for random event of choosing two finalists for an award with four applicants Ann, Jerry, Tom and Andy.</p>
+</div>
+</div>
+<div id="law-of-sample-spaces" class="section level3 hasAnchor" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Law of Sample Spaces<a href="probability.html#law-of-sample-spaces" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For the special case where all events from a random event are equally likely we can use the <strong>Law of Sample Spaces</strong> to calculate the probability of an event.</p>
+<div class="definition">
+<p><span id="def:unnamed-chunk-202" class="definition"><strong>Definition 6.1  (Law of Sample Spaces (LSS)) </strong></span>If all the outcomes of a random event are equally likely then <span class="math display">\[\prob{A}=\frac{|A|}{|\Omega|}=\text{ Probability of event A occurring. }\]</span> Where <span class="math inline">\(|A|\)</span> is the number of outcomes in <span class="math inline">\(A\)</span> and <span class="math inline">\(|\Omega|\)</span> is the total number of events in the sample space.</p>
+</div>
+<p>Use the Law of Samples Spaces to Calculate the probabilities below:</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-203" class="exercise"><strong>Exercise 6.3  </strong></span>Probability a fair coin flip is heads</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-204" class="exercise"><strong>Exercise 6.4  </strong></span>Probability a fair dice roll is greater than 3?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-205" class="exercise"><strong>Exercise 6.5  </strong></span>You are in a class with only four students. If you have to do a project with a partner what are the chances you are paired with your best friend. Assume the assignments are made entirely randomly.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-206" class="exercise"><strong>Exercise 6.6  </strong></span>If you know that someones pin is 4 digits (0-9) long, what are your chances of guessing it?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-207" class="exercise"><strong>Exercise 6.7  </strong></span>What are the odds that the sum of the rolls from two six-sided dice is 8?</p>
+</div>
+<p>We can already see that the LSS turns probability calculations into a problem of counting stuff. As the numbers get larger it quickly becomes untenable to count things by hand. For example, if we try and list out all possible ways outcomes from flipping a coin ten times this would take about 84 days working for 12 hours a day! (over 3 million possibilities). In order to make better use of the LSS we need better techniques to count things.</p>
+</div>
+</div>
+<div id="combinatorics" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Combinatorics<a href="probability.html#combinatorics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="basic-principle-of-counting" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Basic Principle of Counting<a href="probability.html#basic-principle-of-counting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Combinatorics just means the mathematics of counting things.</p>
+<div class="definition">
+<p><span id="def:unnamed-chunk-208" class="definition"><strong>Definition 6.2  (Basic Principle of Counting) </strong></span>If two experiments are performed such that experiment 1 has <span class="math inline">\(N_1\)</span> possible outcomes and experiment 2 has <span class="math inline">\(N_2\)</span> possible outcomes then taken together we have <span class="math inline">\(N_1 \times N_2\)</span> possible outcomes.</p>
+</div>
+<p>Use the basic principle of counting to find the number of outcomes for the following random experiments:</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-209" class="exercise"><strong>Exercise 6.8  </strong></span>Two rolls of a six-sided dice.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-210" class="exercise"><strong>Exercise 6.9  </strong></span>Flipping a coin three times.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-211" class="exercise"><strong>Exercise 6.10  </strong></span>How many DNA sequences are their which are 10 base pairs long? Hint: DNA has found bases <span class="math inline">\(A,T,C,G\)</span></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-212" class="exercise"><strong>Exercise 6.11  </strong></span>For a 100 meter dash final with 5 runners how many ways can the runners finish?</p>
+</div>
+</div>
+<div id="permutations" class="section level3 hasAnchor" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Permutations<a href="probability.html#permutations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the last exercise above we had to figure out how many ways we could order the five runners. Our logic for solving this generalizes to how many ways we can order any <span class="math inline">\(N\)</span> distinct objects.</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-213" class="theorem"><strong>Theorem 6.1  (Permutations) </strong></span>The number of ways to order <span class="math inline">\(N\)</span> distinct objects is given by: <span class="math display">\[N \times N-1 \times N-2 \times ... \times 2 \times 1=N!\]</span></p>
+</div>
+<p>We can use R to calculate permutations <span class="math inline">\(N!\)</span> using the command:</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="probability.html#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factorial</span>(N)  <span class="co">#calculate N!</span></span></code></pre></div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-215" class="exercise"><strong>Exercise 6.12  </strong></span>If you bought ten cans of soup, each different types, and loaded them into the grocery bag randomly. What are the odds that when you pull them out of the grocery bag they come out in alphabetical order?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-216" class="exercise"><strong>Exercise 6.13  </strong></span>How many ways can the cards in a standard deck (52 cards) be ordered?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-217" class="exercise"><strong>Exercise 6.14  </strong></span>How many orders can 8 French nobles be executed in, if they are drawn randomly from a holding cell with 8 occupants?</p>
+</div>
+<p>In some cases we may want to know how many ways we can order a subset of elements. For example, how many four digit pins are possible if we can’t repeat the same digit more than once? Well, we have 10 choice for the first digit, 9 for the second, 8 for the third and 7 for the fourth. Therefore <span class="math inline">\(N=10\times9\times8\times7\)</span>. Notice we can also write this as <span class="math inline">\(N=10!/6!\)</span></p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-218" class="theorem"><strong>Theorem 6.2  (Permutations of Subsets) </strong></span>The number of ways to order <span class="math inline">\(r\)</span> distinct objects taken from a set of <span class="math inline">\(n\)</span> distinct objects is: <span class="math display">\[P(n,r)=\frac{n!}{(n-r)!}.\]</span></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-219" class="exercise"><strong>Exercise 6.15  </strong></span>How many orders can 8 French nobles be executed in, if they are drawn randomly from a holding cell with 18 occupants?</p>
+</div>
+</div>
+<div id="combinations" class="section level3 hasAnchor" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Combinations<a href="probability.html#combinations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We now want to consider the problem of counting outcomes for the case where the order doesn’t matter. For example, we may want to find the total number of five card poker hands. Perhaps our first instinct is to use the permutations formulas from the last section. We have 52 distinct objects and we want to know how many ways we can draw five of them. This gives: <span class="math display">\[P(52,5)=52!/47!=52\times 51\times50\times49\times48=5,997,600.\]</span> However, their is a subtle error in our calculation. Using the permutation formula means that we care about the order the cards appear in! For example, the permutation way of counting means that the two hands:
+<span class="math display">\[
+2 \heartsuit, 3 \spadesuit, 8 \clubsuit, 2 \spadesuit, \text{Ace} \diamondsuit \qquad \qquad \qquad \text{Ace} \diamondsuit, 2 \heartsuit, 3 \spadesuit, 8 \clubsuit, 2 \spadesuit
+\]</span></p>
+<p>are being counted as separate hands! This isn’t what we really want to count as these two hands are entirely equivalent in a game of poker.</p>
+<p>To correct this over counting, we just need to divide by the <em>number of equivalent entries</em> in our count. In this case we have <span class="math inline">\(5!\)</span> poker hands which are equilvalent. Therefore, we have the total number of five card poker hands is:
+<span class="math display">\[ P_5=\frac{52!}{5! 47!}=2,598,960 \]</span>
+So just about 2.6 million unique five card hands. As usual we can generalize our poker analysis to hold for general collections of objects.
+::: {.theorem #unnamed-chunk-220 name=“Combinations”}
+The number of ways to draw k distinct objects from a set of <span class="math inline">\(N\)</span> distinct objects is given by: <span class="math display">\[ C(N,k)=\binom{N}{k}=\frac{N!}{(N-k)!k!}\]</span>
+:::
+In R we can calculate <span class="math inline">\(C(N,k)=\binom{N}{k}\)</span> using the command:</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="probability.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(N, k)  <span class="co">#calculate C(N,k) </span></span></code></pre></div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-222" class="exercise"><strong>Exercise 6.16  </strong></span>How many ways can a jury of 12 people be chosen from a pool of 30 candidates?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-223" class="exercise"><strong>Exercise 6.17  </strong></span>A fire team of 4 junior Marines must be chosen from a platoon with junior 36 Marines for a patrol. Also a sergeant must be chosen to lead the fire team from a pool of 5 candidates. How many ways can the patrol be chosen with four juniors and one leader?</p>
+</div>
+</div>
+</div>
+<div id="axioms-of-probability" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Axioms of Probability<a href="probability.html#axioms-of-probability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="beyond-the-law-of-sample-spaces" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Beyond the Law of Sample Spaces<a href="probability.html#beyond-the-law-of-sample-spaces" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The LSS tells us that <span class="math display">\[\prob{E}=\frac{\text{outcomes in E}}{\text{total outcomes}},\]</span> but we have seen that the LSS doesn’t apply when the outcomes are not all equally likely. Outside of gambling scenarios not all outcomes are equally likely and the Law of Sample Spaces does not apply.</p>
+
+<div class="fallacy">
+Keep a lookout for the law of sample spaces being applied to scenarios where the outcomes are not all equally likely. My favorite example of this is the protests of the opening of the Large Hadron Collider where one of the chief protestors argued that the LHC would either create a blackhole or not. Therefore, the chances that the earth would be swallowed up by a man-made blackhole were roughly 50/50.
+</div>
+<p>To continue to make progress we need to move beyond the Law of Sample Spaces.</p>
+</div>
+<div id="set-theory" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Set Theory<a href="probability.html#set-theory" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To go much further we need to learn a bit of <em>set theory.</em> A set is just a collection of <em>unique</em> objects. For example, coin flip outcomes {H,T}, dice roll outcomes <span class="math inline">\(\{1,2,3,4,5,6\}\)</span>. Now lets consider the different ways we can combine sets.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Union of Sets:</strong> Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> the union of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> which we write as <span class="math inline">\(A \cup B\)</span> consists of all the elements in <span class="math inline">\(A\)</span> and all the elements in <span class="math inline">\(B\)</span>. For example, let <span class="math inline">\(A=\{1,2,3\}\)</span> and <span class="math inline">\(B=\{3,4,5\}\)</span> then <span class="math inline">\(A \cup B=\{1,2,3,4,5\}\)</span>.</p></li>
+<li><p><strong>Intersection of Sets:</strong> Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> the intersection of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> which we write as <span class="math inline">\(A \cap B\)</span> consists of those elements which are in BOTH A and B. For example, let <span class="math inline">\(A=\{1,2,3\}\)</span> and <span class="math inline">\(B=\{3,4,5\}\)</span> then <span class="math inline">\(A \cap B=\{3\}\)</span>.</p></li>
+<li><p><strong>Difference of Sets:</strong> Given two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> the A minus B written <span class="math inline">\(A\setminus B\)</span> consists of those elements in A which are NOT also in B. For example, let <span class="math inline">\(A=\{1,2,3\}\)</span> and <span class="math inline">\(B=\{3,4,5\}\)</span> then <span class="math inline">\(A \setminus B=\{1,2\}\)</span>.</p></li>
+<li><p><strong>Subsets:</strong> We say that the set A is a subset of B written as <span class="math inline">\(A \subseteq B\)</span> if every element of A is also in B. The symbol <span class="math inline">\(A \subseteq B\)</span> is similair to the less than or equal to <span class="math inline">\((\leq)\)</span> sign. It means that <span class="math inline">\(A\)</span> is contained in <span class="math inline">\(B\)</span> but the two sets may in fact be equal. The symbol <span class="math inline">\(A \subset B\)</span> means that <span class="math inline">\(A\)</span> is a proper subset of B. Meaning that there is some element of <span class="math inline">\(B\)</span> which is not in <span class="math inline">\(A\)</span>.</p></li>
+<li><p><strong>Empty Set:</strong> Occasionally it is useful to have a notation for a set which has no elements in it at all. This is called the empty set and is denoted by <span class="math inline">\(\emptyset\)</span>. For example, we could say that <span class="math inline">\(\{1,2\} \cap \{9,10\}=\emptyset\)</span></p></li>
+</ol>
+<p><img src="SetOperations.png" /><!-- --></p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-225" class="exercise"><strong>Exercise 6.18  </strong></span>Let <span class="math inline">\(\Omega\)</span> be the set of all students at Schreiner, and <span class="math inline">\(\mathbb{A}\)</span> be the set of students in this class and let <span class="math inline">\(\mathbb{M}\)</span> be the set of music majors at Schreiner.</p>
+<ol style="list-style-type: decimal">
+<li>Is it true that <span class="math inline">\(\mathbb{A} \subset \Omega\)</span>?</li>
+<li>What does the set <span class="math inline">\(\Omega \setminus \mathbb{M}\)</span> contain?</li>
+<li>What does the set <span class="math inline">\(\mathbb{A} \cup \mathbb{M}\)</span> contain?</li>
+</ol>
+</div>
+</div>
+<div id="the-axioms-of-probability" class="section level3 hasAnchor" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> The Axioms of Probability<a href="probability.html#the-axioms-of-probability" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The axioms of probability are sort of like the mathematical version of the declaration of independence statement: We hold these truths to be self-evident…. We can’t <em>prove</em> them but without agreeing on them it is impossible for us to have a productive conversation about probability theory.</p>
+<ol style="list-style-type: decimal">
+<li>The probability of any event <span class="math inline">\(E\)</span> in the sample space <span class="math inline">\(\Omega\)</span> [<span class="math inline">\(E \subseteq \Omega\)</span>] is between 0 and 1: <span class="math display">\[ 0 \leq \prob{E} \leq 1.\]</span></li>
+<li>The probability that at least one of the elemental events in the sample space occurs is 1: <span class="math display">\[\prob{\Omega}=1.\]</span> This means that the sample space must contain at all possible outcomes.</li>
+<li>The probability of the union of two events occurring is given by: <span class="math display">\[\prob{E_1 \cup E_2}=\prob{E_1}+\prob{E_2}-\prob{E_1 \cap E_2}\]</span></li>
+</ol>
+</div>
+<div id="the-or-rule" class="section level3 hasAnchor" number="6.3.4">
+<h3><span class="header-section-number">6.3.4</span> The OR Rule<a href="probability.html#the-or-rule" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The last axiom of probability actually can be very useful in calculations, I call it the <strong>OR</strong> rule of probability. Let’s break it down in some more detail.
+<span class="math display">\[\prob{E_1 \cup E_2}=\prob{E_1}+\prob{E_2}-\prob{E_1 \cap E_2}\]</span>
+This tells us that the probability of the event <span class="math inline">\(E_1\)</span> OR the event <span class="math inline">\(E_2\)</span> occurring is the sum of the probabilities that <span class="math inline">\(E_1\)</span> and <span class="math inline">\(E_2\)</span> occur minus the probability that both <span class="math inline">\(E_1\)</span> and <span class="math inline">\(E_2\)</span> occur.</p>
+<p>Perhaps it is best to make sense of this using a simple example. Suppose we are rolling a six sided dice. Then the sample space <span class="math inline">\(\Omega=\{1,2,3,4,5,6\}\)</span> and each outcome is equally likely. Let <span class="math inline">\(E_1=\{2,4,6\}\)</span> be the event and even number is rolled and let <span class="math inline">\(E_2=\{1,2,3\}\)</span> be the event that an number less than or equal to three is rolled. Then <span class="math inline">\(\prob{E_1\cup E_2)}=\prob{\{1,2,3,4,6\}}=5/6\)</span> finding this directly. Now the OR rule tells us we could also find this as <span class="math inline">\(\prob{E_1}+\prob{E_2}-\prob{E_1 \cap E_2}=\prob{\{2,4,6\}}+\prob{\{1,2,3\}}-\prob{\{2\}}=3/6+3/6-1/6=5/6\)</span>.</p>
+<p>Why does this work? Notice that when we break up the set <span class="math inline">\(E_1 \cup E_2\)</span> we end up counting the event that a two is rolled twice! It appears in both <span class="math inline">\(E_1\)</span> and <span class="math inline">\(E_2\)</span>. Therefore, to correct for this we need to subtract off this double counting.</p>
+<p>The OR rule is especially simple and useful when <span class="math inline">\(E_1\)</span> and <span class="math inline">\(E_2\)</span> have no overlap, i.e <span class="math inline">\(E_1 \cap E_2=\emptyset\)</span>. Sets with this property of no overlap are called <strong>disjointed sets</strong>. Then we have the following simple rule:</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-226" class="theorem"><strong>Theorem 6.3  (Simple OR Rule) </strong></span>Let <span class="math inline">\(E_1\)</span> and <span class="math inline">\(E_2\)</span> be disjoint events (<span class="math inline">\(E_1 \cap E_2=\emptyset\)</span>) within some sample space <span class="math inline">\(\Omega\)</span>. Then we have that <span class="math display">\[\prob{E_1 \cup E_2}=\prob{E_1}+\prob{E_2}\]</span></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-227" class="exercise"><strong>Exercise 6.19  </strong></span>Suppose 80% of the wizarding world supports restrictions on underage magic, and 55% support the use of dementors as guards at the wizarding prison Azkaban. If 50% support both dementors and underage magic restrictions, what percentage support either underage restrictions or dementors?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-228" class="exercise"><strong>Exercise 6.20  </strong></span>A card is drawn randomly from a deck of ordinary playing cards. You win 10 dollars if the card is a spade or an ace. What is the probability that you will win the game?</p>
+</div>
+</div>
+<div id="the-and-rule" class="section level3 hasAnchor" number="6.3.5">
+<h3><span class="header-section-number">6.3.5</span> The AND Rule<a href="probability.html#the-and-rule" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We are now ready to discuss the powerful <strong>AND</strong> rule. This will allow us to find <span class="math inline">\(\prob{A \cap B}\)</span> easily under the special circumstances that the events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are ``independent’’.</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-229" class="theorem"><strong>Theorem 6.4  (AND Rule) </strong></span>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be independent events within some sample space <span class="math inline">\(\Omega\)</span> then <span class="math display">\[\prob{A \cap B}=\prob{A} \times \prob{B}.\]</span></p>
+</div>
+<p>We will give a mathematical definition for independence in the next section of the notes. For now we will use the intuitive definition that two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if the occurrence of <span class="math inline">\(A\)</span> has no effect whatsoever on the likelihood of <span class="math inline">\(B\)</span> occurring and vice-versa. For example, my hair color has nothing to do with the probability I am eaten by a shark. Rolls of a dice, spins of a roulette wheel and many other gambling events are independent events.</p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-230" class="example"><strong>Example 6.1  </strong></span>If 100 people are on a dating site. If 30% of people are attractive to the user, then removing 70% leaves 30 candidates. If only 10% are honest then this leaves only 3 people who are both honest and attractive to the user. Using the AND rule the probability of finding an honest and attractive date on the site is: <span class="math display">\[\prob{H \cap A}=\prob{H}\times \prob{A}=30/100 \times 10/100=300/10000=0.03\]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:unnamed-chunk-231" class="example"><strong>Example 6.2  </strong></span>If 10% of people are scared of flying and 20% of people have brown hair then what is the probability of finding a brown-haired person who is scared of flying? We expect that hair color will have no effect on a persons feelings about flying. Therefore, we can apply the AND rule. <span class="math display">\[\prob{B \cap S}=\prob{B} \times \prob{S}=1/10 \times 2 /10=2/100\]</span></p>
+</div>
+<div id="exercise" class="section level4 hasAnchor" number="6.3.5.1">
+<h4><span class="header-section-number">6.3.5.1</span> Exercise<a href="probability.html#exercise" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><strong>People vs Collins:</strong> In 1968 an old lady in Los Angeles, California was mugged and her purse was stolen. She didn’t get a good look at her assailants but the police did find one eye witness. Unfortunately, this witness didn’t get a good look at the mugger either. However, the witness did report seeing a black man with a beard/mustache running back to a yellow car with a blond haired white woman with her hair in a pony tail. This was very little to go on, however the police did find a couple which matched his description. Amazingly, using just this evidence they were brought to trial. At the trial a mathematics professor was brought in to testify for the prosecution. The professor presented the below table to the jury:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Characteristic</th>
+<th>Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Black man with beard</td>
+<td>1/10</td>
+</tr>
+<tr class="even">
+<td>Man with mustache</td>
+<td>1/4</td>
+</tr>
+<tr class="odd">
+<td>White woman with pony tail</td>
+<td>1/10</td>
+</tr>
+<tr class="even">
+<td>White woman with blonde hair</td>
+<td>1/3</td>
+</tr>
+<tr class="odd">
+<td>Yellow car</td>
+<td>1/10</td>
+</tr>
+<tr class="even">
+<td>Interracial couple</td>
+<td>1/1000</td>
+</tr>
+</tbody>
+</table>
+<p>The fact that this was presented by a math professor brings me great shame (for many reasons). Let’s examine the argument made by the professor.</p>
+<ol style="list-style-type: decimal">
+<li>Using the AND rule what are the odds assuming these numbers are accurate in 1968 that a couple would match these all these characteristics?</li>
+<li>What is wrong with applying the AND rule to this data?</li>
+<li>If there were 60 million couples in the LA area at the time, about how many couples will match this description?</li>
+<li>What is the probability that the couple that was arrested actually committed the crime? (Given your calculations above)</li>
+</ol>
+<p>This poor couple was convicted and it took years of appeals before the conviction was overturned. This is called the prosecutors fallacy. You will see another tragic case of this in your homework (Sally Clark Case).</p>
+</div>
+</div>
+<div id="the-complement-rule" class="section level3 hasAnchor" number="6.3.6">
+<h3><span class="header-section-number">6.3.6</span> The Complement Rule<a href="probability.html#the-complement-rule" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One last rule to introduce for calculating probabilities. This is called the complement rule. The idea here is that sometimes it is easier to calculate the odds that an event <em>does NOT</em> happen, then to calculate the probability directly.</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-232" class="theorem"><strong>Theorem 6.5  (Complement Rule) </strong></span>Let <span class="math inline">\(A\)</span> be an event in a sample space, and let <span class="math inline">\(A^c=\Omega \setminus A\)</span> be the collection of all outcomes not in <span class="math inline">\(A\)</span>. Then we have that <span class="math display">\[\prob{A}=1-\prob{A^c}.\]</span></p>
+</div>
+<p>As an example if your doctor tells you that there is a 25% chance that you have a rare disorder based on your test results. Then you could also phrase this as a 75% chance you <strong>do NOT</strong> have the disorder. I would prefer the doctor tell me this way!</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-233" class="exercise"><strong>Exercise 6.21  </strong></span>You have purchases a mortgage backed security, where you lose your money if at least one of the mortgages in the bundle fails. If each mortgage has a 5% chance of failing, independent of the rest, what is the probability you lose your money if you bundle 10 mortgages together?</p>
+</div>
+</div>
+</div>
+<div id="conditional-probability-and-independence" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Conditional Probability and Independence<a href="probability.html#conditional-probability-and-independence" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="introduction-1" class="section level3 hasAnchor" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Introduction<a href="probability.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Conditional probabilities allow us to include additional information into our calculation of probabilities. Let’s begin with some examples:
+::: {.example #unnamed-chunk-234}
+What is the probability of a psychic being able to guess my birthday?
++ Call the event that the psychic guesses my birthday correctly B, then <span class="math display">\[\prob{B}=\frac{1}{365}=\frac{\text{Number of Correct Guesses}}{\text{Number of Total Possibilities}}.\]</span>
+:::</p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-235" class="example"><strong>Example 6.3  </strong></span>What about if the psychic knows that I was born in December?
++ Well this information limits the number of choices down to the 31 days in December. Now we have that
+<span class="math display">\[\prob{B|M}=\frac{1}{31}.\]</span></p>
+</div>
+<p>This is much better odds of guessing the correct day. The notation <span class="math inline">\(\prob{B|M}\)</span> should be read The probability of <span class="math inline">\(B\)</span> given <span class="math inline">\(M\)</span>. In the psychic problem B is the event of guessing my birthday correctly and <span class="math inline">\(M\)</span> is the event that the month I was born in is December.</p>
+<p>In practical situations we deal with this type of situation, where we wish to calculate the odds of something we have partial knowledge of. For example,</p>
+<ol style="list-style-type: decimal">
+<li><p>What is the probability your spouse is cheating on you, given the new information that you found strange text messages on their phone?</p></li>
+<li><p>What is the probability of someone living past the age of 70? What about if you are given the added information that they smoke?</p></li>
+<li><p>What is the probability of that you have the flu, given that you have a slight fever?</p></li>
+</ol>
+</div>
+<div id="mathematical-definition" class="section level3 hasAnchor" number="6.4.2">
+<h3><span class="header-section-number">6.4.2</span> Mathematical Definition<a href="probability.html#mathematical-definition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="definition">
+<p><span id="def:unnamed-chunk-236" class="definition"><strong>Definition 6.3  (Conditional Probability) </strong></span>The conditional probability of some event <span class="math inline">\(A\)</span> given the information that <span class="math inline">\(B\)</span> has occurred is given by: <span class="math display">\[\prob{A|B}=\frac{\prob{A \cap B}}{\prob{B}}\]</span></p>
+</div>
+<p>We can get an idea for why this formula works by looking at a Venn diagram for conditional probability (Figure.~<span class="math inline">\(\ref{Fig:CondProb}\)</span>).</p>
+<div class="figure"><span style="display:block;" id="fig:addCondDiagram"></span>
+<img src="P361_z1.png" alt="Venn Diagram of a conditional probability calculation. The numbers indicate the number of outcomes in each category. Knowledge that $C$ has occurred limits the possibilities down to 27 possible outcomes, and means only 13=B intersect C of the outcomes in $B$ are possible" width="50%" />
+<p class="caption">
+Figure 6.1: Venn Diagram of a conditional probability calculation. The numbers indicate the number of outcomes in each category. Knowledge that <span class="math inline">\(C\)</span> has occurred limits the possibilities down to 27 possible outcomes, and means only 13=B intersect C of the outcomes in <span class="math inline">\(B\)</span> are possible
+</p>
+</div>
+<div id="examples" class="section level4 hasAnchor" number="6.4.2.1">
+<h4><span class="header-section-number">6.4.2.1</span> Examples<a href="probability.html#examples" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li>What is the probability of rolling a three with a dice, given that we know that an odd number was rolled?
+Let <span class="math inline">\(\mathcal{O}=\{1,3,5\}\)</span> be the event an odd number is rolled and <span class="math inline">\(\mathcal{T}=\{3\}\)</span> the event a three is rolled. Then by our conditional probability formula we have
+<span class="math display">\[
+\prob{\mathcal{T}|\mathcal{O}}=\frac{\prob{\mathcal{T} \cap \mathcal{O}}}{\prob{\mathcal{O}}}=\frac{|\{3\} \cap \{1,3,5\} |}{| \{1,3,5\}|}=\frac{1}{3}
+\]</span>
+Note that <span class="math inline">\(\prob{\mathcal{O}|\mathcal{T}}=\frac{\prob{\mathcal{T} \cap \mathcal{O}}}{\prob{\mathcal{T}}}=\frac{1/6}{1/6}=1\)</span>. This leads us to the important discovery:
+::: {.theorem #unnamed-chunk-237 name=“Order Matters”}
+In general for two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>: <span class="math display">\[\prob{A|B}\neq\prob{B|A}\]</span> that is probability of A given B is not the same as the probability of B given A.
+:::
+As another example of this non-equality, let <span class="math inline">\(A\)</span> be the event that someone is an professional basketball player and <span class="math inline">\(B\)</span> be the event that someone is taller than 5.5 feet. Then the probability of B given A, <span class="math inline">\(\prob{B|A}\)</span>, is quite large because most professional basketball players are much taller than 5.5. That is if someone is a professional basketball player you would be very surprised if they were shorter than 5.5 feet tall. However, if we consider the probability that someone in a professional basketball player given that they are taller then 5.5ft, that is <span class="math inline">\(\prob{A|B}\)</span>, we can see it is quite small. This is because there are very few professional basketball players and many people taller than 5.5ft. Therefore, concluding every above average height person you meet is on the San Antonio Spurs is going to be wrong most of the time. The lesson here is that knowledge of <span class="math inline">\(A\)</span> can tell us much more about <span class="math inline">\(B\)</span> then vice versa.</li>
+</ol>
+
+<div class="fallacy">
+Forgetting that the order matters in conditional probability statements is a classic mistake in probability. It has been named the <strong>inverse fallacy</strong>. This is very commonly applied in political and legal arguments. The proper way to reverse the order of a conditional probability is to use <strong>Bayes Law</strong> discussed at the end of this chapter.
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Say 5% of a particular emergency room patient arrive with pain in their lower right abdomen and must be rushed to surgery, and 1% of the people arriving have appendicitis and pain in their lower right abdomen. If a new patient comes with pain in their lower right abdomen what is the probability they have appendicitis?
+Let <span class="math inline">\(A\)</span> be the event they have appendicitis, and <span class="math inline">\(P\)</span> be the event they have abdominal pain. Then we want to compute the probability <span class="math display">\[\condprob{A}{P}=\frac{0.01}{0.05}=\frac{1}{5}=20\%\]</span></li>
+</ol>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-239" class="exercise"><strong>Exercise 6.22  </strong></span>In 2016 the Cleveland Cavaliers had the following record in home and away games:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Outcome</th>
+<th>Home</th>
+<th>Away</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wins</td>
+<td>31</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>Losses</td>
+<td>10</td>
+<td>21</td>
+</tr>
+</tbody>
+</table>
+<p>Using this table find the probability of the Cavaliers winning a game <span class="math inline">\(\prob{W}\)</span> in 2016. Then find the conditional probabilities <span class="math inline">\(\prob{W|H}\)</span>, the probability of winning given the game is a home game, and <span class="math inline">\(\prob{W|A}\)</span> the probability of them winning a game given it is an away game.</p>
+</div>
+</div>
+</div>
+<div id="independence" class="section level3 hasAnchor" number="6.4.3">
+<h3><span class="header-section-number">6.4.3</span> Independence<a href="probability.html#independence" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now that we have a knowledge of conditional probability we can return to the question of independence of random events.</p>
+<div class="definition">
+<p><span id="def:unnamed-chunk-240" class="definition"><strong>Definition 6.4  (Indepedence) </strong></span>We say two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if and only if: <span class="math display">\[\prob{A|B}=\prob{A}\]</span> or <span class="math display">\[\prob{B|A}=\prob{B}.\]</span></p>
+</div>
+<p>Practically this means that the probability of <span class="math inline">\(A\)</span> occurring is not changed whatsoever by the knowledge that <span class="math inline">\(B\)</span> has occured. For example, the probability of me being struck by lightning is is no way effected by the color of my hair.</p>
+<p>If two events are independent then using the definition of conditional probability gives:
+<span class="math display">\[ \prob{A}=\condprob{A}{B} \]</span>
+<span class="math display">\[ \prob{A\cap B}=\prob{A} \times \prob{B} \]</span></p>
+<p>This is called the <strong>AND</strong> rule of calculating probabilities because if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent events then the probability of <span class="math inline">\(A\)</span> AND <span class="math inline">\(B\)</span> occurring <span class="math inline">\(\prob{A \cap B}\)</span> is the product of the probabilities.</p>
+</div>
+<div id="multiplicative-rule" class="section level3 hasAnchor" number="6.4.4">
+<h3><span class="header-section-number">6.4.4</span> Multiplicative Rule<a href="probability.html#multiplicative-rule" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are dependent (that is not independent) then we can use the multiplicative rule of probabilities to find <span class="math inline">\(\prob{A \cap B}\)</span>. This is a more general AND rule.
+::: {.theorem #unnamed-chunk-241 name=“Multiplicative rule of probabilities”}
+For two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> which may be dependent we have that <span class="math display">\[\prob{A \cap B}=\prob{B|A} \prob{A}=\prob{A|B} \prob{B}\]</span>
+:::</p>
+<p>::: {.example #unnamed-chunk-242}
+Suppose you have 6 white socks, 4 red socks and 2 blue socks in a drawer. What is the probability that the first two socks you draw out of the drawer in the dark are white socks?
+:::</p>
+<p>Let <span class="math inline">\(W_1\)</span> be the event the first sock is white and <span class="math inline">\(W_2\)</span> the event the second sock is white. We want <span class="math display">\[\prob{W_1 \cap W_2}=\prob{W_2|W_1} \prob{W_1}, \]</span> using the multiplicative rule for probabilties. Now, <span class="math inline">\(\prob{W_1}=6/12=0.50\)</span>, but <span class="math inline">\(\prob{W_2|W_1}=5/11\)</span> because after drawing the first sock out we keep it. Therefore, their are only 11 socks left in the drawer, 5 of which are white. Therefore, we have
+<span class="math display">\[
+\prob{W_1 \cap W_2}=\prob{W_2|W_1} \prob{W_1}=6/12 \times 5/11= 0.227
+\]</span>
+Notice that <span class="math inline">\(\prob{W_1 \cap W_2} \neq \prob{W_1} \times \prob{W_2}=1/4\)</span>, this tells us that drawing the socks are not independent events. This is because we keep the first sock in our hand before drawing the second. This is called sampling <em>without replacement</em> and this can often break independence between events.</p>
+
+<div class="warning">
+Be on the watch for sampling <em>without</em> replacement as this is a common way to break independence between events.
+</div>
+</div>
+<div id="law-of-total-probability" class="section level3 hasAnchor" number="6.4.5">
+<h3><span class="header-section-number">6.4.5</span> Law of Total Probability<a href="probability.html#law-of-total-probability" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The law of total probability allows us to use break down a complex probability calculation into a series of simpler calculations using conditional probabilities. To use the Law of Total Probability we need to form what is called a <em>partition</em> of our sample space.</p>
+<div class="definition">
+<p><span id="def:unnamed-chunk-244" class="definition"><strong>Definition 6.5  (Partition) </strong></span>A partition of the sample space <span class="math inline">\(\omega\)</span> is a collection of disjoint events (no overlap) <span class="math inline">\(B_1, B_2, ... B_N\)</span> whose union is <span class="math inline">\(\Omega\)</span>. Such a partition divides any set <span class="math inline">\(A\)</span> into <span class="math inline">\(N\)</span> disjoint pieces.</p>
+</div>
+<p>The Venn diagram of a partition is shown in Fig~<span class="math inline">\(\ref{Fig:Partition}\)</span>.</p>
+<div class="figure"><span style="display:block;" id="fig:addPartitionDiagram"></span>
+<img src="Partition_pic.png" alt="Here we partition the sample space into 6 disjoint components $B_1, B_2, .... B_6$" width="50%" />
+<p class="caption">
+Figure 6.2: Here we partition the sample space into 6 disjoint components <span class="math inline">\(B_1, B_2, .... B_6\)</span>
+</p>
+</div>
+<p>::: {.theorem #unnamed-chunk-245 name=“Law of Total Probability”}
+Suppose we have a sample space <span class="math inline">\(\Omega\)</span> which can be broken into <span class="math inline">\(N\)</span> subsets <span class="math inline">\(B_k\)</span> each of which are disjoint (no overlap) and the union of these subsets gives the entire sample space (i.e <span class="math inline">\(\cup_{k=1}^N B_k=\Omega\)</span>). Then if we want to find the probability of an event <span class="math inline">\(\prob{A}\)</span> we have: <span class="math display">\[\prob{A}=\prob{A|B_1}\prob{B_1}+\prob{A|B_2}\prob{B_2}+...+\prob{A|B_N}\prob{B_N}\]</span>
+:::</p>
+<p>The law of total probability tells us we can compute the probability of an event by breaking it into a series of disjoint slices then adding up the contributions of these slices to get the total back. This will come in useful when the slices have probabilities which are easy to find.</p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-246" class="example"><strong>Example 6.4  </strong></span>Suppose we have a well shuffled deck of cards what is the probability that the second card drawn is an ace?</p>
+</div>
+<p>Let <span class="math inline">\(A\)</span> be the event that the first card is an Ace and <span class="math inline">\(A^c\)</span> the event that the first card is not an ace. These two events are a partition of our sample space as the first card is either an Ace or not an Ace and it cannot be both. Therefore, we can use the Law of Total Probability to find the probability the second card is an Ace, call this event <span class="math inline">\(S\)</span>. We have that,
+<span class="math display">\[
+  \prob{S}=\prob{S|A} \prob{A}+\prob{S|A^c}\prob{A^c}  
+\]</span>
+We can find each of these probabilities easily:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\prob{A}=\frac{4}{52}=\text{Probability the first card is an Ace}  \\
+&amp;\prob{A^c}=\frac{48}{52}=\text{Probability the first card not an Ace}    \\
+&amp;\prob{S|A}=\frac{3}{51}=\text{Probability the second card is an Ace, when the first was an Ace}    \\
+&amp;\prob{S|A^c}\frac{4}{51}=\text{Probability the second card is an Ace, when the first card isn not an Ace}   
+\end{aligned}
+\]</span></p>
+<p>Now plugging these back into our law of total probability</p>
+<p><span class="math display">\[\prob{S}=\frac{3}{51}\times \frac{4}{52} + \frac{4}{51}\times \frac{48}{52} =\frac{4}{52} \]</span></p>
+<div class="example">
+<p><span id="exm:unnamed-chunk-247" class="example"><strong>Example 6.5  </strong></span>Lets say that Chick-Fil-B has two chicken supply providers: Old McDonalds Chicken Inc and Sick Chickens Inc. Old McDonalds provides 70% of the chicken and Sick Chickens Inc provides the other 30% of the chicken. Unsurprisingly, Sick Chickens Inc has a spotty record and 40% of their chickens give people food poisoning. Old McDonalds has a much better record with only 5% of their chickens making people sick. If you eat at Chick-Fil-B what are the chances you get sick?</p>
+</div>
+<p>Let <span class="math inline">\(S\)</span> be the event the chicken makes you sick. Let <span class="math inline">\(M\)</span> be the event the chicken came from Old MacDonalds Chicken Inc and <span class="math inline">\(SC\)</span> be the event it came from Sick Chicken Inc. Since the chicken had to come from one of those two suppliers, and can not have come from both we have a partition of our sample space. Then the law of total probability tells us that:
+<span class="math display">\[ \prob{S}=\prob{S|M}\prob{M}+\prob{S|SC}\prob{SC}=0.05 \times 0.70 + 0.40 \times 0.30=0.155=15.5\% \]</span></p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-248" class="exercise"><strong>Exercise 6.23  </strong></span>Fred has never had MATH 2330 and thinks its a good idea to join a underground game of Russian roulette. To make things more interesting he has two pistols to choose from. Each of the guns has six chambers (six places to insert a bullet), although you know that one of the guns has two bullets loaded and the other only has a single bullet. Assuming he has to choose between the guns randomly what is the probability he survives?</p>
+</div>
+</div>
+</div>
+<div id="bayes-rule" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Bayes Rule<a href="probability.html#bayes-rule" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>From our knowledge of conditional probability we know that <span class="math display">\[\prob{D|M}\prob{M}=\prob{M \cap D}=\prob{M|D}\prob{D}.\]</span> From this observation we can get a rule for reversing a conditional probability order. This is called <strong>Bayes Law</strong> or <strong>Bayes Rule</strong>.</p>
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-249" class="theorem"><strong>Theorem 6.6  (Bayes Law) </strong></span><span class="math display">\[\prob{M|D}=\frac{\prob{D|M}\prob{M}}{\prob{D}}=\frac{\prob{D|M}\prob{M}}{\sum \prob{D|M_i}\prob{M_i}}\]</span></p>
+</div>
+<p>Notice I used the law of total probability to write <span class="math inline">\(\prob{D}=\sum \prob{D|M_i}\prob{M_i}\)</span>. This is the most common way to use Bayes law.</p>
+<p>You may have noticed I switched from using the notation A and B for events to using M and D for Bayes rule. This change was intentional as we can think of the M as the <em>model</em> and D as the <em>data</em>. In this way we may update our belief in a model (scientific theory, business conclusion) as we add additional data (D). In this way Bayes rule encompasses the scientific method by allowing us to measure the strength of evidence for a particular theory against the available evidence.</p>
+<p>For example, lets suppose that I have a been handed a coin which was randomly chosen from a bag with contains 1/2 fair coins and 1/2 biased coins. The fair coins will come up heads 50% of the time. The biased coins will come up heads 55% of the time. I am trying to figure out which type of coin I have been handed.</p>
+<p>To investigate this I will collect data by flipping the coin say 5 times and recording the outcomes. Let’s say I flip this coin 5 times and I find that it comes up heads <em>all five times</em>. Let F be the event the coin is fair and B the event it is biased. D represents the data we have collected (five heads).</p>
+<p>We may use Bayes rule to calculate the probability <span class="math inline">\(\prob{F|D}\)</span>:
+<span class="math display">\[
+\prob{F|D}=\frac{\prob{D|F}\prob{F}}{\prob{D|F}\prob{F}+\prob{D|B}\prob{B}}
+\]</span></p>
+<p>We can fill in this data:</p>
+<ul>
+<li><span class="math inline">\(\prob{D|F}\)</span> is the probability of observed the data given the model (fair coin) this is given by <span class="math inline">\((1/2)^5=1/32\)</span>.</li>
+<li><span class="math inline">\(\prob{F}\)</span> this is the probability the coin we were handed is fair. Since we know the bag with the coins in it has a 50/50 mix of fair/biased coins we can say this equals <span class="math inline">\(\prob{F}=0.50\)</span>, For the same reasons we have that <span class="math inline">\(\prob{B}=0.50\)</span></li>
+<li>The only remaining entry to find is the <span class="math inline">\(\prob{D|B}\)</span> term. This is the probability we get 5 heads in a row using the<br />
+biased coin thus <span class="math inline">\(\prob{D|B}=0.55^{10}\)</span></li>
+</ul>
+<p><span class="math display">\[
+\prob{F|D}=\frac{\prob{D|F}\prob{F}}{\prob{D|F}\prob{F}+\prob{D|B}\prob{B}}=\frac{0.50^5\times 0.50}{0.50^5 \times 0.50+0.55^5\times 0.50}=0.383=38.3\%
+\]</span>
+Likewise we can find <span class="math inline">\(\prob{B|D}\)</span> as:
+<span class="math display">\[
+\prob{B|D}=\frac{\prob{D|B}\prob{B}}{\prob{D|F}\prob{F}+\prob{D|B}\prob{B}}=\frac{0.55^5\times 0.50}{0.50^5 \times 0.50+0.55^5\times 0.50}=0.617=61.7\%
+\]</span>
+Given this data Bayes law tells us it is more likely that we have a biased coin. Notice that if we flipped the coin 10 times and found heads everytime then we would find:</p>
+<p><span class="math display">\[
+\prob{B|D}=\frac{\prob{D|B}\prob{B}}{\prob{D|F}\prob{F}+\prob{D|B}\prob{B}}=\frac{0.55^{10}\times 0.50}{0.50^{10} \times 0.50+0.55^{10}\times 0.50}=0.721=72.1\%
+\]</span></p>
+<p>This should make sense the more heads we find in collecting our data the more likely it is that the coin is biased towards heads.</p>
+</div>
+<div id="homework-4" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Homework<a href="probability.html#homework-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="concept-questions-4" class="section level3 hasAnchor" number="6.6.1">
+<h3><span class="header-section-number">6.6.1</span> Concept Questions<a href="probability.html#concept-questions-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>What is the Law of Sample Spaces and when does it apply?</li>
+<li>What is the condition for applying the OR rule of probabilities?</li>
+<li>What is the condition for applying the AND rule of probabilities?</li>
+<li>Is it true that <span class="math inline">\(\prob{A \cap B} \leq \prob{A}\)</span>?</li>
+<li>Is it true that <span class="math inline">\(\prob{A \cup B} \geq \prob{A}\)</span>?</li>
+<li>For conditional probabilities does <span class="math inline">\(\prob{A|B}=\prob{B|A}\)</span>?</li>
+</ol>
+</div>
+<div id="practice-problems-4" class="section level3 hasAnchor" number="6.6.2">
+<h3><span class="header-section-number">6.6.2</span> Practice Problems<a href="probability.html#practice-problems-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><p>How many 7-place license plates are possible if the first two places are letters and the last 5 places are numbers?</p></li>
+<li><p>Twenty workers are assigned to 20 different jobs, how many different assignments are possible?</p></li>
+<li><p>How many ways can a wedding table of 5 people be selected from a wedding party of 12 people?</p></li>
+<li><p>Two fair dice are thrown and let E be the event that the sum of the dice is odd and F be the event the sum is less than 6</p>
+<ul>
+<li>Define <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span> and the sample space <span class="math inline">\(\Omega\)</span>.</li>
+<li>Are <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span> disjoint sets?</li>
+<li>Find <span class="math inline">\(\prob{E}\)</span> and <span class="math inline">\(\prob{F}\)</span></li>
+<li>Find <span class="math inline">\(E \cup F\)</span> and <span class="math inline">\(\prob{E\cup F}\)</span></li>
+<li>Find <span class="math inline">\(\prob{E \cap F}\)</span></li>
+<li>Are <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span> independent events?</li>
+</ul></li>
+</ol>
+</div>
+<div id="advanced-problems-4" class="section level3 hasAnchor" number="6.6.3">
+<h3><span class="header-section-number">6.6.3</span> Advanced Problems<a href="probability.html#advanced-problems-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Advertising Decisions:</strong> You are trying to decide how effective your product advertisements are. You find that 61% of your customers are on Facebook, and 32% are on Twitter with 16% on both Facebook and Twitter. If you decide to pay for advertising on both Facebook and twitter what percentage of customers do you expect to reach?</p></li>
+<li><p><strong>DNA Evidence:</strong> In a murder trial and expert witness is called to testify about DNA evidence found at the crime scene. They say that the probability of a person randomly matching the DNA fragment found at the crime scene is approximately 1 in a million. In the cross examination the defense attorney asks what the probability of a lab mistake is during the processing of the evidence (contamination, human error, etc), to which the expert witness replies about 5% of the time.</p>
+<ul>
+<li>If we are a juror, we are interested in the probability the DNA evidence linking the defendant to the crime scene is false. Lets call this event <span class="math inline">\(F\)</span>. Call the event that the defendant is unluckily enough to share the DNA sequence with the real killer <span class="math inline">\(R\)</span>, and call the event that the lab screwed up and the match is false <span class="math inline">\(L\)</span>. How can we express <span class="math inline">\(F\)</span> in terms of <span class="math inline">\(R\)</span> and <span class="math inline">\(L\)</span>?</li>
+<li>Using the numbers given by the expert witness find <span class="math inline">\(\prob{F}\)</span> in this case.</li>
+<li>Is this beyond your reasonable doubt? How would you explain this to your fellow jurors who aren’t skilled in probability theory?</li>
+</ul></li>
+<li><p><strong>The Simpson Trial:</strong> During the O.J. Simpson trial the prosecution argued that the history of domestic abuse by O.J. towards his ex-wife Nicole Brown showed a pattern of escalating violence which culminated in her murder. To make the point the chief prosecutor famously used the line ``A slap is a prelude to homicide’’. Predictably, the defense argued this history of domestic abuse meant nothing. The defense used the following statistics to make their argument: over 4 million women were victims of domestic abuse in 1992 and only 1,432 of these were killed by their significant others. Therefore the probability, in 1992, that an abuser murders their spouse is less than <span class="math inline">\(1/2500\)</span>. Therefore, they argued that very few wife beaters actually go on to murder their wives.</p>
+<ul>
+<li>Write the defense’s statistic in terms of a conditional probability where <span class="math inline">\(M\)</span> is the event that the women is murdered by their abuser, and <span class="math inline">\(A\)</span> is the event that they were previously abused.</li>
+<li>What key piece of information is the defense conveniently forgetting to condition on? Hint: Is it relevant to consider the probability that O.J. will murder Nicole at some future date?</li>
+<li>If I told you that 90% of the time when an abused women is murdered, the murderer was the abuser (this is true). How would you respond to the defenses argument?</li>
+</ul></li>
+<li><p><strong>Sally Clark Case:</strong> Sally Clark was a women in England who in 1999 was convicted of killing her two children. The first child’s untimely death was put down to Sudden Infant Death Syndrome (SIDS). However, when two years later another seemingly healthy child suddenly died, Sally was accused of murdering the two children. The thrust of the prosecutions argument hinged on the fact that SIDS, thankfully, is relatively rare. The odds of a randomly chosen baby, dying from SIDS is about 3 in 5000.</p>
+<ul>
+<li>If the two deaths are independent then what is the probability of having two children who die of SIDS?</li>
+<li>If 130 million babies are born worldwide each year, about how many will die from SIDS using the 3:5000 odds?</li>
+<li>If 50,000 mothers have another child after having a child die of SIDS about how many will have a second child die from SIDS assuming the two deaths are independent?</li>
+<li>Using you answer from part(c) how would you defend Sally in court?</li>
+</ul></li>
+<li><p>If two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are disjoint (i.e. <span class="math inline">\(A \cap B=\emptyset\)</span>) does this mean they are independent? If not give an example of a case where this fails. Hint: Consider <span class="math inline">\(A\)</span> and <span class="math inline">\(A^c\)</span>.</p></li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction-to-clustering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="discrete-random-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-Probability.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statsbook.pdf", "statsbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"collapse": "section"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Exploratory Data Analysis | Introduction to Statistics and Data Science</title>
+  <meta name="description" content="Introductory textbook for statistics and data science" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Exploratory Data Analysis | Introduction to Statistics and Data Science" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Introductory textbook for statistics and data science" />
+  <meta name="github-repo" content="khannay/statsbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Exploratory Data Analysis | Introduction to Statistics and Data Science" />
+  
+  <meta name="twitter:description" content="Introductory textbook for statistics and data science" />
+  
+
+<meta name="author" content="Dr. Kevin Hannay" />
+
+
+<meta name="date" content="2023-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction-to-r.html"/>
+<link rel="next" href="data-wrangling.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"> Stats Notes </a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#librarian-or-farmer"><i class="fa fa-check"></i><b>1.1</b> Librarian or Farmer?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#profits"><i class="fa fa-check"></i><b>1.2</b> Profits</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#accidental-deaths"><i class="fa fa-check"></i><b>1.3</b> Accidental Deaths</a></li>
+</ul></li>
+<li class="part"><span><b>I Exploratory Data Analysis</b></span></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R Packages</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#r-as-a-fancy-calculator"><i class="fa fa-check"></i><b>2.3</b> R as a Fancy Calculator</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#more-advanced-r"><i class="fa fa-check"></i><b>2.4</b> More Advanced R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types-in-r"><i class="fa fa-check"></i><b>2.4.1</b> Data Types in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#logic-in-r"><i class="fa fa-check"></i><b>2.5</b> Logic in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#storing-data-in-r"><i class="fa fa-check"></i><b>2.6</b> Storing Data in R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>2.6.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.6.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>2.6.2</b> Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-plots-in-r"><i class="fa fa-check"></i><b>2.7</b> Basic Plots in R</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#additional-resources"><i class="fa fa-check"></i><b>2.8</b> Additional Resources</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#homework"><i class="fa fa-check"></i><b>2.9</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>3</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#shot-logs-basketball-data"><i class="fa fa-check"></i><b>3.1</b> Shot Logs Basketball Data</a></li>
+<li class="chapter" data-level="3.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#principal-types-of-statistical-data"><i class="fa fa-check"></i><b>3.2</b> Principal Types of Statistical Data</a></li>
+<li class="chapter" data-level="3.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#the-distribution-of-a-data-set"><i class="fa fa-check"></i><b>3.3</b> The Distribution of a Data Set</a></li>
+<li class="chapter" data-level="3.4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency"><i class="fa fa-check"></i><b>3.4</b> Numerical Measures for Central Tendency</a></li>
+<li class="chapter" data-level="3.5" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-of-variability"><i class="fa fa-check"></i><b>3.5</b> Numerical Measures of Variability</a></li>
+<li class="chapter" data-level="3.6" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing"><i class="fa fa-check"></i><b>3.6</b> Numerical Measures for Relative Standing</a></li>
+<li class="chapter" data-level="3.7" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot"><i class="fa fa-check"></i><b>3.7</b> Relation between Continuous and Categorical Variables: Boxplot</a></li>
+<li class="chapter" data-level="3.8" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots"><i class="fa fa-check"></i><b>3.8</b> Relation between Continuous Variables: Scatter Plots</a></li>
+<li class="chapter" data-level="3.9" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables"><i class="fa fa-check"></i><b>3.9</b> Relationship between Categorical Variables: Contingency Tables</a></li>
+<li class="chapter" data-level="3.10" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#tips-and-tricks"><i class="fa fa-check"></i><b>3.10</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="3.11" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#homework-1"><i class="fa fa-check"></i><b>3.11</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.1</b> What is Data Wrangling?</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#nas-and-the-curse-of-real-world-data"><i class="fa fa-check"></i><b>4.2</b> NA’s and the Curse of Real World Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#select-pick-only-a-few-columns"><i class="fa fa-check"></i><b>4.3</b> Select: Pick only a few columns</a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#filter-select-rows"><i class="fa fa-check"></i><b>4.4</b> Filter (select rows)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#compound-criteria"><i class="fa fa-check"></i><b>4.4.1</b> Compound Criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#chainspipes"><i class="fa fa-check"></i><b>4.5</b> Chains/Pipes %&gt;%</a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#grouping-data-together"><i class="fa fa-check"></i><b>4.6</b> Grouping Data Together</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#homework-2"><i class="fa fa-check"></i><b>4.7</b> Homework</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="data-wrangling.html"><a href="data-wrangling.html#concept-questions-2"><i class="fa fa-check"></i><b>4.7.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="4.7.2" data-path="data-wrangling.html"><a href="data-wrangling.html#practice-problems-2"><i class="fa fa-check"></i><b>4.7.2</b> Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html"><i class="fa fa-check"></i><b>5</b> Introduction to Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#what-is-clustering"><i class="fa fa-check"></i><b>5.1</b> What is Clustering?</a></li>
+<li class="chapter" data-level="5.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#introduction-to-kmeans-clustering"><i class="fa fa-check"></i><b>5.2</b> Introduction to Kmeans clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#how-many-clusters-should-we-choose"><i class="fa fa-check"></i><b>5.3</b> How many clusters should we choose?</a></li>
+<li class="chapter" data-level="5.4" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#clustering-nba-players"><i class="fa fa-check"></i><b>5.4</b> Clustering NBA Players</a></li>
+<li class="chapter" data-level="5.5" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#requirements-for-performing-cluster-analysis"><i class="fa fa-check"></i><b>5.5</b> Requirements for Performing Cluster Analysis</a></li>
+<li class="chapter" data-level="5.6" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#homework-3"><i class="fa fa-check"></i><b>5.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#concept-questions-3"><i class="fa fa-check"></i><b>5.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="5.6.2" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#practice-problems-3"><i class="fa fa-check"></i><b>5.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="5.6.3" data-path="introduction-to-clustering.html"><a href="introduction-to-clustering.html#advanced-problems-3"><i class="fa fa-check"></i><b>5.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Probability Theory</b></span></li>
+<li class="chapter" data-level="6" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>6</b> Probability</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="probability.html"><a href="probability.html#sample-spaces-and-events"><i class="fa fa-check"></i><b>6.1</b> Sample Spaces and Events</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="probability.html"><a href="probability.html#introduction"><i class="fa fa-check"></i><b>6.1.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.1.2" data-path="probability.html"><a href="probability.html#sample-spaces"><i class="fa fa-check"></i><b>6.1.2</b> Sample Spaces</a></li>
+<li class="chapter" data-level="6.1.3" data-path="probability.html"><a href="probability.html#law-of-sample-spaces"><i class="fa fa-check"></i><b>6.1.3</b> Law of Sample Spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="probability.html"><a href="probability.html#combinatorics"><i class="fa fa-check"></i><b>6.2</b> Combinatorics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="probability.html"><a href="probability.html#basic-principle-of-counting"><i class="fa fa-check"></i><b>6.2.1</b> Basic Principle of Counting</a></li>
+<li class="chapter" data-level="6.2.2" data-path="probability.html"><a href="probability.html#permutations"><i class="fa fa-check"></i><b>6.2.2</b> Permutations</a></li>
+<li class="chapter" data-level="6.2.3" data-path="probability.html"><a href="probability.html#combinations"><i class="fa fa-check"></i><b>6.2.3</b> Combinations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="probability.html"><a href="probability.html#axioms-of-probability"><i class="fa fa-check"></i><b>6.3</b> Axioms of Probability</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="probability.html"><a href="probability.html#beyond-the-law-of-sample-spaces"><i class="fa fa-check"></i><b>6.3.1</b> Beyond the Law of Sample Spaces</a></li>
+<li class="chapter" data-level="6.3.2" data-path="probability.html"><a href="probability.html#set-theory"><i class="fa fa-check"></i><b>6.3.2</b> Set Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="probability.html"><a href="probability.html#the-axioms-of-probability"><i class="fa fa-check"></i><b>6.3.3</b> The Axioms of Probability</a></li>
+<li class="chapter" data-level="6.3.4" data-path="probability.html"><a href="probability.html#the-or-rule"><i class="fa fa-check"></i><b>6.3.4</b> The OR Rule</a></li>
+<li class="chapter" data-level="6.3.5" data-path="probability.html"><a href="probability.html#the-and-rule"><i class="fa fa-check"></i><b>6.3.5</b> The AND Rule</a></li>
+<li class="chapter" data-level="6.3.6" data-path="probability.html"><a href="probability.html#the-complement-rule"><i class="fa fa-check"></i><b>6.3.6</b> The Complement Rule</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="probability.html"><a href="probability.html#conditional-probability-and-independence"><i class="fa fa-check"></i><b>6.4</b> Conditional Probability and Independence</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="probability.html"><a href="probability.html#introduction-1"><i class="fa fa-check"></i><b>6.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.4.2" data-path="probability.html"><a href="probability.html#mathematical-definition"><i class="fa fa-check"></i><b>6.4.2</b> Mathematical Definition</a></li>
+<li class="chapter" data-level="6.4.3" data-path="probability.html"><a href="probability.html#independence"><i class="fa fa-check"></i><b>6.4.3</b> Independence</a></li>
+<li class="chapter" data-level="6.4.4" data-path="probability.html"><a href="probability.html#multiplicative-rule"><i class="fa fa-check"></i><b>6.4.4</b> Multiplicative Rule</a></li>
+<li class="chapter" data-level="6.4.5" data-path="probability.html"><a href="probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>6.4.5</b> Law of Total Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="probability.html"><a href="probability.html#bayes-rule"><i class="fa fa-check"></i><b>6.5</b> Bayes Rule</a></li>
+<li class="chapter" data-level="6.6" data-path="probability.html"><a href="probability.html#homework-4"><i class="fa fa-check"></i><b>6.6</b> Homework</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="probability.html"><a href="probability.html#concept-questions-4"><i class="fa fa-check"></i><b>6.6.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="6.6.2" data-path="probability.html"><a href="probability.html#practice-problems-4"><i class="fa fa-check"></i><b>6.6.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="6.6.3" data-path="probability.html"><a href="probability.html#advanced-problems-4"><i class="fa fa-check"></i><b>6.6.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html"><i class="fa fa-check"></i><b>7</b> Discrete Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-variables"><i class="fa fa-check"></i><b>7.1</b> Random Variables</a></li>
+<li class="chapter" data-level="7.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distributions-for-discrete-random-variables"><i class="fa fa-check"></i><b>7.2</b> Probability Distributions for Discrete Random Variables</a></li>
+<li class="chapter" data-level="7.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#properties-of-probability-distributions"><i class="fa fa-check"></i><b>7.3</b> Properties of Probability Distributions</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-values-of-discrete-random-variables"><i class="fa fa-check"></i><b>7.3.1</b> Expected Values of Discrete Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#expected-value-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.4</b> Expected Value of Sums of Random Variables</a></li>
+<li class="chapter" data-level="7.5" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-random-variables"><i class="fa fa-check"></i><b>7.5</b> Variance of Random Variables</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#variance-of-sums-of-random-variables"><i class="fa fa-check"></i><b>7.5.1</b> Variance of Sums of Random Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#bernoulli-random-variables"><i class="fa fa-check"></i><b>7.6</b> Bernoulli Random Variables</a></li>
+<li class="chapter" data-level="7.7" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variables"><i class="fa fa-check"></i><b>7.7</b> Binomial Random Variables</a></li>
+<li class="chapter" data-level="7.8" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#binomial-random-variable-in-r"><i class="fa fa-check"></i><b>7.8</b> Binomial Random Variable in R</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#probability-distribution-in-r"><i class="fa fa-check"></i><b>7.8.1</b> Probability Distribution in R</a></li>
+<li class="chapter" data-level="7.8.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#cumulative-distribution-calculations-in-r"><i class="fa fa-check"></i><b>7.8.2</b> Cumulative Distribution Calculations in R</a></li>
+<li class="chapter" data-level="7.8.3" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#random-binomial-distribution-in-r"><i class="fa fa-check"></i><b>7.8.3</b> Random Binomial Distribution in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#homework-5"><i class="fa fa-check"></i><b>7.9</b> Homework</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#concept-questions-5"><i class="fa fa-check"></i><b>7.9.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="7.9.2" data-path="discrete-random-variables.html"><a href="discrete-random-variables.html#advanced-problems-5"><i class="fa fa-check"></i><b>7.9.2</b> Advanced Problems:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>8</b> Continuous Random Variables</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#introduction-to-continuous-random-variables"><i class="fa fa-check"></i><b>8.1</b> Introduction to Continuous Random Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#uniform-random-variable"><i class="fa fa-check"></i><b>8.2</b> Uniform Random Variable</a></li>
+<li class="chapter" data-level="8.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>8.3</b> Normal Distribution</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#cumulative-distribution-function-cdf-for-normal-random-variables"><i class="fa fa-check"></i><b>8.3.1</b> Cumulative Distribution Function (CDF) for Normal Random Variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#finding-probabilities-for-the-normal-distribution"><i class="fa fa-check"></i><b>8.3.2</b> Finding Probabilities for the Normal Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#standard-normal-distribution-z"><i class="fa fa-check"></i><b>8.4</b> Standard Normal Distribution (<span class="math inline">\(Z\)</span>)</a></li>
+<li class="chapter" data-level="8.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#assessing-normality"><i class="fa fa-check"></i><b>8.5</b> Assessing Normality</a></li>
+<li class="chapter" data-level="8.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#regression-to-the-mean"><i class="fa fa-check"></i><b>8.6</b> Regression to the Mean</a></li>
+<li class="chapter" data-level="8.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#final-thoughts-on-random-variables"><i class="fa fa-check"></i><b>8.7</b> Final Thoughts on Random Variables</a></li>
+<li class="chapter" data-level="8.8" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#homework-6"><i class="fa fa-check"></i><b>8.8</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>III Sampling and Confidence Intervals</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html"><i class="fa fa-check"></i><b>9</b> Introduction to Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#why-sample"><i class="fa fa-check"></i><b>9.1</b> Why Sample?</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#average-height-example"><i class="fa fa-check"></i><b>9.1.1</b> Average Height Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#inferences-and-point-estimators"><i class="fa fa-check"></i><b>9.2</b> Inferences and Point Estimators</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-distribution-of-sample-means"><i class="fa fa-check"></i><b>9.3</b> The Distribution of Sample Means</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#distribution-of-sample-means"><i class="fa fa-check"></i><b>9.4</b> Distribution of Sample Means</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>9.4.1</b> The Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#other-point-estimators"><i class="fa fa-check"></i><b>9.5</b> Other Point Estimators</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#sampling-distribution-for-the-sample-proportion"><i class="fa fa-check"></i><b>9.6</b> Sampling Distribution for the Sample Proportion</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#tales-in-sampling-poincares-baker"><i class="fa fa-check"></i><b>9.7</b> Tales in Sampling: Poincare’s Baker</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-to-sampling-distributions.html"><a href="introduction-to-sampling-distributions.html#homework-7"><i class="fa fa-check"></i><b>9.8</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>10</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#introduction-nyc-flights-dataset"><i class="fa fa-check"></i><b>10.1</b> Introduction NYC Flights Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#mean-flight-delays"><i class="fa fa-check"></i><b>10.2</b> Mean Flight Delays</a></li>
+<li class="chapter" data-level="10.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#shortcut-using-the-central-limit-theorem"><i class="fa fa-check"></i><b>10.3</b> Shortcut Using the Central Limit Theorem</a></li>
+<li class="chapter" data-level="10.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#additional-practice-comparing-airports"><i class="fa fa-check"></i><b>10.4</b> Additional Practice: Comparing Airports</a></li>
+<li class="chapter" data-level="10.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-proportion-confidence-intervals"><i class="fa fa-check"></i><b>10.5</b> Population Proportion Confidence Intervals</a></li>
+<li class="chapter" data-level="10.6" data-path="confidence-intervals.html"><a href="confidence-intervals.html#extra-practice-problems"><i class="fa fa-check"></i><b>10.6</b> Extra Practice Problems</a></li>
+<li class="chapter" data-level="10.7" data-path="confidence-intervals.html"><a href="confidence-intervals.html#homework-8"><i class="fa fa-check"></i><b>10.7</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>IV Regression</b></span></li>
+<li class="chapter" data-level="11" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Introduction to Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#statistical-models"><i class="fa fa-check"></i><b>11.1</b> Statistical Models</a></li>
+<li class="chapter" data-level="11.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#fitting-a-linear-model-in-r"><i class="fa fa-check"></i><b>11.2</b> Fitting a Linear Model in R</a></li>
+<li class="chapter" data-level="11.3" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>11.3</b> Assumptions of Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#successful-linear-regression"><i class="fa fa-check"></i><b>11.3.1</b> Successful Linear Regression</a></li>
+<li class="chapter" data-level="11.3.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#what-failure-looks-like"><i class="fa fa-check"></i><b>11.3.2</b> What Failure Looks Like</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>11.4</b> Goodness of Fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#correlation-and-slope"><i class="fa fa-check"></i><b>11.4.1</b> Correlation and Slope</a></li>
+<li class="chapter" data-level="11.4.2" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#r2-coefficient-of-determination-and-measuring-model-fits"><i class="fa fa-check"></i><b>11.4.2</b> <span class="math inline">\(R^2\)</span> Coefficient of Determination and Measuring Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#using-regression-models-to-make-predictions"><i class="fa fa-check"></i><b>11.5</b> Using Regression Models to Make Predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="introduction-to-linear-regression.html"><a href="introduction-to-linear-regression.html#homework-9"><i class="fa fa-check"></i><b>11.6</b> Homework</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html"><i class="fa fa-check"></i><b>12</b> Regression with Categorical Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#one-hot-encoding"><i class="fa fa-check"></i><b>12.2</b> One Hot Encoding</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#example-exercise-and-weight"><i class="fa fa-check"></i><b>12.2.1</b> Example: Exercise and Weight</a></li>
+<li class="chapter" data-level="12.2.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#housing-prices-by-neighborhood"><i class="fa fa-check"></i><b>12.2.2</b> Housing Prices by Neighborhood</a></li>
+<li class="chapter" data-level="12.2.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-exercise-and-gender-together"><i class="fa fa-check"></i><b>12.2.3</b> Advanced: Exercise and Gender Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#diagnostics"><i class="fa fa-check"></i><b>12.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="12.4" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#homework-10"><i class="fa fa-check"></i><b>12.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#concept-questions-9"><i class="fa fa-check"></i><b>12.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#practice-problems-10"><i class="fa fa-check"></i><b>12.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="12.4.3" data-path="regression-with-categorical-variables.html"><a href="regression-with-categorical-variables.html#advanced-problems-10"><i class="fa fa-check"></i><b>12.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html"><i class="fa fa-check"></i><b>13</b> Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#introduction-to-multiple-regression-models"><i class="fa fa-check"></i><b>13.1</b> Introduction to Multiple Regression Models</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#housing-prices-review-of-simple-regression-results"><i class="fa fa-check"></i><b>13.1.1</b> Housing Prices (Review of Simple Regression Results)</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-including-bathrooms"><i class="fa fa-check"></i><b>13.1.2</b> Multiple Regression (Including Bathrooms)</a></li>
+<li class="chapter" data-level="13.1.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#diagnostics-for-multiple-linear-regression"><i class="fa fa-check"></i><b>13.1.3</b> Diagnostics for Multiple Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#multiple-regression-with-categorical-variables-including-the-neighborhood"><i class="fa fa-check"></i><b>13.2</b> Multiple Regression with Categorical Variables: Including the Neighborhood</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#predictions"><i class="fa fa-check"></i><b>13.2.1</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#interactions-between-variables"><i class="fa fa-check"></i><b>13.3</b> Interactions between Variables</a></li>
+<li class="chapter" data-level="13.4" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#some-pitfalls-in-multiple-regression"><i class="fa fa-check"></i><b>13.4</b> Some Pitfalls in Multiple Regression</a></li>
+<li class="chapter" data-level="13.5" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#homework-11"><i class="fa fa-check"></i><b>13.5</b> Homework</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#concept-questions-10"><i class="fa fa-check"></i><b>13.5.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="13.5.2" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#practice-problems-11"><i class="fa fa-check"></i><b>13.5.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="13.5.3" data-path="multiple-regression-models.html"><a href="multiple-regression-models.html#advanced-problems-11"><i class="fa fa-check"></i><b>13.5.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Hypothesis Testing</b></span></li>
+<li class="chapter" data-level="14" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html"><i class="fa fa-check"></i><b>14</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#introduction-and-warning"><i class="fa fa-check"></i><b>14.1</b> Introduction and Warning</a></li>
+<li class="chapter" data-level="14.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#a-starting-example"><i class="fa fa-check"></i><b>14.2</b> A Starting Example</a></li>
+<li class="chapter" data-level="14.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#the-t.test-command-hypothesis-tests-for-the-population-mean-mu"><i class="fa fa-check"></i><b>14.3</b> The t.test command: Hypothesis Tests for the Population Mean <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="14.4" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#theory-of-hypothesis-testing"><i class="fa fa-check"></i><b>14.4</b> Theory of Hypothesis Testing</a></li>
+<li class="chapter" data-level="14.5" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#under-the-hood-t-tests"><i class="fa fa-check"></i><b>14.5</b> Under the Hood (t tests)</a></li>
+<li class="chapter" data-level="14.6" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#errors-in-hypothesis-testing"><i class="fa fa-check"></i><b>14.6</b> Errors in Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#statistical-significance-alpha"><i class="fa fa-check"></i><b>14.6.1</b> Statistical Significance (<span class="math inline">\(\alpha\)</span>)</a></li>
+<li class="chapter" data-level="14.6.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#type-ii-error"><i class="fa fa-check"></i><b>14.6.2</b> Type II Error</a></li>
+<li class="chapter" data-level="14.6.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practical-significance-versus-statistical-significance"><i class="fa fa-check"></i><b>14.6.3</b> Practical Significance versus Statistical Significance</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-for-population-fraction"><i class="fa fa-check"></i><b>14.7</b> Hypothesis Testing for Population Fraction</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#example-3"><i class="fa fa-check"></i><b>14.7.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#hypothesis-testing-in-linear-regression"><i class="fa fa-check"></i><b>14.8</b> Hypothesis Testing in Linear Regression</a></li>
+<li class="chapter" data-level="14.9" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>14.9</b> Power of a Statistical Test</a></li>
+<li class="chapter" data-level="14.10" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#homework-12"><i class="fa fa-check"></i><b>14.10</b> Homework</a>
+<ul>
+<li class="chapter" data-level="14.10.1" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#concept-questions-11"><i class="fa fa-check"></i><b>14.10.1</b> Concept Questions:</a></li>
+<li class="chapter" data-level="14.10.2" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#practice-problems-12"><i class="fa fa-check"></i><b>14.10.2</b> Practice Problems:</a></li>
+<li class="chapter" data-level="14.10.3" data-path="hypothesis-testing-one-sample.html"><a href="hypothesis-testing-one-sample.html#advanced-problems-12"><i class="fa fa-check"></i><b>14.10.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html"><i class="fa fa-check"></i><b>15</b> Hypothesis Testing: Two Sample Tests</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>15.1</b> Two Sample t test</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#regression-analysis"><i class="fa fa-check"></i><b>15.1.1</b> Regression analysis</a></li>
+<li class="chapter" data-level="15.1.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-t-test-approach"><i class="fa fa-check"></i><b>15.1.2</b> Two Sample t test approach</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#two-sample-proportion-tests"><i class="fa fa-check"></i><b>15.2</b> Two Sample Proportion Tests</a></li>
+<li class="chapter" data-level="15.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#extra-example-birth-weights-and-smoking"><i class="fa fa-check"></i><b>15.3</b> Extra Example: Birth Weights and Smoking</a></li>
+<li class="chapter" data-level="15.4" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#homework-13"><i class="fa fa-check"></i><b>15.4</b> Homework</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#concept-questions-12"><i class="fa fa-check"></i><b>15.4.1</b> Concept Questions</a></li>
+<li class="chapter" data-level="15.4.2" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#practice-problems-13"><i class="fa fa-check"></i><b>15.4.2</b> Practice Problems</a></li>
+<li class="chapter" data-level="15.4.3" data-path="hypothesis-testing-two-sample-tests.html"><a href="hypothesis-testing-two-sample-tests.html#advanced-problems-13"><i class="fa fa-check"></i><b>15.4.3</b> Advanced Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html"><i class="fa fa-check"></i><b>16</b> Confidence Intervals and Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#relation-to-confidence-intervals"><i class="fa fa-check"></i><b>16.1</b> Relation to Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#two-sided-tests"><i class="fa fa-check"></i><b>16.1.1</b> Two sided tests</a></li>
+<li class="chapter" data-level="16.1.2" data-path="confidence-intervals-and-hypothesis-testing.html"><a href="confidence-intervals-and-hypothesis-testing.html#one-sided-confidence-intervals"><i class="fa fa-check"></i><b>16.1.2</b> One-sided confidence intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html"><i class="fa fa-check"></i><b>17</b> Introduction to the Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#contingency-tables"><i class="fa fa-check"></i><b>17.1</b> Contingency Tables</a></li>
+<li class="chapter" data-level="17.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#chi-square-test"><i class="fa fa-check"></i><b>17.2</b> Chi Square Test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#conditions-for-using-the-chi2-test"><i class="fa fa-check"></i><b>17.2.1</b> Conditions for Using the <span class="math inline">\(\chi^2\)</span> test</a></li>
+<li class="chapter" data-level="17.2.2" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#multiple-hypothesis-testing-again"><i class="fa fa-check"></i><b>17.2.2</b> Multiple Hypothesis Testing Again</a></li>
+<li class="chapter" data-level="17.2.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#using-a-different-null-hypothesis"><i class="fa fa-check"></i><b>17.2.3</b> Using a different Null Hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="introduction-to-the-chi-square-test.html"><a href="introduction-to-the-chi-square-test.html#homework-14"><i class="fa fa-check"></i><b>17.3</b> Homework</a></li>
+</ul></li>
+<li class="part"><span><b>VI Advanced Regression Topics</b></span></li>
+<li class="chapter" data-level="18" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>18</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression-used-for"><i class="fa fa-check"></i><b>18.1</b> What is logistic regression used for?</a></li>
+<li class="chapter" data-level="18.2" data-path="logistic-regression.html"><a href="logistic-regression.html#glm-generalized-linear-models"><i class="fa fa-check"></i><b>18.2</b> GLM: Generalized Linear Models</a></li>
+<li class="chapter" data-level="18.3" data-path="logistic-regression.html"><a href="logistic-regression.html#a-starting-example-1"><i class="fa fa-check"></i><b>18.3</b> A Starting Example</a>
+<ul>
+<li class="chapter" data-level="18.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#confidence-intervals-for-the-parameters"><i class="fa fa-check"></i><b>18.3.1</b> Confidence Intervals for the Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="logistic-regression.html"><a href="logistic-regression.html#equivalence-of-logistic-regression-and-proportion-tests"><i class="fa fa-check"></i><b>18.4</b> Equivalence of Logistic Regression and Proportion Tests</a></li>
+<li class="chapter" data-level="18.5" data-path="logistic-regression.html"><a href="logistic-regression.html#example-building-a-more-accurate-model"><i class="fa fa-check"></i><b>18.5</b> Example: Building a More Accurate Model</a></li>
+<li class="chapter" data-level="18.6" data-path="logistic-regression.html"><a href="logistic-regression.html#example-measuring-team-defense-using-logistic-regression"><i class="fa fa-check"></i><b>18.6</b> Example: Measuring Team Defense Using Logistic Regression</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Statistics and Data Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="exploratory-data-analysis" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Exploratory Data Analysis<a href="exploratory-data-analysis.html#exploratory-data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="shot-logs-basketball-data" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Shot Logs Basketball Data<a href="exploratory-data-analysis.html#shot-logs-basketball-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We load a data set (originally downloaded from kaggle.com) which has every shot taken during the 2014-2015 NBA season. This can be done by giving the commands:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="exploratory-data-analysis.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HannayIntroStats)</span>
+<span id="cb100-2"><a href="exploratory-data-analysis.html#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;shot_logs_2014&quot;</span>)</span></code></pre></div>
+<p>We can see what the columns of the data frame are using the colnames command:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="exploratory-data-analysis.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(shot_logs_2014)</span></code></pre></div>
+<pre><code>##  [1] &quot;GAME_ID&quot;                    &quot;MATCHUP&quot;                    &quot;LOCATION&quot;                   &quot;W&quot;                         
+##  [5] &quot;FINAL_MARGIN&quot;               &quot;SHOT_NUMBER&quot;                &quot;PERIOD&quot;                     &quot;GAME_CLOCK&quot;                
+##  [9] &quot;SHOT_CLOCK&quot;                 &quot;DRIBBLES&quot;                   &quot;TOUCH_TIME&quot;                 &quot;SHOT_DIST&quot;                 
+## [13] &quot;PTS_TYPE&quot;                   &quot;SHOT_RESULT&quot;                &quot;CLOSEST_DEFENDER&quot;           &quot;CLOSEST_DEFENDER_PLAYER_ID&quot;
+## [17] &quot;CLOSE_DEF_DIST&quot;             &quot;FGM&quot;                        &quot;PTS&quot;                        &quot;player_name&quot;               
+## [21] &quot;player_id&quot;                  &quot;Home.Team&quot;                  &quot;Away.Team&quot;                  &quot;Team.Shooting&quot;             
+## [25] &quot;Date.Of.Game&quot;               &quot;Team.Defending&quot;</code></pre>
+<p>We can access each of these columns using <code>shot_logs_2014$COL_NAME</code>, for example <code>shot_logs_2014$TOUCH_TIME</code> gives the data for how long each player had the ball before taking the shot.</p>
+<p>You can also look-up the help page for that data set using the command:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="exploratory-data-analysis.html#cb103-1" aria-hidden="true" tabindex="-1"></a>?shot_logs_2014</span></code></pre></div>
+</div>
+<div id="principal-types-of-statistical-data" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Principal Types of Statistical Data<a href="exploratory-data-analysis.html#principal-types-of-statistical-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Data comes into two principle types in statistics, and it is crucial that we recognize the differences between these two types of data.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Categorical Variables</strong>: These are data points that take on a finite number of values, <em>AND</em> whose values do not have a numerical interpretation. For example, “Male” or “Female”, the position of an NBA player, the species of a toad, the color of a mushroom, etc. Each of these examples take on a finite number of possibilities, and it doesn’t make sense to add the colors or mushrooms, the species of toads, etc. Many times these variables will have non-numerical names, however this is <em>NOT</em> the way to tell. For example, smoker versus non-smoker could be encoded in our data as S versus NS, or it could be 1 versus 0. The context of the data is the only sure way to tell whether a variable is categorical or not. Categorical variables may be divided into two sub-groups called ordinal and nominal variables:</p>
+<ul>
+<li><p><strong>Ordinal categorical variable</strong> takes on values which can be logically ordered. For example, the reviews for an product which are given as 0-5 stars. We can say that 4 stars is closer to 5 stars then 1 star is. Academic grades A,B,C,D,F provide another example of ordinal categorical variables.</p></li>
+<li><p><strong>Nominal categorical variables</strong> cannot be put in any logical order. Examples of this would be the gender, toad species, race, etc.</p></li>
+</ul></li>
+<li><p><strong>Numerical Variables</strong>: These are variables which are numerical in nature, so adding them together makes mathematical sense. They can come in two principle subcategories, either discrete or continuous.</p>
+<ul>
+<li><p><strong>Continious Variables</strong>: Take on a continious values (no breaks). For example, height, weight, reaction time for a chemical reaction, profits from a stock transaction, etc are examples of continuous numerical variables.</p></li>
+<li><p><strong>Discrete numerical variables</strong> take on a set of values which can be counted. For example, goals scored by a soccer team, assists in a game for an NBA player, number of leaves on a spinach plant, etc.</p></li>
+</ul></li>
+</ol>
+<p>Here is a handy flow chart to help you keep these variable types straight:</p>
+<p><img src="VariableTypes_Diagram.png" /><!-- --></p>
+<p>We will develop different statistical approaches based on whether the data are numerical (discrete/continuous) or categorical in nature. <code>R</code> knows about this important distinction and we can let <code>R</code> know that a variable should be treated as a categorical variable by using the command <code>as.factor</code>.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="exploratory-data-analysis.html#cb104-1" aria-hidden="true" tabindex="-1"></a>shot_logs_2014<span class="sc">$</span>W<span class="ot">=</span><span class="fu">as.factor</span>(shot_logs_2014<span class="sc">$</span>W) <span class="do">##make sure that the wins column is treated as a categorical variable (factor)</span></span>
+<span id="cb104-2"><a href="exploratory-data-analysis.html#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(shot_logs_2014<span class="sc">$</span>W) <span class="do">##check the type of data stored in this column</span></span></code></pre></div>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="exploratory-data-analysis.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(shot_logs_2014<span class="sc">$</span>W) <span class="do">##give the options for a categorical variable</span></span></code></pre></div>
+<pre><code>## [1] &quot;L&quot; &quot;W&quot;</code></pre>
+<p>The <code>levels</code> command tells us how many different categories are in the categorical variable.</p>
+<div id="exercises" class="section level4 hasAnchor" number="3.2.0.1">
+<h4><span class="header-section-number">3.2.0.1</span> Exercises<a href="exploratory-data-analysis.html#exercises" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-59" class="exercise"><strong>Exercise 3.1  </strong></span>Consider the PTS_TYPE column of the shot logs data set. Should this be considered a continuous or categorical variable?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-60" class="exercise"><strong>Exercise 3.2  </strong></span>How many levels does the Location variable have? What are they? Is this variable ordinal or nominal?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-61" class="exercise"><strong>Exercise 3.3  </strong></span>What type of variable is the SHOT_CLOCK variable in the shot logs data set?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-62" class="exercise"><strong>Exercise 3.4  </strong></span>How many shots are in the data set for away games? (Practice Filtering data sets in R)</p>
+</div>
+</div>
+</div>
+<div id="the-distribution-of-a-data-set" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> The Distribution of a Data Set<a href="exploratory-data-analysis.html#the-distribution-of-a-data-set" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The most crucial step to exploratory data analysis is estimating the <strong>distribution</strong> of a variable. We begin with continuous variables and the histogram plot.</p>
+<div id="histograms-continuous-variables" class="section level4 hasAnchor" number="3.3.0.1">
+<h4><span class="header-section-number">3.3.0.1</span> Histograms (Continuous Variables)<a href="exploratory-data-analysis.html#histograms-continuous-variables" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>First let us consider the distance measurements for every shot taken during the NBA season. This is over 128,000 distance measurements so just staring at these numbers won’t give us much insight into the data.</p>
+<p>We may be interested in the number of shots which are taken from a given distance. If we define bins for our data then we can count the number of shots between say 12-15 feet and compare this with the number in the other bins. This is called a histogram of the data. Luckily R has a built-in function for this.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="exploratory-data-analysis.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(shot_logs_2014<span class="sc">$</span>SHOT_DIST, <span class="at">freq=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">&quot;Distances of NBA Shots 2015&quot;</span>, <span class="at">xlab=</span><span class="st">&#39;Distance (ft)&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Number of Shots&#39;</span>, <span class="at">col=</span><span class="st">&quot;light blue&quot;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/morley-1.png" width="672" /></p>
+<p>The histogram tells us that nba players tend to either try to shoot from very close to the basket or from 3-pt shots. In fact we can compute that <code>25.8363129</code>% of the shots taken were 3pt shots and <code>48.6049207</code>% were taken from less than 12 feet.</p>
+<p>Notice that histograms can be very sensitive to the number of bins that you use. By default R will choose the number to bins used to be somewhat appropriate. However lets see what happens if we choose only a few bins for our histogram.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="exploratory-data-analysis.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(shot_logs_2014<span class="sc">$</span>SHOT_DIST, <span class="at">freq=</span><span class="cn">TRUE</span>, <span class="at">breaks=</span><span class="dv">3</span>, <span class="at">main=</span><span class="st">&quot;Distances of NBA Shots 2015 (bad bins)&quot;</span>, <span class="at">xlab=</span><span class="st">&#39;Distance (ft)&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Number of Shots&#39;</span>, <span class="at">col=</span><span class="st">&#39;cyan&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p>The conclusions for our data is entirely different! With these large bins it looks like NBA players just try and get as close as possible to the basket.</p>
+
+<div class="fallacy">
+Always question the bin sizes for a histogram to see whether they are appropriate for the plot being presented. If you see a histogram with illogically large or small bin sizes and/or uneven bin sizes beware of the results being presented!
+</div>
+<p>For the purposes of this class you can usually just use the default number of bins in R, unless you have some special reason to change the number of bins.</p>
+<p>From our data we can also pull out individual players shot-chart for the 2015 season. For example, Steph Curry’s distribution of shot distances is given by,</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="exploratory-data-analysis.html#cb110-1" aria-hidden="true" tabindex="-1"></a>sc_data<span class="ot">&lt;-</span><span class="fu">subset</span>(shot_logs_2014, shot_logs_2014<span class="sc">$</span>player_id<span class="sc">==</span><span class="dv">201939</span>) <span class="do">##get only those rows (shots which were taken by Steph Curry)</span></span>
+<span id="cb110-2"><a href="exploratory-data-analysis.html#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sc_data<span class="sc">$</span>SHOT_DIST, <span class="at">freq=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">&#39;Steph Curry Shot Distances&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Distance (ft)&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Number of Shots&#39;</span>, <span class="at">col=</span><span class="st">&#39;lightblue&#39;</span>, <span class="at">breaks=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+</div>
+<div id="tables-categorical-variables" class="section level4 hasAnchor" number="3.3.0.2">
+<h4><span class="header-section-number">3.3.0.2</span> Tables (Categorical Variables)<a href="exploratory-data-analysis.html#tables-categorical-variables" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>To investigate the distribution of categorical variables we will use the powerful <code>table</code> command to generate bar plots and/or pie charts. For example, if we use the <code>table</code> command on the LOCATION column of the the shot logs data set we get a count of the number of shots taken for home teams and away teams in the data set.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="exploratory-data-analysis.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shot_logs_2014<span class="sc">$</span>LOCATION)</span></code></pre></div>
+<pre><code>## 
+##     A     H 
+## 61315 61187</code></pre>
+<p>To get a graphical representation we can use the output from the table command to make a bar plot. Here I have added the command prop.table outside the table command. This changes our table from raw counts to the proportion of the data in each category.</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="exploratory-data-analysis.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(shot_logs_2014<span class="sc">$</span>LOCATION)), <span class="at">main=</span><span class="st">&#39;Location of the Game&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<p>Another way to represent the proportions in each category is to use a pie chart. This is also easily done in <code>R</code>.</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="exploratory-data-analysis.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(shot_logs_2014<span class="sc">$</span>LOCATION)), <span class="at">main=</span><span class="st">&#39;Location of the Game&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
+
+<div class="note">
+Pie charts should not be used to categorical variables with many levels (options) or to present data where some levels are very rare. Pie charts can give a sense of the relative size but small differences in the proportions are hard to see. These data are better presented using a barchart.
+</div>
+
+<div class="fallacy">
+A common way of creating a misleading statistical plot is to make a pie chart where it is unclear what the whole pie represents.
+</div>
+<p>The table command can also be used to create an two-dimensional table based on the values of two categorical variables. For example, within the nba shot logs data set we could make a table:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="exploratory-data-analysis.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shot_logs_2014<span class="sc">$</span>LOCATION, shot_logs_2014<span class="sc">$</span>SHOT_RESULT)</span></code></pre></div>
+<pre><code>##    
+##      made missed
+##   A 27703  33612
+##   H 28177  33010</code></pre>
+<p>We could then use statistical analysis we will learn in this class to examine whether NBA teams shot a higher percentage on shots during home games versus away games.</p>
+<p>We can also make this into a proportion table using the <code>prop.table</code> command.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="exploratory-data-analysis.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(shot_logs_2014<span class="sc">$</span>LOCATION, shot_logs_2014<span class="sc">$</span>SHOT_RESULT))</span></code></pre></div>
+<pre><code>##    
+##          made    missed
+##   A 0.2261432 0.2743792
+##   H 0.2300126 0.2694650</code></pre>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-73" class="exercise"><strong>Exercise 3.5  </strong></span>For the nba shot logs data what is the appropriate way to plot the distribution of the column (variable) FINAL_MARGIN? Make the appropriate plot of this column.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-74" class="exercise"><strong>Exercise 3.6  </strong></span>Load the mushrooms data set <code>data(mushrooms)</code>. The <code>class</code> column tells us if the mushroom species is edible or poison. Make the appropriate plot of the distribution of this data. What proportion of the mushroom species in the data set are edible?</p>
+</div>
+</div>
+</div>
+<div id="numerical-measures-for-central-tendency" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Numerical Measures for Central Tendency<a href="exploratory-data-analysis.html#numerical-measures-for-central-tendency" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When examining data sets we will very often find <em>mound</em> shaped histograms. This mound shaped data tells us that the values tend to cluster about the central values. In describing data of this type it is useful to have a numerical method for finding the location of this central cluster.
+<img src="statsbook_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<div id="sample-mean-and-median" class="section level4 hasAnchor" number="3.4.0.1">
+<h4><span class="header-section-number">3.4.0.1</span> Sample Mean and Median<a href="exploratory-data-analysis.html#sample-mean-and-median" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Within our NBA data set if we look at the time remaining on the shot clock when a shot was taken we find a mound shaped distribution. A histogram of this data is shown below:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="exploratory-data-analysis.html#cb119-1" aria-hidden="true" tabindex="-1"></a>all_shot_clock<span class="ot">&lt;-</span><span class="fu">na.omit</span>(<span class="fu">subset</span>(shot_logs_2014<span class="sc">$</span>SHOT_CLOCK, shot_logs_2014<span class="sc">$</span>SHOT_CLOCK<span class="sc">&lt;</span><span class="fl">24.0</span>))</span>
+<span id="cb119-2"><a href="exploratory-data-analysis.html#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(all_shot_clock, <span class="at">freq=</span><span class="cn">FALSE</span>, <span class="at">breaks=</span><span class="dv">24</span>, <span class="at">main=</span><span class="st">&#39;Time left on the shot clock&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Time (sec)&#39;</span>, <span class="at">col=</span><span class="st">&#39;light blue&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<p>Notice that unlike the shot distance data, this data has a single peak located around 12 seconds. This type of single hump distribution is very common in statistics and we would like a good measure for the location of the “hump”.</p>
+<p>Perhaps the most popular choice to measure this quantity is the sample mean: <span class="math display">\[\bar{x}=\frac{1}{N}\sum_{j=1}^N x_j\]</span> where <span class="math inline">\(x_j\)</span> is the value of each data point in the sample.</p>
+<p>The sample mean <span class="math inline">\(\bar{x}\)</span> can be computed in R using:</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="exploratory-data-analysis.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(all_shot_clock)</span></code></pre></div>
+<pre><code>## [1] 12.07798</code></pre>
+<p>Another measure for the central tendency in a data set is given by the <strong>median</strong>. The median is the middle number when the entries are sorted in ascending (or descending) order. If the data set has an even number of entries then we average the two middle most entries.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="exploratory-data-analysis.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(all_shot_clock)</span></code></pre></div>
+<pre><code>## [1] 12</code></pre>
+<p>For this data set the median and the mean are very close to one another. This will be the case when the distribution of data values is has few extreme values (outliers) and the mound is symmetric. In this case the choice of the sample mean or median doesn’t matter much although we will see the mean is usually the better choice as it is easier to work with.</p>
+<p>However, lets pretend that out data set has one outlier. If we add one large point to our data set and recompute the mean and median we get:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="exploratory-data-analysis.html#cb124-1" aria-hidden="true" tabindex="-1"></a>sc_new<span class="ot">&lt;-</span><span class="fu">c</span>(all_shot_clock, <span class="dv">12000</span><span class="sc">*</span><span class="dv">60</span>)</span>
+<span id="cb124-2"><a href="exploratory-data-analysis.html#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(sc_new)</span>
+<span id="cb124-3"><a href="exploratory-data-analysis.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 18.14635</span></span>
+<span id="cb124-4"><a href="exploratory-data-analysis.html#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(sc_new)</span>
+<span id="cb124-5"><a href="exploratory-data-analysis.html#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 12</span></span></code></pre></div>
+<p>In this case the median is not effected by much, but the mean is strongly effected by the outlier. Therefore, the median is often used when a data set has outlier points.</p>
+
+<div class="fallacy">
+<p>Imagine you are considering taking a job at a company. As part of your research you find the average (mean) salary of employees at this company is 931,818.2 dollars! However, the actual salaries for the ten normal workers at this company are all 25000 dollars, and the CEO makes 10 million a year. Therefore the average salary is quite high due to the CEOs enormous salary, although the median salary is only 25k.</p>
+Beware of the mean of a data set being pulled very far away from the <em>typical</em> value by large outliers.
+</div>
+</div>
+<div id="skewness" class="section level4 hasAnchor" number="3.4.0.2">
+<h4><span class="header-section-number">3.4.0.2</span> Skewness<a href="exploratory-data-analysis.html#skewness" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The difference between the mean and the median can also tell you about the <strong>skewness</strong> of the data. A data set is said to be skewed of one tail of the distribution is more extreme then the other tail.</p>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
+<p>For a right skewed graph the median (black line) is typically <strong>less</strong> than the mean (blue line).</p>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
+<p>For a left skewed graph the median (black line) is typically <strong>more</strong> than the mean (blue line).</p>
+</div>
+<div id="mode" class="section level4 hasAnchor" number="3.4.0.3">
+<h4><span class="header-section-number">3.4.0.3</span> Mode<a href="exploratory-data-analysis.html#mode" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The final method we will discuss for determining the “central tendency” of a data set is to use the <strong>mode</strong>. The mode is the value which appears most often in the data set. For example, in the data set [2,3,5,4,3,2,1,1,5,5,5,0] the mode is 5 as it appears four times.</p>
+<p>It might seem that the mode is a very good measure for the central clustering in a data set. However, it has a few problems. First, it is hard to define for continuous variables, for example the data set <code>5.325296, 5.7694647, 4.7132227, 4.7833648, 4.8080121, 5.4131916, 5.8356347, 4.418998</code> technically has no mode as no value is repeated. We could try and get around this by binning the data as we did to make histograms. Then we can talk about the “modal class (bin)” instead of the raw value. However, now the value of the mode depends on how we decided to bin the data. This makes the mode subjective.</p>
+<p>Also, the mode is more sensitive to the size of the data set used to find it than our other measures. Thus, we will avoid using the mode as a measure of the peak of the hump in a distribution whenever possible. However, in some applications using the mode may be the best choice.</p>
+</div>
+<div id="the-dangers-of-these-measures" class="section level4 hasAnchor" number="3.4.0.4">
+<h4><span class="header-section-number">3.4.0.4</span> The Dangers of these Measures<a href="exploratory-data-analysis.html#the-dangers-of-these-measures" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Be aware than anytime you try and reduce a data set to a single number summarizing it, information is lost! This is a bit like reading a one sentence summary of a thousand page novel. For example, a one sentence summary of the Harry Potter series is “Every summer, an evil sorcerer suddenly gets the urge to kill a young wizard.” For any Harry Potter fans out there this is about as good as I can do in a single sentence but I wouldn’t say that does a great job in getting across the whole message of the books.</p>
+<p>So looking at only the mean, median, mode, etc for a data set at best gives you only a rough idea about the trends in the data. At worst these summary statistics can be grossly misleading.</p>
+<p>For example, if we look again at the distribution of shot-distances in the 2015 NBA season:
+<img src="statsbook_files/figure-html/unnamed-chunk-83-1.png" width="672" /></p>
+<p>As noted before this distribution shows two “humps” one corresponding to short distance shots and one for three-point shots. If we blithely ignore this and take the mean= <code>13.4437577</code> as the typical distance of a shot we miss this trend entirely! Likewise, with the median=<code>13.4</code>. Clearly, the <strong>typical value</strong> for the shot distance variable is not either the mean or the median.</p>
+
+<div class="note">
+Always use graphical presentations of the data before choosing a summary statistic for the data.
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-85" class="exercise"><strong>Exercise 3.7  </strong></span>Find the mean and median of the FINAL_MARGIN column of the shot logs data set. Is this a mound shaped distribution?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-86" class="exercise"><strong>Exercise 3.8  </strong></span>Load the Employee_Data data set, for the Performance.Score column what is the best measure of the central tendency of this variable?</p>
+</div>
+</div>
+</div>
+<div id="numerical-measures-of-variability" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Numerical Measures of Variability<a href="exploratory-data-analysis.html#numerical-measures-of-variability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="variance-and-standard-deviation" class="section level4 hasAnchor" number="3.5.0.1">
+<h4><span class="header-section-number">3.5.0.1</span> Variance and Standard Deviation<a href="exploratory-data-analysis.html#variance-and-standard-deviation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If we know where the center of the mound is located in a mound-shaped distribution we still don’t know how wide the mound is about that point. For example the two plots below have the same mean but a very different width!</p>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<p>Therefore, we need an additional numerical measure to describe mound shaped distributions. The most intuitive measurements for the spread of data is the <strong>range</strong> given by the difference between the largest and smallest values in the data set.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="exploratory-data-analysis.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(ms)<span class="sc">-</span><span class="fu">min</span>(ms) <span class="do">##range of a data set in R</span></span></code></pre></div>
+<pre><code>## [1] 15.22739</code></pre>
+<p>The range is a good thing to know about a data set, but it has a critical flaw. It can change drastically (even for large data sets) if we introduce one very large or small data point. Ideally, we want our summary statistics to be relatively unaffected by changes to a small percentage of the data points.</p>
+<p>Generally a better measure of the variability of data is given by the <strong>sample variance</strong>. Here we add up the squares of the differences between the data values and the sample mean <span class="math inline">\(\bar{x}\)</span>. We then normalize this value by the number of data points <span class="math inline">\(N-1\)</span> so that the sample variance doesn’t grow with the number of data points.
+<span class="math display">\[s^2=\frac{1}{N-1}\sum_{j=1}^N (x_j-\bar{x})^2\]</span>
+Notice if we have constant values for our data <span class="math inline">\(d=[1,1,1,...1]\)</span> then <span class="math inline">\(\bar{x}=1\)</span> and <span class="math inline">\(s^2=0\)</span> as this distribution has no width at all.</p>
+<p>In <code>R</code> we can compute the sample variance using the command <code>var()</code>. For the shot clock data we find the sample variance is:</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="exploratory-data-analysis.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(all_shot_clock)</span></code></pre></div>
+<pre><code>## [1] 29.81984</code></pre>
+<p>Notice that since the variance is defined as the sum of squares it has <em>weird units</em>. For example if the data is measurements of tadpole tail lengths in inches, the variance will have units of inches<sup>2</sup>.</p>
+<p>To put things back in the original units of the data we can consider the sample standard deviation <span class="math inline">\(s=\sqrt{s^2}\)</span>. The sample standard deviation is given by the square root of the variance. In <code>R</code> we can just use the command:</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="exploratory-data-analysis.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(all_shot_clock)</span></code></pre></div>
+<pre><code>## [1] 5.460755</code></pre>
+<p>which gives us the same result as using:</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="exploratory-data-analysis.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(all_shot_clock))</span></code></pre></div>
+<pre><code>## [1] 5.460755</code></pre>
+</div>
+<div id="understanding-data-with-the-standard-deviation" class="section level4 hasAnchor" number="3.5.0.2">
+<h4><span class="header-section-number">3.5.0.2</span> Understanding Data with the Standard Deviation<a href="exploratory-data-analysis.html#understanding-data-with-the-standard-deviation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If we know both the mean and the standard deviation of a data set we can use a couple of rules to help us get an idea of the whole distribution of values. In cases where we have the full data set we don’t really need to use these, but in the real world we often are given only the summary statistics (mean and standard deviation) for a data set.</p>
+<p>Our first rule works no matter what the underlying data distribution (histogram) is.</p>
+<p><strong>Chebyshev’s Rule</strong>:</p>
+<ul>
+<li>We can’t say anything about how much data is within one standard deviation for <strong>general</strong> data sets.</li>
+<li>For <strong>any</strong> data set at least <span class="math inline">\(\frac{3}{4}\)</span> of data points will lie within two standard deviations of the mean.</li>
+<li>At least <span class="math inline">\(\frac{8}{9}\)</span> of observations fall within three standard deviations of the mean.</li>
+<li>In general for any <span class="math inline">\(k&gt;1\)</span> at least <span class="math inline">\(1-\frac{1}{k^2}\)</span> of the observations will fall within <span class="math inline">\(k\)</span> standard deviations of the mean.</li>
+</ul>
+<div id="example-chebyshevs-rule" class="section level6 hasAnchor" number="3.5.0.2.0.1">
+<h6><span class="header-section-number">3.5.0.2.0.1</span> Example Chebyshev’s Rule:<a href="exploratory-data-analysis.html#example-chebyshevs-rule" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>As an example of using Chebyshev’s Rule lets consider the data set of NBA shot distances again. The rule tells us that without knowing anything about the data other than the sample mean <span class="math inline">\(\bar{x}=\)</span><code>13.4437577</code> and the standard deviation s=<code>8.7771132</code>. We still know that at least <span class="math inline">\(3/4\)</span> of nba shots were taken from <span class="math inline">\((\bar{x}-2s, \bar{x}+2s)\)</span> or (<code>-4.1104688</code>, <code>30.9979841</code>). Since the distances for the shots can’t be negative we could tighten this to (0.0, <code>30.9979841</code>).</p>
+<p>Since we have the full data set we can check to see how well Chebyshev is doing. This code finds fraction of shots taken from less than 31.34 feet.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="exploratory-data-analysis.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">subset</span>(shot_logs_2014<span class="sc">$</span>SHOT_DIST, shot_logs_2014<span class="sc">$</span>SHOT_DIST<span class="sc">&lt;</span><span class="fl">31.34</span>))<span class="sc">/</span><span class="fu">length</span>(shot_logs_2014<span class="sc">$</span>SHOT_DIST)</span></code></pre></div>
+<pre><code>## [1] 0.9992653</code></pre>
+<p>Well, <code>0.9992653</code>&gt; 0.75 for sure. However, since Chebyshev has to be true for <strong>ANY</strong> data set it has to be pretty conservative in its estimates.</p>
+<p>If we think the data set shows a mound-shape symmetrical distribution then we can do better than Chebyshev estimates. However, unlike Cheby we no longer have an iron clad mathematical guarantee.</p>
+<p><strong>Empirical Rule</strong></p>
+<ul>
+<li>About 68% of measurements will lie within one standard deviation of the mean <span class="math inline">\((\bar{x}-s, \bar{x}+s)\)</span>.</li>
+<li>About 95% of measurements will lie within two standard deviations of the mean <span class="math inline">\((\bar{x}-2s, \bar{x}+2s)\)</span>.</li>
+<li>About 99.7% of measurements will lie within three standard deviations of the mean <span class="math inline">\((\bar{x}-3s, \bar{x}+3s)\)</span>.</li>
+</ul>
+</div>
+<div id="example-empirical-rule" class="section level6 hasAnchor" number="3.5.0.2.0.2">
+<h6><span class="header-section-number">3.5.0.2.0.2</span> Example Empirical Rule:<a href="exploratory-data-analysis.html#example-empirical-rule" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>Lets consider the shot clock data set again:</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="exploratory-data-analysis.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(all_shot_clock, <span class="at">freq=</span><span class="cn">FALSE</span>, <span class="at">breaks=</span><span class="dv">24</span>, <span class="at">main=</span><span class="st">&#39;Time left on the shot clock&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Time (sec)&#39;</span>, <span class="at">col=</span><span class="st">&#39;light blue&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+<p>If we apply the empirical rule to the shot clock data set we get the prediction that 68% of shots were taken with between (<code>6.6172216</code>, <code>17.5387311</code>) seconds on the shot clock. Using <span class="math inline">\((\bar{x}-2s, \bar{x}+2s)\)</span> the empirical rule tells us to expect 95% of shots were taken with between (<code>1.1564668</code>, <code>22.9994858</code>) seconds on the shot clock.</p>
+
+<div class="note">
+It might not seem like it now, but the empirical rule will play a big role later in this class. We will see later in the class that mound shaped distributions are the norm rather than the exception in statistics. Therefore, it is worth your time to commit the 68,95,99 rules to memory.
+</div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="exploratory-data-analysis.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(all_shot_clock)<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">sd</span>(all_shot_clock)</span></code></pre></div>
+<pre><code>## [1] 1.156467</code></pre>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-97" class="exercise"><strong>Exercise 3.9  </strong></span>Which rule (Cheby or Empirical) would you use to form a prediction interval for the Performace.Score column of the Employee_Data data set? What is the standard deviation of this variable?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-98" class="exercise"><strong>Exercise 3.10  </strong></span>Considering the FINAL_MARGIN column of the shot logs data set, is it accurate to say that about 68% of NBA games ended with teams within 14 points of one another for the 2014 NBA season?</p>
+</div>
+</div>
+</div>
+</div>
+<div id="numerical-measures-for-relative-standing" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Numerical Measures for Relative Standing<a href="exploratory-data-analysis.html#numerical-measures-for-relative-standing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="quantiles-percentiles-etc" class="section level4 hasAnchor" number="3.6.0.1">
+<h4><span class="header-section-number">3.6.0.1</span> Quantiles, Percentiles, etc<a href="exploratory-data-analysis.html#quantiles-percentiles-etc" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Lets consider another basketball data set, this one has the per game averages for all the NBA players who appeared in an NBA game in 2016-2017. We will look the points scored per game of the players (PPG), for only those players who appeared in more than 50 games .</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="exploratory-data-analysis.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;nba_pgs_all_players_2016&quot;</span>)</span>
+<span id="cb138-2"><a href="exploratory-data-analysis.html#cb138-2" aria-hidden="true" tabindex="-1"></a>PPG<span class="ot">&lt;-</span><span class="fu">subset</span>(nba_pgs_all_players_2016<span class="sc">$</span>PPG, nba_pgs_all_players_2016<span class="sc">$</span>G<span class="sc">&gt;</span><span class="dv">50</span>) <span class="do">##Get the PPG for only those players who appeared in more than 50 games</span></span></code></pre></div>
+<p>This leaves a total of <code>307</code> players in our data set. We can make a histogram of the PPG averages of the NBA players:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="exploratory-data-analysis.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(PPG, <span class="at">col=</span><span class="st">&#39;coral&#39;</span>, <span class="at">main=</span><span class="st">&#39;NBA PPG 2016-2017&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;PPG&#39;</span>, <span class="at">freq=</span><span class="cn">TRUE</span>, <span class="at">breaks=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<p>If we sort this list and choose the middle entry (or average the two closest to the middle) we have the <strong>median</strong> value (median=<code>9.2</code>). The definition of the median means that 50% of the players in the NBA scored less than <code>9.2</code> PPG in 2016-2017, and 50% scored more.</p>
+<p>In the same way we could find the PPG average where 75% of players scored less than that (it is <code>13.65</code>).
+These more general “median” type numbers are known as the quantiles of the data. In R we can find quantiles for any percentage we are interested in using:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="exploratory-data-analysis.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(PPG,<span class="fl">0.90</span>)</span></code></pre></div>
+<pre><code>##   90% 
+## 20.18</code></pre>
+<p>This command tells us that 90% of NBA players score less than <code>20.18</code> points per game.</p>
+<p>Quantiles are useful because like the median they are resistance to the effect of outliers and non-symmetric distributions. The default quantile command in R gives the quantiles at 25% increments:</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="exploratory-data-analysis.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(PPG)</span></code></pre></div>
+<pre><code>##    0%   25%   50%   75%  100% 
+##  1.70  6.40  9.20 13.65 31.60</code></pre>
+<p>These are some of the most common quantiles to consider. The difference between the 25% and 75% quantile is known as the inter-quartile range <span class="math display">\[IQR=Q_{0.75}-Q_{0.25}.\]</span>
+The R command for this is given by:</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="exploratory-data-analysis.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(PPG)</span>
+<span id="cb144-2"><a href="exploratory-data-analysis.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 7.25</span></span></code></pre></div>
+<p>The IQR gives a measure for the spread of the data which is resistance to the presence of outliers (extreme values) in the data. Therefore, it is often used as a criteria for identifying outliers in the data.</p>
+<p><strong>Outlier: Tukey’s Rule of Thumb</strong></p>
+<ul>
+<li>Any value is greater that <span class="math inline">\(Q_{0.75}+\frac{3}{2} IQR\)</span> can be considered an outlier</li>
+<li>Any value less than <span class="math inline">\(Q_{0.25}-\frac{3}{2} IQR\)</span> can be considered an outlier</li>
+</ul>
+<p>If this already seems like to much information you are in good company. The box plot or (box and whisker plot) was invented to summarize the quantile information about a data set graphically.</p>
+<p>Box plots are very easy to make in R:</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="exploratory-data-analysis.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(PPG, <span class="at">main=</span><span class="st">&#39;Box Plot of PPG&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;PPG&#39;</span>, <span class="at">col=</span><span class="st">&#39;bisque&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
+<p><strong>How to read Box Plots:</strong></p>
+<ul>
+<li>The thick line in the middle of the box gives the median value.</li>
+<li>The top of the box shows <span class="math inline">\(Q_{0.75}\)</span></li>
+<li>The bottom of the box shows <span class="math inline">\(Q_{0.25}\)</span></li>
+<li>So the height of the box in the IQR</li>
+<li>The top whisker —| shows <span class="math inline">\(Q_{0.75}+1.5*IQR\)</span>, the upper cutoff for outliers using Tukey’s rule</li>
+<li>The bottom whisker —| shows <span class="math inline">\(Q_{0.25}-1.5*IQR\)</span>, the lower cutoff for outliers using Tukey’s rule</li>
+<li>Any data points (circles) show outlier values</li>
+</ul>
+<p>Actually, <code>R</code> only goes to the full length of the whiskers if there are outlier points in that direction for the data set, otherwise the whisker will stop at the most extreme data point in that direction. This is why the lower whiskers in the above data set stop at zero.</p>
+<p>If you are curious here are the players which are considered ‘outliers’ in our analysis:</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="exploratory-data-analysis.html#cb146-1" aria-hidden="true" tabindex="-1"></a>nba_pgs_all_players_2016<span class="sc">$</span>Player<span class="ot">&lt;-</span> <span class="fu">as.character</span>(nba_pgs_all_players_2016<span class="sc">$</span>Player)</span>
+<span id="cb146-2"><a href="exploratory-data-analysis.html#cb146-2" aria-hidden="true" tabindex="-1"></a>upper.outlier.bd <span class="ot">&lt;-</span><span class="fu">quantile</span>(PPG,<span class="fl">0.75</span>)<span class="sc">+</span><span class="fl">1.5</span><span class="sc">*</span><span class="fu">IQR</span>(PPG)</span>
+<span id="cb146-3"><a href="exploratory-data-analysis.html#cb146-3" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(nba_pgs_all_players_2016<span class="sc">$</span>Player, nba_pgs_all_players_2016<span class="sc">$</span>PPG<span class="sc">&gt;</span>upper.outlier.bd)</span></code></pre></div>
+<pre><code>##  [1] &quot;Russell Westbrook&quot;  &quot;James Harden&quot;       &quot;Isaiah Thomas&quot;      &quot;Anthony Davis&quot;      &quot;DeMar DeRozan&quot;     
+##  [6] &quot;DeMarcus Cousins&quot;   &quot;Damian Lillard&quot;     &quot;LeBron James&quot;       &quot;Kawhi Leonard&quot;      &quot;Stephen Curry&quot;     
+## [11] &quot;Kyrie Irving&quot;       &quot;Kevin Durant&quot;       &quot;Karl-Anthony Towns&quot;</code></pre>
+<p>If you are a basketball fan you will know these outliers make sense because they are the best players in the league .</p>
+</div>
+<div id="z-scores" class="section level4 hasAnchor" number="3.6.0.2">
+<h4><span class="header-section-number">3.6.0.2</span> Z-scores<a href="exploratory-data-analysis.html#z-scores" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For mound shaped and symmetric distributions another method of detecting outliers and computing percentiles is commonly used. This method relies on computing <strong>z-scores</strong> and for a data point <span class="math inline">\(X\)</span> the z-score is given by: <span class="math display">\[Z=\frac{X-\bar{x}}{s}\]</span> where <span class="math inline">\(\bar{x}\)</span> is the sample mean of the distribution and <span class="math inline">\(s\)</span> is the sample standard deviation. The z-score measures the distance of a data point from the mean in units of the standard deviation. So a <span class="math inline">\(Z=2.0\)</span> means the data point is two standard deviations above the mean, <span class="math inline">\(Z=-1.0\)</span> means the data point is one standard deviation below the mean, etc. You might guess that z-scores are nicely paired with the <strong>empirical rule</strong>. Using Z-scores we can rephrase the empirical rule for mound-shaped distributions as:</p>
+<ul>
+<li>About 68% of data points in a mound shaped distribution will have <span class="math inline">\(|Z|&lt;1.0\)</span></li>
+<li>About 95% of data points in a mound shaped distribution will have <span class="math inline">\(|Z|&lt;2.0\)</span></li>
+<li>About 99.7% of data points in a mound shaped distribution will have <span class="math inline">\(|Z|&lt; 3.0\)</span></li>
+</ul>
+<p>To learn more about z-scores let’s load a new data set into <code>R</code>:</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="exploratory-data-analysis.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;hkhw&quot;</span>)</span>
+<span id="cb148-2"><a href="exploratory-data-analysis.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(hkhw)</span></code></pre></div>
+<pre><code>## [1] &quot;Height.in&quot;  &quot;Weight.lbs&quot;</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="exploratory-data-analysis.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(hkhw<span class="sc">$</span>Height.in, <span class="at">col=</span><span class="st">&#39;light blue&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Height Inches&#39;</span>, <span class="at">main=</span><span class="st">&#39;Heights of Hong Kong Children in Inches&#39;</span>, <span class="at">breaks=</span><span class="dv">30</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
+<p>This data set has the heights and weights of 200 children in Hong Kong and is downloaded from the UCLA stats wiki (<a href="http://wiki.stat.ucla.edu/socr/index.php/SOCR_Data_Dinov_020108_HeightsWeights" class="uri">http://wiki.stat.ucla.edu/socr/index.php/SOCR_Data_Dinov_020108_HeightsWeights</a>).</p>
+<p>In R we can easily compute the z-scores for each data point in a data set using the <code>scale</code> command:</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="exploratory-data-analysis.html#cb151-1" aria-hidden="true" tabindex="-1"></a>hkhw<span class="sc">$</span>Z_heights <span class="ot">&lt;-</span> <span class="fu">scale</span>(hkhw<span class="sc">$</span>Height.in)</span></code></pre></div>
+<p>I created a new column, called Z_heights, in our height data frame to store the z-scores for each child.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="exploratory-data-analysis.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(hkhw<span class="sc">$</span>Z_heights, <span class="at">col=</span><span class="st">&#39;coral&#39;</span>, <span class="at">main=</span><span class="st">&#39;Z-score Distribution of Heights&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Z&#39;</span>, <span class="at">breaks=</span><span class="dv">30</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<p>The distribution of z-scores will always have a mean of zero and a standard deviation of one. Using the empirical rule we know that about 68% of a mound-shaped distribution will have z-scores in the range [-1,1], 95% will be in the range [-2,2], etc.</p>
+<p>The z-score is sometimes used to detect outliers in a data set. For example, about 99% of the data should have z-scores in the range of [-3,3], for data points with <span class="math inline">\(|Z|&gt;3\)</span> may be classified as outliers. Data points with <span class="math inline">\(|Z|&gt;2\)</span> are possible outliers.</p>
+<p>Using the <span class="math inline">\(|Z|&gt;3\)</span> criteria we can see two outliers in the height data:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="exploratory-data-analysis.html#cb153-1" aria-hidden="true" tabindex="-1"></a>outliers_height<span class="ot">&lt;-</span><span class="fu">subset</span>(hkhw<span class="sc">$</span>Height.in, <span class="fu">abs</span>(hkhw<span class="sc">$</span>Z_heights)<span class="sc">&gt;</span><span class="fl">3.0</span>)</span>
+<span id="cb153-2"><a href="exploratory-data-analysis.html#cb153-2" aria-hidden="true" tabindex="-1"></a>outliers_height</span></code></pre></div>
+<pre><code>## [1] 73.90 73.83</code></pre>
+<p>We can estimate the percentile of a data point from the z-score in R using the <code>pnorm</code> command:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="exploratory-data-analysis.html#cb155-1" aria-hidden="true" tabindex="-1"></a>hkhw<span class="sc">$</span>height.percentiles<span class="ot">=</span><span class="fu">pnorm</span>(hkhw<span class="sc">$</span>Z_heights)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb155-2"><a href="exploratory-data-analysis.html#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hkhw)</span></code></pre></div>
+<pre><code>##   Height.in Weight.lbs   Z_heights height.percentiles
+## 1     65.78     112.99 -1.11824460           13.17313
+## 2     71.52     136.49  1.83996538           96.71133
+## 3     69.40     153.03  0.74738608           77.25847
+## 4     68.22     142.34  0.13925232           55.53746
+## 5     67.79     144.30 -0.08235574           46.71819
+## 6     68.70     123.30  0.38662877           65.04845</code></pre>
+<p>From this we can see that the about 97% of hong kong children are shorter than the child who is 71.52 inches tall. As a warning using z-scores to estimate percentiles can give <strong>very poor results</strong> if the distribution is not mound shaped and symmetric! See the homework for an example of this.</p>
+</div>
+<div id="exercises-1" class="section level4 hasAnchor" number="3.6.0.3">
+<h4><span class="header-section-number">3.6.0.3</span> Exercises<a href="exploratory-data-analysis.html#exercises-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-111" class="exercise"><strong>Exercise 3.11  </strong></span>Find the number of weight outliers using the z-score rule (<span class="math inline">\(|Z|&gt;3\)</span>) in the hkhw data set.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-112" class="exercise"><strong>Exercise 3.12  </strong></span>Create a weight percentile column on the hkhw data frame, and find the percentile of the third child’s weight.</p>
+</div>
+</div>
+</div>
+<div id="relation-between-continuous-and-categorical-variables-boxplot" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Relation between Continuous and Categorical Variables: Boxplot<a href="exploratory-data-analysis.html#relation-between-continuous-and-categorical-variables-boxplot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Box plots are especially useful when we want to compare the values of a continuous variable for different values of a categorical value. In fact <code>R</code>, has a shortcut for this to make this easier. Suppose for example we want to compare the points per game averages for the different positions in our per game NBA statistics. The position of each player is stored in the <code>Pos</code> column of our data set. To get an idea about this categorical (ordinal) variable we can make a table of the values:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="exploratory-data-analysis.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(nba_pgs_all_players_2016<span class="sc">$</span>Pos)</span></code></pre></div>
+<pre><code>## 
+##    C   PF PF-C   PG   SF   SG 
+##   96   97    1   97   90  105</code></pre>
+<p>Notice we have a good amount of players at each position except for the one player who is listed as <code>PF-C</code>. We may want to remove this category from consideration because it is impossible to perform statistical analysis on a single data point.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="exploratory-data-analysis.html#cb159-1" aria-hidden="true" tabindex="-1"></a>PosColNumber <span class="ot">=</span> <span class="fu">which</span>(<span class="fu">colnames</span>(nba_pgs_all_players_2016) <span class="sc">==</span> <span class="st">&quot;Pos&quot;</span>)  <span class="do">##find the column number for the Position</span></span>
+<span id="cb159-2"><a href="exploratory-data-analysis.html#cb159-2" aria-hidden="true" tabindex="-1"></a>nba_pgs_all_players_2016 <span class="ot">=</span> <span class="fu">dropLowFactors</span>(nba_pgs_all_players_2016, <span class="at">factor.column =</span> PosColNumber,</span>
+<span id="cb159-3"><a href="exploratory-data-analysis.html#cb159-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">threshold =</span> <span class="dv">10</span>)  <span class="do">##drop the PF-C player</span></span></code></pre></div>
+<p>We can check this using another table command:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="exploratory-data-analysis.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(nba_pgs_all_players_2016<span class="sc">$</span>Pos)</span></code></pre></div>
+<pre><code>## 
+##   C  PF  PG  SF  SG 
+##  96  97  97  90 105</code></pre>
+<p>Now we visualize the PPG data for each position using a special boxplot:</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="exploratory-data-analysis.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(nba_pgs_all_players_2016<span class="sc">$</span>PPG<span class="sc">~</span>nba_pgs_all_players_2016<span class="sc">$</span>Pos, <span class="at">col=</span><span class="st">&#39;coral&#39;</span>, <span class="at">main=</span><span class="st">&#39;Points Per Game for Different Positions&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Position&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;PPG&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
+<p>This is the first demonstration of the <strong>magical</strong> tilde <code>~</code> operator in <code>R</code>. It may be used to split up data in one column using the values of a categorical variable.</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-117" class="exercise"><strong>Exercise 3.13  </strong></span>Make a boxplot comparing the assists per game by position in the nba_pgs_all_players_2016 data set. How many outliers are there using Tukey’s rule at the <code>SG</code> position?</p>
+</div>
+</div>
+<div id="relation-between-continuous-variables-scatter-plots" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> Relation between Continuous Variables: Scatter Plots<a href="exploratory-data-analysis.html#relation-between-continuous-variables-scatter-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The final type of plot we will examine is the scatter plot. A scatter plot is best used when you are trying to look for a relationship <strong>between two continuous variables</strong>. For example, we could make a scatter plot of the height versus the weight of the Hong Kong children.</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="exploratory-data-analysis.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hkhw<span class="sc">$</span>Height.in, hkhw<span class="sc">$</span>Weight.lbs, <span class="at">main=</span><span class="st">&#39;Height versus Weight in Hong Kong Children&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Height Inches&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Weight (lbs)&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
+<p>This graph shows the expected trend that taller children tend to weigh more. The scatter plot is very often used when a box plot is a better choice. Box plots should be used when the x-axis is a categorical variable and the y-axis is a numerical (continuous) variable. If you make a scatter plot with a categorical variable on either axis the points will all lie on top of one another and the plot will give very little information to the reader.</p>
+
+<div class="warning">
+In your projects using a scatter plot where a box plot is a better choice will result in zero points for that component. You have been warned!
+</div>
+<p>Here is an example of a <strong>POOR</strong> choice for a scatter plot</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="exploratory-data-analysis.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span>
+<span id="cb164-2"><a href="exploratory-data-analysis.html#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>cyl, mtcars<span class="sc">$</span>mpg, <span class="at">xlab=</span><span class="st">&#39;Cylinders in the Engine&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Miles Per Gallon&#39;</span>, <span class="at">main=</span><span class="st">&#39;Poor Choice for a Scatter Plot&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
+<p>Here cylinders is a categorical variable and mpg is a continuous variable. It is better to make a boxplot of this data:</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="exploratory-data-analysis.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(mtcars<span class="sc">$</span>mpg<span class="sc">~</span>mtcars<span class="sc">$</span>cyl, <span class="at">xlab=</span><span class="st">&#39;Cylinders in the Engine&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Miles Per Gallon&#39;</span>, <span class="at">main=</span><span class="st">&#39;Box Plot is Better: MPG of Cars&#39;</span>, <span class="at">col=</span><span class="st">&#39;lightblue&#39;</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
+<p>Notice is used the magical tilde <code>~</code> to automatically split up the mpg data into the cylinder categories.</p>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-122" class="exercise"><strong>Exercise 3.14  </strong></span>For the mtcars data set should we make a boxplot or a scatter plot to look for a relationship between the <code>mpg</code> column and the <code>disp</code> column?</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unnamed-chunk-123" class="exercise"><strong>Exercise 3.15  </strong></span>Load the <code>PlantGrowth</code> data set using the command <code>data(PlantGrowth)</code>. Should we use a boxplot or a scatter plot to look for a relationship between the weight column and the <code>group</code> column?</p>
+</div>
+</div>
+<div id="relationship-between-categorical-variables-contingency-tables" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> Relationship between Categorical Variables: Contingency Tables<a href="exploratory-data-analysis.html#relationship-between-categorical-variables-contingency-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We have seen that looking for a relationship between a numeric and categorical variable should lead to a <code>boxplot</code>. A comparison of two numeric (continuous) variables should be done with a scatter plot (<code>plot</code> command.) The final comparison we might want to make is a comparison between two categorical variables.</p>
+<p>As an example of this lets consider the relationship between the down (1,2,3,4) and the type of play (Pass versus Rush) in the <code>nflplays</code> data set.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="exploratory-data-analysis.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(nflplays)</span></code></pre></div>
+<p>This data set has data for over 275 thousands plays during NFL (football) games from 2009-2017 we will be using the PlayType and down columns (each categorical).</p>
+<p>We have seen that we can use the <code>table</code> command to build what is called a contingency table. Lets begin with that:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="exploratory-data-analysis.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(nflplays<span class="sc">$</span>PlayType, nflplays<span class="sc">$</span>down)</span></code></pre></div>
+<pre><code>##       
+##            1     2     3     4
+##   Pass 58444 52022 43540  2486
+##   Run  64577 40181 12371  1564</code></pre>
+<p>This table counts up the number of pass/run plays for each down in the data set. However, it is difficult to look at these large numbers and get and idea about how likely the two play types are. To look at this we can put a prop.table command outside.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="exploratory-data-analysis.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(nflplays<span class="sc">$</span>PlayType, nflplays<span class="sc">$</span>down))</span></code></pre></div>
+<pre><code>##       
+##                  1           2           3           4
+##   Pass 0.212380762 0.189043734 0.158220833 0.009033923
+##   Run  0.234667587 0.146014499 0.044955212 0.005683449</code></pre>
+<p>This tells us that for example 21.23% of the plays in our data set were first down running plays. However, this isn’t really what we want either. We would like to look at the percentage of Pass/Run plays for each down. We can use the <code>margin</code> keyword in the <code>prop.table</code> command to compute this.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="exploratory-data-analysis.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(nflplays<span class="sc">$</span>PlayType, nflplays<span class="sc">$</span>down), <span class="at">margin=</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##       
+##                1         2         3         4
+##   Pass 0.4750734 0.5642116 0.7787376 0.6138272
+##   Run  0.5249266 0.4357884 0.2212624 0.3861728</code></pre>
+<p>Selecting margin=1 divides each row by its total, margin=2 divides each column by its sum.</p>
+<p>Now we can actually see that pass plays becomes more likely for downs 1-3 before falling slightly for 4th downs. We can make a graphical representation of this using the barplot command:</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="exploratory-data-analysis.html#cb173-1" aria-hidden="true" tabindex="-1"></a>down.table<span class="ot">=</span><span class="fu">prop.table</span>(<span class="fu">table</span>(nflplays<span class="sc">$</span>PlayType, nflplays<span class="sc">$</span>down), <span class="at">margin=</span><span class="dv">2</span>)</span>
+<span id="cb173-2"><a href="exploratory-data-analysis.html#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(down.table, <span class="at">legend=</span><span class="fu">rownames</span>(down.table))</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
+<p>By default <code>R</code> will make what is called a stacked bar chart. This shows the percentage in each category as the high of the colored part of the bar. I can’t say I am a huge fan of stacked bar charts. I prefer to put the bars beside one another:</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="exploratory-data-analysis.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(down.table, <span class="at">legend=</span><span class="fu">rownames</span>(down.table), <span class="at">beside=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<p>You can do this with the <code>beside=TRUE</code> keyword. The below shows you how to make a pretty version of this plot:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="exploratory-data-analysis.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(down.table, <span class="at">beside=</span><span class="cn">TRUE</span>, <span class="at">xlab=</span><span class="st">&#39;down&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Probability&#39;</span>, <span class="at">main=</span><span class="st">&#39;Play Choice by Down&#39;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&#39;coral&#39;</span>, <span class="st">&#39;lightblue&#39;</span>), <span class="at">legend=</span><span class="fu">rownames</span>(down.table), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="statsbook_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+</div>
+<div id="tips-and-tricks" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Tips and Tricks<a href="exploratory-data-analysis.html#tips-and-tricks" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we have learned all about exploratory data analysis (EDA), here are a few tips and tricks for doing EDA in R.</p>
+<ul>
+<li>Use the summary command:</li>
+</ul>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="exploratory-data-analysis.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(PPG)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.70    6.40    9.20   10.71   13.65   31.60</code></pre>
+<p>It also works for multiple columns or our data set. Here we get a summary of the 15-18 columns in the NBA per game stats data set.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="exploratory-data-analysis.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nba_pgs_all_players_2016[<span class="dv">15</span><span class="sc">:</span><span class="dv">18</span>])</span></code></pre></div>
+<pre><code>##       X2PA             X2P.             eFG.              FT       
+##  Min.   : 0.000   Min.   :0.0000   Min.   :0.0000   Min.   :0.000  
+##  1st Qu.: 2.100   1st Qu.:0.4445   1st Qu.:0.4660   1st Qu.:0.500  
+##  Median : 3.600   Median :0.4900   Median :0.5015   Median :1.000  
+##  Mean   : 4.731   Mean   :0.4827   Mean   :0.4935   Mean   :1.426  
+##  3rd Qu.: 6.400   3rd Qu.:0.5360   3rd Qu.:0.5360   3rd Qu.:1.800  
+##  Max.   :19.200   Max.   :1.0000   Max.   :1.0000   Max.   :9.200  
+##                   NA&#39;s   :2        NA&#39;s   :1</code></pre>
+<p>If your run this for a the whole data frame you will get a separate summary of each column in the data frame.</p>
+</div>
+<div id="homework-1" class="section level2 hasAnchor" number="3.11">
+<h2><span class="header-section-number">3.11</span> Homework<a href="exploratory-data-analysis.html#homework-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="concept-questions-1" class="section level4 hasAnchor" number="3.11.0.1">
+<h4><span class="header-section-number">3.11.0.1</span> Concept Questions:<a href="exploratory-data-analysis.html#concept-questions-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>1.) What is the goal of exploratory data analysis? Is it subjective?</p>
+<p>2.) What should one consider when looking at a histogram of a data set, i.e. what is subjective about a histogram plot?</p>
+<p>3.) What does it mean to say that a data distribution is skewed? How can we detect skewness?</p>
+<p>4.) Give an example for when the median should be used instead of the sample mean as a measure of central tendency.</p>
+<p>5.) When should one use Chebyshev’s Rule versus the Empirical Rule?</p>
+<p>6.) When can Z-scores be used for detecting outliers versus Tukey’s Rule?</p>
+<p>7.) What are some dangers in leaving ``outlier’’ data points out of your data set?</p>
+<p>8.) Which plot would you use to look for a relationship between the location of a basketball game (Home or Away) and the number of passes in the game?</p>
+</div>
+<div id="practice-problems-1" class="section level4 hasAnchor" number="3.11.0.2">
+<h4><span class="header-section-number">3.11.0.2</span> Practice Problems:<a href="exploratory-data-analysis.html#practice-problems-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><p>It has been asserted that income inequality is on the rise in the United States and around the world. How might we be able to capture this trend with our summary statistics? In particular, if only the top 1% richest people in the US have seen their wages increase how will this effect the median of the income distribution? How would the mean of the income distribution be affected by the wealthy getting wealthier? Which measure would you use?</p></li>
+<li><p>Make a histogram and box plot for the rebounds per game in the NBA Players Stats 2016-2017 data set (nba_pgs_all_players_2016). Are there any outliers? What is the IQR?</p></li>
+<li><p>Make a box plot to compare the rebounds per game by position in the NBA per game stats data set (nba_pgs_all_players_2016)</p></li>
+</ol>
+</div>
+<div id="advanced-problems-1" class="section level4 hasAnchor" number="3.11.0.3">
+<h4><span class="header-section-number">3.11.0.3</span> Advanced Problems:<a href="exploratory-data-analysis.html#advanced-problems-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><p><strong>Mushrooms</strong> Load the mushroom data set in <code>R</code> using the command <code>data(mushrooms)</code>. Use the help page for this data set to look at what each of the columns tells you <code>?mushrooms</code>. The mushrooms$class variable is a categorical variable with two levels e and p standing for edible and poisonous. Make a bar chart of the fraction of edible and poisonous mushrooms in the data set. How many poisonous mushrooms have cap.shape of <code>b</code> for bell?</p></li>
+<li><p><strong>Geese Flocks</strong> Load the geese_flocks data set (same procedure as the mushroom data set). Make a histogram of the geese flocks sizes. Is this a mound shaped distribution? What is the largest goose flock observed? On how many days were geese observed in the fields?</p></li>
+<li><p><strong>Credit Card Fraud Detection:</strong> You are setting up alerts for your credit card and need to tell the bank when you should be notified via text message that a purchase has been made. Most of your purchases are small and let us assume you don’t want the bank blowing up your cell phone every time you buy a coke. From your back records you see that your average purchase is 5 dollars with a standard deviation of 5 dollars.</p>
+<ul>
+<li>Is this distribution of your purchase amounts likely to be symmetric?</li>
+<li>If you want to be notified for than 25% of the purchases what should you set your threshold?</li>
+</ul></li>
+<li><p><strong>Gerrymandering:</strong> Imagine that we have ten voters where three vote for Steve and seven vote for Amanda {A,A,A,A,A,A,A,S,S,S}. If we look at the whole set together then the Amanda has won the election. However, imagine that you can place these votes into three districts however you want. Whoever has the majority in the district collects 1 pt and the loser gets 0 pts. If they tie in the district then both get 0 points. Whoever has the most points wins the election.
+For example, you could group the entries {A,A,A}, {A,A,A}, {A,S,S,S}, then the Amanda gets two points and Steve gets one point, thus, Amanda wins the election.</p>
+<ul>
+<li>Can you come up with a grouping where Steve wins the election?</li>
+<li>If Amanda received 8 votes, and Steve only 2, can you find a grouping (with 3 districts) where Steve wins?</li>
+</ul></li>
+<li><p><strong>Curving Grades</strong>: Lets, say that a professor wants to curve the grades on his exam because the mean score is only a <span class="math inline">\(\mu=50.91\)</span> with a standard deviation of <span class="math inline">\(\sigma=15.92\)</span>. Without looking at the distribution of scores, he assumes that it will be a symmetric ``mound-like’’ distribution. He curves the scores by saying that anyone who scored better than <span class="math inline">\(\mu+\sigma\)</span> will receive an A, those with scores in the interval <span class="math inline">\((\mu-\sigma, \mu+\sigma)\)</span> we receive a B and those in the region <span class="math inline">\((\mu-2\sigma, \mu-\sigma)\)</span> will get a C. Any students with scores in the region <span class="math inline">\((0, \mu-2\sigma)\)</span> will get an F.</p>
+<ul>
+<li>If the professor’s assumption is correct that the distribution in mound-like and symmetric, then about how many students will receive each letter grade?</li>
+<li>The grade distribution, z scores and assigned letter grades for the imaginary class are given in GradeCurveHW. This can be loaded by typing <code>data(GradeCurveHW)</code>. Make a histogram of the raw exam scores.</li>
+<li>Take a look at the letter grades assigned by the professors grade curve scheme using z-scores. How many B’s and C’s were given?</li>
+<li>Given this information about the class can you discover what went wrong in this grade curving scheme?</li>
+<li>Describe a better way of curving the grades, which will give 25% A’s, 50% B’s and 25% C’s.</li>
+</ul></li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction-to-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-wrangling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-EDA.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statsbook.pdf", "statsbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"collapse": "section"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
