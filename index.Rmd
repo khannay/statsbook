@@ -102,11 +102,6 @@ fire.plot1 + geom_label_repel(data=subset(myfiredisplay, myfiredisplay$populatio
 
 
 
-
-
-
-
-
 These notes are written in bookdown [@R-bookdown]. 
 
 
