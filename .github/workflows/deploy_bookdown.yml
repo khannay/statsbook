@@ -21,6 +21,9 @@ jobs:
         run: Rscript -e 'install.packages(c("rmarkdown","bookdown","tidyverse", "ggrepel", "caret", "maps"))'
       - name: Install HannayIntroStats
         run: Rscript -e 'options(timeout=300); devtools::install_github("khannay/HannayIntroStats")'
+        env:
+          EMAIL: ${{ secrets.EMAIL }}               # must be a verified email
+          GH_TOKEN: ${{ secrets.GH_PAT }} # https://github.com/settings/tokens
       - name: Render Book
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
       - uses: actions/upload-artifact@v1
